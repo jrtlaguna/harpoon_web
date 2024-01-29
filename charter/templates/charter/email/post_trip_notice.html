@@ -1,0 +1,87 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Harpoon</title>
+    <meta charset="UTF-8">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
+
+
+</head>
+
+<body style="background-color: #fff;margin-top: 80px;font-family: 'Open Sans', sans-serif;">
+        <table width="600px" bg-color="#ffffff" cellspacing="0" cellpadding="0">
+
+
+            <tr style="text-align: center;">
+                <td style="padding-bottom: 40px;">
+                    <a href="{{guest_register_url}}"><img src="{{site}}{% static 'charter/img/header.jpg' %}"></a>
+                </td>
+            </tr>
+
+            <tr style="text-align: left;">
+                <td style="background-color: #F0F0F0; border: #E2E2E2; border-radius: 8px; padding: 40px;">
+                    <span style="font-size: 16px; line-height: 26px;">Hello, 
+                        We hope you enjoyed your trip hosted by {{charter.principal_guest}} aboard: </span>
+                        <br/>
+                    <span style="font-size: 16px; line-height: 26px;">
+                        <b>{{charter.vessel.proper_name}}</b><br>
+                        {{ charter }}<br>
+                        Embarkation: {{ charter.embark_name_of_dock|default:"" }}<br>
+                        Date: {{ charter.embark_date }} - {{ charter.disembark_date|default:"" }}<br>
+                        Time: {{ charter.embark_time|default:"" }}</span>
+                </td>
+            </tr>
+
+
+            <tr style="text-align: left;">
+                <td style="padding: 40px;">
+                    <br><br><br>
+
+                    <span style="font-size: 16px; line-height: 26px;">
+                        We noticed you haven't registered with Harpoon Solution.  Upon registration, you will be able to set up your profile, share health and medical information, and select your travel preferences for future trips. 
+                        <br/><br/>
+                        Welcome to Harpoon Solution.
+                    </span>
+
+                    <br><br><br><br>
+
+                    <a href="{{guest_register_url}}" style="background-color: #FBC25E; padding: 16px 40px; color: #000; text-decoration: none; font-size: 16px; font-weight: bold; border-radius: 8px;">Register</a>
+
+                    <br><br><br><br>
+
+                    <span style="font-size: 16px; line-height: 26px;">
+
+                        Sincerely,<br>
+                        {{charter.vessel.proper_name}}
+                    </span>
+
+                </td>
+            </tr>
+
+            <tr style="text-align: left;">
+                <td style="padding: 0 0 40px 40px;">
+                    <a href="#"><img src="{{site}}{% static 'charter/img/trident-icon.jpg' %}"></a>
+                </td>
+            </tr>
+
+            <tr style="text-align: left;">
+                <td style="display: inline-table;">
+                    <img src="{{site}}{% static 'charter/img/footer1.jpg' %}">
+                    <a href="#"><img src="{{site}}{% static 'charter/img/social1.jpg' %}"></a>
+                    <a href="#"><img src="{{site}}{% static 'charter/img/social2.jpg' %}"></a>
+                    <a href="#"><img src="{{site}}{% static 'charter/img/social3.jpg' %}"></a>
+                    <img src="{{site}}{% static 'charter/img/footer2.jpg' %}">
+                </td>
+
+            </tr>
+
+        </table>
+</body>
+
+</html>

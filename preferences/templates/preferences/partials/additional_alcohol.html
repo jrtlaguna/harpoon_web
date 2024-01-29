@@ -1,0 +1,22 @@
+<div class="col-12 mb-1 d-flex flex-column">
+    <div class="col-12 d-flex align-items-end">
+        <div class="form-group py-0 w-100">
+            <input type="text" class="form-control" name="{{alcohol_type}}_name_{{random_int}}" id="id_{{alcohol_type}}_name" value="" placeholder="Brand, Color, Vineyard / Region">
+        </div>
+
+        <div class="input-group inc pb-3 px-3">
+            <div class="input-group-prepend">
+                <button type="button" class="px-0 btn btn-sm bg-transparent d-flex align-items-center" id="minus_bev">
+                    <span class="material-icons fs-25 txt-color-gold">remove_circle</span> </button>
+            </div>
+
+            <input type="text" class="form-control form-input text-center bg-transparent border-0 p-0" placeholder="0"
+                name="{{alcohol_type}}_quantity_{{random_int}}" value="0" id="ind_bev">
+
+            <div class="input-group-append">
+                <button type="button" class="px-0 btn btn-sm bg-transparent d-flex align-items-center" id="add_bev">
+                    <span class="material-icons fs-25 txt-color-gold">add_circle</span> </button>
+            </div>
+        </div>
+    </div>
+</div>

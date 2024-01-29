@@ -1,0 +1,171 @@
+{% extends "charter/base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block title %}Guests - {{ charter }}{% endblock %}
+
+
+{% block content %}
+{% include "charter/partials/header.html" with vessel=vessel breadcrumbs=breadcrumbs is_common_header=False %}
+{% include "charter/partials/guest_detail_vessel_header.html" with charter=charter %}
+<div class="col-md-12 mb-4">
+    <div class="w-100">
+        
+        <div class="w-100 bg-color-dark2 rounded-8 px-3 py-4 h-100">
+            
+            <div class="w-100 bg-color-dark rounded-8 p-3 p-md-4 border-gold-1">
+                
+                <div class="form-container-profile ml-0">
+        <!-- Nav tabs -->
+
+            {% include "charter/partials/trip_detail_navs.html" with charter=charter active=active %}
+            <div class="row mb-5">
+                <div class="col-12">
+                    
+                    <div class="form-row pl-3 pt-3 border-left-gray-80-1 mx-0">
+                        <div class="col-12 col-md-6">
+                            <div class="form-group">
+                                <label for="" class="form-label">Category</label>
+                                <span class="txt-color-white fs-16 fw-700 d-table mt-2">
+                                    Meal times & Types
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-md-6">
+                            <div class="form-group">
+                                <label for="" class="form-label">Department</label>
+                                <span class="txt-color-white fs-16 fw-700 d-table mt-2">
+                                    Galley, Interior
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-5">
+                <div class="col-md-6">
+                    <a href="{% url 'charter:download_meal_times_and_types' charter_id=charter.id %}" id="download_pdf" class="btn btn-solid-gold d-block">Download to PDF</a>
+                </div>
+            </div>
+            <div class="separator">
+                <div class="line"><hr></div>
+                <div><img src={% static 'core/img/form-sep-img.svg'%}></div>
+                <div class="line"><hr></div>
+            </div>
+                
+
+                {% crispy form %}
+                {% comment %} <div class="col-md-12 mt-2"><a href="{% url 'charter:download_shopping_list' charter_id=charter.id %}" class="btn btn-solid-gold d-block">Download Shopping List</a></div> {% endcomment %}
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+{% endblock %}
+
+{% block css %}
+    {{ block.super }}
+    <style>
+        .alert {
+            left: 0;
+            margin: auto;
+            position: absolute;
+            right: 0;
+            text-align: center;
+            top: 1em;
+            width: 30%;
+            z-index: 1;
+            /* display: inline-block; */
+        }
+
+        /* Google design compatibility issue */
+        .notif-item {
+            color: #FBC25E;
+            position: relative;
+        }
+
+        .notif-item.active::after {
+            content: ' ';
+            width: 8px;
+            height: 8px;
+            background: #FF3168;
+            position: absolute;
+            top: 3px;
+            right: 3px;
+            border-radius: 3px;
+        }
+
+        .form-checkbox:disabled + label::before {
+            border: 2px solid #4e4f50;
+        }
+
+        /* .loader{
+            position: absolute;
+            top:0px;
+            right:0px;
+            width:100%;
+            height:100%;
+            background-color:#eceaea;
+            background-image:url('{% static "authentication/img/ship.svg" %}');
+            background-size: 50px;
+            background-repeat:no-repeat;
+            background-position:center;
+            z-index:10000000;
+            opacity: 0.4;
+            filter: alpha(opacity=40);
+        } */
+    </style>
+{% endblock %}
+
+{% block js %}
+    {{ block.super }}
+    <script>
+        
+        $('#expand_menu').click(function () {
+            $('.drop-menu').toggle();
+        });
+
+        $('.form-checkbox[value="MEAL_TIMES_AND_TYPES"]').click(function() {
+            var $this = $(this);
+            if ($this.is(".form-checkbox")) {
+                if ($this.is(":checked")) {
+                    $(".form-checkbox").not($this).prop({ disabled: true, checked: false });
+                } else {
+                    $(".form-checkbox").prop("disabled", false);
+                }
+            }
+        });
+        $( document ).ready( function () {
+            var selectAll = document.getElementById("selectAllBtn")
+            selectAll.onclick = function(){
+                var boxes = document.querySelectorAll(".form-checkbox")
+
+                for (i = 0 ; i < boxes.length; ++i){
+                    boxes[i].checked = true
+                }
+            }
+        })
+
+        // $(document).ready( function() {
+        //     $('.loader').hide();
+        // });
+
+        // $('#download_pdf').click(function(){
+        //     $('.loader').show();
+        //     $.ajax({
+        //         type: 'GET',
+        //         url: "{% url 'charter:download_meal_times_and_types' charter_id=charter.id %}",
+        //         data: {},
+        //         success: function(response){
+        //             $('.loader').hide();
+        //         },
+        //         error: function (response) {
+        //             console.log(response)
+        //         }
+        //     });
+        // })
+
+    </script>
+{% endblock %}
+

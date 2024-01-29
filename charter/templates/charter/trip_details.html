@@ -1,0 +1,261 @@
+{% extends "charter/base.html" %}
+{% load humanize %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block title %}Trip Details - {{ charter }}{% endblock %}
+
+{% block content %}
+{% include "charter/partials/header.html" with vessel=vessel breadcrumbs=breadcrumbs is_common_header=False %}
+{% include "charter/partials/guest_detail_vessel_header.html" with charter=charter %}
+<div class="row">
+    <!-- upcoming trips -->
+    <div class="col-md-12 mb-4">
+        <div class="w-100">
+            
+            <div class="w-100 bg-color-dark2 rounded-8 px-3 py-4 h-100">
+                
+                <div class="w-100 bg-color-dark rounded-8 p-3 p-md-4 border-gold-1">
+                    
+                    <div class="form-container-profile ml-0">
+            <!-- Nav tabs -->
+            {% include "charter/partials/trip_detail_navs.html" with charter=charter active=active %}
+
+
+            <div class="row">
+                <div class="col-12">
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <span class="fs-18 fw-700 txt-color-white text-uppercase">Principal Guest</span></div>
+                        <div>
+                            <a class="font-weight-bold bev" href="{% url 'charter:edit_trip_details' charter_id=charter.id %}">
+                                Edit
+                            </a>
+                        </div>
+                    </div>
+                    <div class="form-row pl-3 pt-3 border-left-gray-80-1 mx-0">
+                        <div class="col-12 col-md-6">
+                            <div class="form-group">
+                                <label for="" class="form-label">
+                                    First Name
+                                </label>
+                                <span class="txt-color-white fs-16 fw-700 d-table mt-2">
+                                    {{ principal.first_name }} 
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <div class="form-group">
+                                <label for="" class="form-label">
+                                    Last Name
+                                </label>
+                                <span class="txt-color-white fs-16 fw-700 d-table mt-2">
+                                    {{ principal.last_name }}
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label for="" class="form-label">
+                                    Email Address
+                                </label>
+                                <span class="txt-color-white fs-16 fw-700 d-table mt-2">
+                                    {% if is_admin %}
+                                        {{ principal.email }}
+                                    {% else %}
+                                        N/A
+                                    {% endif %}
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <div class="form-group">
+                                <label for="" class="form-label">
+                                    Number of Guests
+                                </label>
+                                <span class="txt-color-white fs-16 fw-700 d-table mt-2">
+                                    {{charter.guests.count}}
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <div class="form-group">
+                                <label for="" class="form-label">
+                                    Budget Amount
+                                </label>
+                                <span class="txt-color-white fs-16 fw-700 d-table mt-2">
+                                    {% if is_admin %}
+                                        {% if charter.currency == 'EURO' %}€
+                                        {% elif charter.currency == 'POUNDS' %}£
+                                        {% else %}$
+                                        {% endif %}
+                                        {{ charter.apa_budget|floatformat:2|intcomma }}
+                                    {% else %}
+                                    N/A
+                                    {% endif %}
+                                </span>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+            <!-- Sep -->
+            <div class="separator">
+                <div class="line"><hr></div>
+                <div><img src={% static 'core/img/form-sep-img.svg'%}></div>
+                <div class="line"><hr></div>
+            </div>
+            <!-- / Sep -->
+            <!-- item -->
+            <div class="row">
+                <div class="col-12">
+                    <span class="fs-18 fw-700 txt-color-white text-uppercase">
+                        Yacht Trip Embark
+                    </span>
+
+                    <div class="form-row pl-3 pt-3 border-left-gray-80-1 mx-0">
+                        <div class="col-12">
+                            <div class="form-group pb-0">
+                                <label for="" class="form-label">
+                                    Embark Location
+                                </label>
+                                <span class="txt-color-white fs-16 fw-700 d-table mt-2">
+                                    {{ charter.embark_name_of_dock }}
+                                </span>
+                                <span class="txt-color-white fs-16 fw-700 d-table mt-2">
+                                    {{ charter.embark_city }}
+                                </span>
+                                <span class="txt-color-white fs-16 fw-700 d-table mt-2">
+                                    {{ charter.embark_country }}
+                                </span>
+                                <span class="txt-color-white fs-16 fw-700 d-table mt-2">
+                                    {{ charter.embark_additional_info }}
+                                </span>
+                            </div>
+                        </div>
+                        
+                        <div class="col-12 col-md-6">
+                            <div class="form-group">
+                                <span class="txt-color-gold fs-14 d-table fw-700">
+                                    Date
+                                </span>
+                                <span class="txt-color-white fs-16 fw-700 d-table mt-2">
+                                    {{ charter.embark_date|date:'F d, Y' }}
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <div class="form-group">
+                                <label for="" class="form-label">
+                                    Yacht Departure
+                                </label>
+                                <span class="txt-color-white fs-16 fw-700 d-table mt-2">
+                                    {{ charter.embark_time }}
+                                </span>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+            <!-- / item-->
+            <!-- Sep -->
+            <div class="separator">
+                <div class="line"><hr></div>
+                <div><img src={% static 'core/img/form-sep-img.svg'%}></div>
+                <div class="line"><hr></div>
+            </div>
+            <!-- / Sep -->
+            <!-- item -->
+            <div class="row">
+                <div class="col-12">
+                    
+                    <span class="fs-18 fw-700 txt-color-white text-uppercase">
+                        Yacht Trip Disembark
+                    </span>
+
+                    <div class="form-row pl-3 pt-3 border-left-gray-80-1 mx-0">
+                        <div class="col-12">
+                            <div class="form-group pb-0">
+                                <label for="" class="form-label">
+                                    Disembark Location
+                                </label>
+                                <span class="txt-color-white fs-16 fw-700 d-table mt-2">
+                                    {{ charter.disembark_name_of_dock }}
+                                </span>
+                                <span class="txt-color-white fs-16 fw-700 d-table mt-2">
+                                    {{ charter.disembark_city }}
+                                </span>
+                                <span class="txt-color-white fs-16 fw-700 d-table mt-2">
+                                    {{ charter.disembark_country }}
+                                </span>
+                                <span class="txt-color-white fs-16 fw-700 d-table mt-2">
+                                    {{ charter.disembark_additional_info }}
+                                </span>
+                            </div>
+                        </div>
+                        
+                        <div class="col-12 col-md-6">
+                            <div class="form-group">
+                                <label for="" class="form-label">
+                                    Date
+                                </label>
+                                <span class="txt-color-white fs-16 fw-700 d-table mt-2">
+                                    {{ charter.disembark_date|date:'F d, Y' }}
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <div class="form-group">
+                                <label for="" class="form-label">
+                                    Yacht Disembark
+                                </label>
+                                <span class="txt-color-white fs-16 fw-700 d-table mt-2">
+                                    {{ charter.disembark_time }}
+                                </span>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+</div>
+{% endblock %}
+
+{% block css %}
+    {{ block.super }}
+    <style>
+        /* Google design compatibility issue */
+        .notif-item {
+            color: #FBC25E;
+            position: relative;
+        }
+
+        .notif-item.active::after {
+            content: ' ';
+            width: 8px;
+            height: 8px;
+            background: #FF3168;
+            position: absolute;
+            top: 3px;
+            right: 3px;
+            border-radius: 3px;
+        }
+    </style>
+{% endblock %}
+
+{% block js %}
+    {{ block.super }}
+    <script>
+        $('#expand_menu').click(function () {
+            $('.drop-menu').toggle();
+        });
+
+    </script>
+{% endblock %}

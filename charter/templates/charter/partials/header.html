@@ -1,0 +1,109 @@
+{% load static %}
+
+<div class="container-fluid mb-5">
+    <div class="row row-cols-2 heading">
+        {% if is_common_header %}
+        {% include "charter/partials/common_header_title.html"%}
+        {% else %}
+        {% include "charter/partials/create_trip_header_title.html" with vessel=vessel breadcrumbs=breadcrumbs %}
+        {% endif %}
+        <div class="col">
+            <div class="float-right d-inline-flex">
+                {% comment %} <div class="d-flex mr-3">
+                    <a id="notif_menu" href="javascript:void(0)" type="button" class="btn-clear py-2" data-toggle="dropdown">
+                        <span id="notificationIcon" class="material-icons-outlined notif-item {% if new_notifications %} active {% endif %} ">
+                            notifications
+                        </span>
+                    </a>
+                    <div class="drop-menu-notif bg-color-gray-90 dropdown-menu dropdown-menu-right shadow p-4">
+                        <div class="w-100 border-bottom-dark-80-1 d-table">
+                            <span class="txt-color-gray pb-3 d-table">Notifications</span>
+                        </div>
+                        
+                        {% for notification in notifications %}
+                            {% if notification.notification_type == '1_WEEK_NOTICE' %}
+                                {% include 'admins/partials/one_week_notice.html' with notification=notification %}
+
+                            {% elif notification.notification_type == '2_WEEK_NOTICE' %}
+                                {% include 'admins/partials/two_week_notice.html' with notification=notification %}
+                            {% elif notification.notification_type == 'COMPLETED_PREFERENCE' %}
+                            {% include 'admins/partials/completed_notification.html' with notification=notification %}
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div> {% endcomment %}
+
+                <div class="profile d-inline-flex justify-content-end">
+                    <img src={% static 'core/img/form-sep-img.svg'%} class="mr-2"/>
+                    <div class="profile-thumb">
+                        <a href="{% if user.is_admin %}{% url 'admins:settings' %}{% else %}{% url 'guests:profile' %}{% endif %}">
+                        {% if user.profile_picture %}
+                            <img id="header_profile" src="{{user.profile_picture.url}}" alt="user profile thumbnail">
+                        {% else %}
+                            <img src="{% static 'guests/img/account_profile.svg' %}" alt="user profile thumbnail">
+                        {% endif %}
+                        </a>
+                    </div>
+
+                    <div class="profile-user d-flex">
+                        <span class="user-fullname fs-12">{{ user.first_name }} {{ user.last_name }}
+                            <small class="d-table txt-color-gold ff-open-sans">
+                                {% if user.is_admin %}
+                                Admin
+                                {% elif user.is_guest %}
+                                    {% if guest.is_principal %}
+                                        Principal
+                                    {% else %}
+                                        Guest
+                                    {% endif %}
+                                {% endif %}
+                            </small>
+                        </span>
+                        <span class="user-details-icon">
+                            <a href="javascript:void(0);" id="expand_menu">
+                                <span class="material-icons">
+                                    expand_more
+                                </span>
+                            </a>
+
+                            <div class="drop-menu bg-color-gray-90">
+                                <a class="border-bottom-dark-gray-80-2 txt-color-gray py-3 " href="{% if user.is_admin %}{% url 'admins:settings' %}{% else %}{% url 'guests:profile' %}{% endif %}">Your Profile</a>
+                                <a class="border-bottom-dark-gray-80-2 txt-color-gray py-3 " href="{% if user.is_admin %}{% url 'admins:settings_change_password' %}{% else %}{% url 'guests:settings_change_password' %}{% endif %}">Security Settings</a>
+                                <a class=" txt-color-magenta py-3 " href="{% if user.is_admin %}{% url 'admins:logout' %}{% else %}{% url 'guests:logout' %}{% endif %}">Logout</a>
+                            </div>
+                            <script src="{% static 'authentication/js/jquery.min.js'%}"></script>
+                            <script rel="stylesheet" href="{% static 'authentication/js/popper.min.js' %}">
+                            </script>
+                            <script rel="stylesheet" href="{% static 'authentication/js/bootstrap.min.js' %}">
+                            </script>
+                            <script>
+                                $("#expand_menu").click(function () {
+                                  $(".drop-menu").toggle()
+                                })
+                                $("#notif_menu").click(function () {
+                                  $(".drop-menu-notif").toggle()
+                                })
+                                $("#notificationIcon").click(function () {
+                                if ($('#notificationIcon').is('.active')) {
+                                    $.ajax({
+                                        url: "{% url 'admins:seen_notifications' %}",
+                                        type: "POST",
+                                        data: { csrfmiddlewaretoken: "{{ csrf_token }}" },
+                                        success: function () {
+                                            $('#notificationIcon').toggleClass('active');
+                                        },
+                                        error: function () {
+                                        console.log("error")
+                                        },
+                                    })
+                                    }
+                                })
+                              </script>
+                        </span>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

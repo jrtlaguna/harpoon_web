@@ -1,0 +1,250 @@
+{% extends "charter/base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% load preference_tag %}
+
+{% block title %}Guests - {{ guest.charter }}{% endblock %}
+
+{% block content %}
+{% include "charter/partials/header.html" with vessel=vessel breadcrumbs=breadcrumbs is_common_header=False %}
+{% include "charter/partials/guest_detail_vessel_header.html" with charter=charter %}
+    <div class="container-fluid  px-5 pb-5 border-dark-80-1 rounded-5">
+        {% include "charter/partials/guest_detail_header.html" with guest=guest %}
+
+        <!-- Nav tabs -->
+        {% include "charter/partials/guest_detail_navs.html" with charter=charter guest=guest active="meal_and_room" %}
+        <div class="form-container-profile ml-0">
+            <div class="row">
+                <div class="col-12">
+                    <div class="w-100 mb-4">
+                        <span class="fs-11 fw-700 txt-color-gray text-uppercase">
+                            Meal Times &amp; Types
+                        </span>
+
+                        <div class="form-row pl-3 pt-3 border-left-gray-80-1 mx-0">
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <div class="form-row">
+                                        <div class="col-4">
+                                        </div>
+                                        <div class="col-4">
+                                            <span class="txt-color-gold fs-14">Time</span>
+                                        </div>
+                                        <div class="col-4">
+                                            <span class="txt-color-gold fs-14">Meal Type</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <div class="form-row justify-content-end">
+                                        <div class="col-4">
+                                            <span class="txt-color-gold fs-16">Breakfast</span>
+                                        </div>
+                                        <div class="col-4">
+                                            <span class="txt-color-white fs-16">{{ guest.meal_and_room_preferences.get_breakfast_time_display|default:"N/A" }}</span>
+                                        </div>
+                                        <div class="col-4">
+                                            {% if breakfast_selection == None %}
+                                                <p class="txt-color-white fs-16">N/A</p>
+                                            {% else %}
+                                                {% for item in breakfast_selection|get_string_as_list %}
+                                                    <p class="txt-color-white fs-16">{{ item|get_display_name:"BREAKFAST" }}</p>
+                                                {% empty %}
+                                                    <p class="txt-color-white fs-16">N/A</p>
+                                                {% endfor %}
+                                            {% endif %}
+                                        </div>
+
+                                        <div class="col-8">
+                                            <span class="txt-color-gray fs-12">
+                                                Note: {{ guest.meal_and_room_preferences.breakfast_note|default:"N/A" }}
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <div class="form-row justify-content-end">
+                                        <div class="col-4">
+                                            <span class="txt-color-gold fs-16">Lunch</span>
+                                        </div>
+                                        <div class="col-4">
+                                            <span class="txt-color-white fs-16">{{ guest.meal_and_room_preferences.get_lunch_time_display |default:"N/A" }}</span>
+                                        </div>
+                                        <div class="col-4">
+                                            {% if lunch_selection == None %}
+                                                <p class="txt-color-white fs-16">N/A</p>
+                                            {% else %}
+                                                {% for item in lunch_selection|get_string_as_list %}
+                                                    <p class="txt-color-white fs-16">{{ item|get_display_name:"LUNCH" }}</p>
+                                                {% empty %}
+                                                    <p class="txt-color-white fs-16">N/A</p>
+                                                {% endfor %}
+                                            {% endif %}
+                                        </div>
+
+                                        <div class="col-8">
+                                            <span class="txt-color-gray fs-12">
+                                                Note: {{ guest.meal_and_room_preferences.lunch_note|default:"N/A" }}
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <div class="form-row justify-content-end">
+                                        <div class="col-4">
+                                            <span class="txt-color-gold fs-16">Dinner</span>
+                                        </div>
+                                        <div class="col-4">
+                                            <span class="txt-color-white fs-16">{{ guest.meal_and_room_preferences.get_dinner_time_display |default:"N/A" }}</span>
+                                        </div>
+                                        <div class="col-4">
+                                            {% if dinner_selection == None %}
+                                                <p class="txt-color-white fs-16">N/A</p>
+                                            {% else %}
+                                                {% for item in dinner_selection|get_string_as_list %}
+                                                    <p class="txt-color-white fs-16">{{ item|get_display_name:"DINNER" }}</p>
+                                                {% empty %}
+                                                    <p class="txt-color-white fs-16">N/A</p>
+                                                {% endfor %}
+                                            {% endif %}
+                                        </div>
+
+                                        <div class="col-8">
+                                            <span class="txt-color-gray fs-12">
+                                                Note: {{ guest.meal_and_room_preferences.dinner_note|default:"N/A" }}
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <div class="form-row justify-content-end">
+                                        <div class="col-4">
+                                            <span class="txt-color-gold fs-16">Canapes</span>
+                                        </div>
+                                        <div class="col-4">
+                                            <span class="txt-color-white fs-16">{{ guest.meal_and_room_preferences.get_canapes_time_display|default:"N/A" }}</span>
+                                        </div>
+                                        <div class="col-4">
+                                            <span class="txt-color-white fs-16">{{ guest.meal_and_room_preferences.get_canapes_selection_display|default:"N/A" }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <div class="form-row justify-content-end">
+                                        <div class="col-4">
+                                            <span class="txt-color-gold fs-16">Mid-Morning Snack</span>
+                                        </div>
+                                        <div class="col-4">
+                                            <span class="txt-color-white fs-16">--</span>
+                                        </div>
+                                        <div class="col-4">
+                                            <span class="txt-color-white fs-16">{{ guest.meal_and_room_preferences.get_midmorning_snacks_display|default:"N/A" }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <div class="form-row justify-content-end">
+                                        <div class="col-4">
+                                            <span class="txt-color-gold fs-16">Mid-Afternoon Snack</span>
+                                        </div>
+                                        <div class="col-4">
+                                            <span class="txt-color-white fs-16">--</span>
+                                        </div>
+                                        <div class="col-4">
+                                            <span class="txt-color-white fs-16">{{ guest.meal_and_room_preferences.get_midafternoon_snacks_display|default:"N/A" }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <span class="fs-11 fw-700 txt-color-gray text-uppercase">
+                            Room
+                        </span>
+
+                        <div class="form-row pl-3 pt-3 border-left-gray-80-1 mx-0">
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <div class="form-row">
+                                        <div class="col-4">
+                                        </div>
+                                        <div class="col-4">
+                                            <span class="txt-color-gold fs-14">Question</span>
+                                        </div>
+                                        <div class="col-4">
+                                            <span class="txt-color-gold fs-14">Answer</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <div class="form-row justify-content-end">
+                                        <div class="col-4">
+                                        </div>
+                                        <div class="col-4">
+                                            <span class="txt-color-white fs-16">Favorite Flowers</span>
+                                        </div>
+                                        <div class="col-4">
+                                            <span class="txt-color-white fs-16">{{ guest.meal_and_room_preferences.favorite_flowers |default:"N/A" }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block css %}
+    {{ block.super }}
+    <style>
+        /* Google design compatibility issue */
+        .notif-item {
+            color: #FBC25E;
+            position: relative;
+        }
+
+        .notif-item.active::after {
+            content: ' ';
+            width: 8px;
+            height: 8px;
+            background: #FF3168;
+            position: absolute;
+            top: 3px;
+            right: 3px;
+            border-radius: 3px;
+        }
+    </style>
+{% endblock %}
+
+{% block js %}
+    {{ block.super }}
+    <script>
+        $('#expand_menu').click(function () {
+            $('.drop-menu').toggle();
+        });
+
+    </script>
+{% endblock %}

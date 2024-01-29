@@ -1,0 +1,86 @@
+{% extends "charter/base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block title %}Harpoon Search{% endblock %}
+
+{% block content %}
+{% include "charter/partials/header.html" with header_title="Account Settings" is_common_header=True  %}
+<div class="container-fluid  px-5 pb-5 border-dark-80-1 rounded-5">
+
+        <div class="form-container-profile ml-0">
+            <div class="row mb-5">
+                <div class="col-12 col-md-12">
+                    <div class="form-register">
+                        <h3 class="form-title">
+                            {{active_vessel.proper_name}}
+                        </h3>
+                    </div>
+                </div>
+                <form class="w-100 m-0 p-0" method="POST" hx-post="{% url 'admins:search' %}" hx-target="#result-div" hx-swap="innerHTML">
+                    <div class="w-100 m-0 p-0 form-inline form-group">
+                        <label class="form-label" for="search" style="display: inline-block;">
+                            <span class="material-icons item-nav-icon">
+                                search
+                            </span>
+                        </label>
+                        <input type="text" placeholder="Search" name="keyword" class="form-control" id="search"/>
+                    </div>
+                </form>
+            </div>
+            <div id="result-div">
+            </div>
+        </div>
+
+    </div>
+{% endblock %}
+
+{% block css %}
+    {{ block.super }}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.3/css/intlTelInput.min.css"
+          integrity="sha512-yye/u0ehQsrVrfSd6biT17t39Rg9kNc+vENcCXZuMz2a+LWFGvXUnYuWUW6pbfYj1jcBb/C39UZw2ciQvwDDvg=="
+          crossorigin="anonymous"/>
+    <style>
+        .alert {
+            left: 0;
+            margin: auto;
+            position: absolute;
+            right: 0;
+            text-align: center;
+            top: 1em;
+            width: 30%;
+            z-index: 1;
+            /* display: inline-block; */
+        }
+
+        /* Google design compatibility issue */
+        .notif-item {
+            color: #FBC25E;
+            position: relative;
+        }
+
+        .notif-item.active::after {
+            content: ' ';
+            width: 8px;
+            height: 8px;
+            background: #FF3168;
+            position: absolute;
+            top: 3px;
+            right: 3px;
+            border-radius: 3px;
+        }
+    </style>
+{% endblock %}
+
+{% block js %}
+    {{ block.super }}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.3/js/intlTelInput.min.js"
+            integrity="sha512-kkBkPRO6dSkCJDPNpW4Bb/1Z585gN++HKcIpClQW9IYI+4gk4yPC+eaE3CSQp3Ex+48NvzUvqmroZtR4gZnt4g=="
+            crossorigin="anonymous"></script>
+    <script>
+        $('#expand_menu').click(function () {
+            $('.drop-menu').toggle();
+        });
+        
+    </script>
+{% endblock %}

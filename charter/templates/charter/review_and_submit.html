@@ -1,0 +1,522 @@
+{% extends "charter/base.html" %}
+{% load static %}
+{% load humanize %}
+{% load crispy_forms_tags %}
+
+{% block title %}Harpoon {{ title }}{% endblock %}
+
+{% block content %}
+{% include "charter/partials/header.html" with vessel=vessel breadcrumbs=breadcrumbs is_common_header=False %}
+<div class="container-fluid my-5">
+    <div class="row">
+        <div class="col-12 px-0">
+            <div class="w-100 d-flex justify-content-between mb-2">
+                <span class="small txt-color-gray">
+                    Step 4 of 4
+                </span>
+                <span class="small txt-color-gray">
+                    Review & Submit
+                </span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-bar-status" style="width: 100%;"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% comment %} <div class="container-fluid">
+    <div class="row mb-5">
+        <div class="col-12">
+            <div class="w-100">
+                <div class="form-row">
+                    <div class="col-12 d-sm-flex justify-content-between">
+                        <div class="d-flex mb-3">
+                            <div class="icon mr-4">
+                                <img src="{% static 'charter/img/ship-small.svg' %}" alt="">
+                            </div>
+                            <div class="w-100">
+                                <span class="txt-color-gold fs-12 fw-700 d-table">
+                                    STATUS: TRIP SET-UP IN PROGRESS
+                                </span>
+                                <h5 class="txt-color-gold ff-source-serif-pro fs-24">
+                                    {{ charter }}
+                                </h5>
+                                <span class="txt-color-white fs-16 d-table">
+                                    {{ charter.embark_country }} Yacht Charter <br>
+                                    {{ charter.embark_date }} - {{ charter.disembark_date }}
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="d-flex">
+                            <span class="txt-color-gold fs-12 fw-700 d-table">
+                                BOOKING ID: #{{ charter.booking_id }}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> {% endcomment %}
+
+<div class="col-md-12 mb-4">
+    <div class="w-100" data-aos="fade-down" data-aos-duration="1000" data-aos-delay="400">
+        
+        <div class="w-100 bg-color-dark2 rounded-8 px-3 py-4 h-100">
+            <h3 class="fs-26 txt-color-white mb-3 mx-2">Review and Submit</h3>
+            <!--p class="txt-color-white fs-14 fw-700 mb-4 col-lg-8 px-0">Selections made in your preference sheet master will populate to your preference sheets where applicable. You will be able to modify this up to 1 week before departure, after which no changes can be made.</p-->
+            <!-- -->
+            <div class="w-100 bg-color-dark2 border-dark-light-1 rounded-8 p-2 p-md-4 my-4">
+                <div class="w-100 d-flex align-items-center my-2">
+                    <span class="material-icons txt-color-magenta mr-2">
+                        error
+                    </span>
+                    
+                    <span class="txt-color-magenta fs-14">
+                        Please ensure all information is correct before hitting save.
+                    </span>
+                </div>
+            </div>   
+            <div class="w-100 bg-color-dark rounded-8 p-3 p-md-4 border-gold-1">
+                
+                <div class="form-container-profile ml-0">
+                    <!-- item -->
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="w-100 mb-4">
+                                <div class="w-100 d-flex justify-content-between">
+                                    <span class="fs-11 fw-700 txt-color-gray text-uppercase">
+                                        Principal Info
+                                    </span>
+                                    <a href="{% url 'charter:charter_details' charter_id=charter.id %}" class="txt-color-gold fs-11 fw-700">
+                                        Edit
+                                    </a>
+                                </div>
+            
+                                <div class="form-row pl-3 pt-3 border-left-gray-80-1 mx-0">
+                                    <div class="col-12 col-md-6">
+                                        <div class="form-group">
+                                            <label for="" class="form-label">First Name</label>
+                                            <span class="txt-color-white fs-16 fw-700 d-table mt-2">
+                                                {{ principal_guest.first_name }} 
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-6">
+                                        <div class="form-group">
+                                            <label for="" class="form-label">Last Name</label>
+                                            <span class="txt-color-white fs-16 fw-700 d-table mt-2">
+                                                {{ principal_guest.last_name }}
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-6">
+                                        <div class="form-group">
+                                            <label for="" class="form-label">Email</label>
+                                            <span class="txt-color-white fs-16 fw-700 d-table mt-2">
+                                                {{ principal_guest.email }}
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-6">
+                                        
+                                    </div>
+                                    <div class="col-12 col-md-6">
+                                        <div class="form-group">
+                                            <label for="" class="form-label">Budget Amount</label>
+                                            <span class="txt-color-white fs-16 fw-700 d-table mt-2">
+                                                {% if charter.currency == 'USD' %}$
+                                                {% elif charter.currency == 'EURO' %}€
+                                                {% elif charter.currency == 'POUNDS' %}£
+                                                {% else %}$
+                                                {% endif %}
+                                                {{ charter.apa_budget|floatformat:2|intcomma }}
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                    <!-- / item-->
+                    <!-- Sep -->
+                    <div class="separator">
+                <div class="line"><hr></div>
+                <div><img src={% static 'core/img/form-sep-img.svg'%}></div>
+                <div class="line"><hr></div>
+            </div>
+                    <!-- / Sep -->
+                    <!-- item -->
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="w-100 mb-4">
+                                
+                                <div class="w-100 d-flex justify-content-between">
+                                    <span class="fs-11 fw-700 txt-color-gray text-uppercase">
+                                        Yacht Trip Embark
+                                    </span>
+                                    <a href="{% url 'charter:charter_locations' charter_id=charter.id %}" class="txt-color-gold fs-11 fw-700">
+                                        Edit
+                                    </a>
+                                </div>
+                        
+                                <div class="form-row pl-3 pt-3 border-left-gray-80-1 mx-0">
+                                    <div class="col-12">
+                                        <div class="form-group">
+                                            <label for="" class="form-label">Embark Location</label>
+                                            <div class="form-row">
+                                                <div class="col-12">
+                                                    <span class="txt-color-white fs-16 fw-700 d-table mt-2">
+                                                        {{ charter.embark_name_of_dock }}
+                                                    </span>
+                                                </div>
+                                                <div class="col-6">
+                                                    <span class="txt-color-white fs-16 fw-700 d-table mt-2">
+                                                        {{ charter.embark_city }}
+                                                    </span>
+                                                </div>
+                                                <div class="col-6">
+                                                    <span class="txt-color-white fs-16 fw-700 d-table mt-2">
+                                                        {{ charter.embark_country }}
+                                                    </span>
+                                                </div>
+                                                <div class="col-12">
+                                                    <span class="txt-color-white fs-16 fw-700 d-table mt-2">
+                                                        {{ charter.embark_additional_info }}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="form-group">
+                                            <label for="" class="form-label">Date</label>
+                                            <span class="txt-color-white fs-16 fw-700 d-table mt-2">
+                                                {{ charter.embark_date|date:'d F Y' }}
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="form-group">
+                                            <label for="" class="form-label">Yacht Embark Time</label>
+                                            <span class="txt-color-white fs-16 fw-700 d-table mt-2">
+                                                {{ charter.embark_time }}
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- / item-->
+                    <!-- Sep -->
+                    <div class="separator">
+                <div class="line"><hr></div>
+                <div><img src={% static 'core/img/form-sep-img.svg'%}></div>
+                <div class="line"><hr></div>
+            </div>
+                    <!-- / Sep -->
+                    <!-- item -->
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="w-100 mb-4">
+                                
+                                <div class="w-100 d-flex justify-content-between">
+                                    <span class="fs-11 fw-700 txt-color-gray text-uppercase">
+                                        Yacht Trip Dismbark
+                                    </span>
+                                    <a href="{% url 'charter:charter_locations' charter_id=charter.id %}" class="txt-color-gold fs-11 fw-700">
+                                        Edit
+                                    </a>
+                                </div>
+                        
+                                <div class="form-row pl-3 pt-3 border-left-gray-80-1 mx-0">
+                                    <div class="col-12">
+                                        <div class="form-group">
+                                            <label for="" class="form-label">Dismbark Location</label>
+                                            <div class="form-row">
+                                                <div class="col-12">
+                                                    <span class="txt-color-white fs-16 fw-700 d-table mt-2">
+                                                        {{ charter.disembark_name_of_dock }}
+                                                    </span>
+                                                </div>
+                                                <div class="col-6">
+                                                    <span class="txt-color-white fs-16 fw-700 d-table mt-2">
+                                                        {{ charter.disembark_city }}
+                                                    </span>
+                                                </div>
+                                                <div class="col-6">
+                                                    <span class="txt-color-white fs-16 fw-700 d-table mt-2">
+                                                        {{ charter.disembark_country }}
+                                                    </span>
+                                                </div>
+                                                <div class="col-12">
+                                                    <span class="txt-color-white fs-16 fw-700 d-table mt-2">
+                                                        {{ charter.disembark_additional_info }}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="form-group">
+                                            <label for="" class="form-label">Date</label>
+                                            <span class="txt-color-white fs-16 fw-700 d-table mt-2">
+                                                {{ charter.disembark_date|date:'d F Y' }}
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="form-group">
+                                            <label for="" class="form-label">Yacht Embark Time</label>
+                                            <span class="txt-color-white fs-16 fw-700 d-table mt-2">
+                                                {{ charter.disembark_time }}
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- / item-->
+                    <!-- Sep -->
+                    <div class="separator">
+                <div class="line"><hr></div>
+                <div><img src={% static 'core/img/form-sep-img.svg'%}></div>
+                <div class="line"><hr></div>
+            </div>
+                    <!-- / Sep -->
+                    <!-- item -->
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    <span class="fs-18 fw-700 txt-color-white text-uppercase">Preferences Sheet</span></div>
+                                <div>
+                                    <a href="javascript:void(0)" class="font-weight-bold bev">Edit</a>
+                                </div>
+                            </div>
+                            <div class="form-row pl-3 pt-3 border-left-gray-80-1 mx-0">
+                                <div class="col-12">
+                                    <div class="form-group pb-0">
+                                        <label for="" class="form-label">
+                                            Default Yacht Preference Sheet
+                                        </label>
+                                        <p class="txt-color-white fs-14">A preference sheet including offerings for all categories in the summary will be provide for principle and/or guests to make selections.  You may view the summary <a href="javascript:void(0)" class="font-weight-bold bev" data-toggle="modal" data-target="#pref_overview">here</a>.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- item -->
+
+                    <div class="row my-5">
+                        <div class="col-12 col-md-6">
+                            <a href="{% url 'charter:charter_success' charter_id=charter.id %}" class="btn btn-solid-gold w-100">Save</a>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div> 
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block modal %}
+<div class="modal fade" id="pref-sheet_modal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content bg-color-dark">
+            <div class="modal-header justify-content-end border-0">
+                <a href="javascript:void(0)" class="txt-color-white" data-dismiss="modal">
+                    <span class="material-icons">
+                        close
+                    </span>
+                </a>
+            </div>
+            <div class="modal-body p-5">
+                <div class="w-100">
+                    <h3 class="form-title mt-0">Default Yacht  Preference Sheet</h3>
+                    <small class="form-short-description">
+                        Principal and/or guests can select from any of the options below and will be provided space to add notes to customize any of the selections or add a custom option.
+                    </small>
+                </div>
+                <div class="w-100 border-bottom-dark-80-1 mb-4">
+                    <span class="txt-color-gold fw-700">General Cuisine</span>
+                    <small class="form-short-description">
+                        Principal Only. American, British, Chinese, French, Fusion, Indian, Italian, japanese, Mexican, North Aftrican, Spanish, Thai
+                    </small>
+                </div>
+                <div class="w-100 border-bottom-dark-80-1 mb-4">
+                    <span class="txt-color-gold fw-700">Fish & Shellfish</span>
+                    <small class="form-short-description">
+                        Principal Only. Crab, Lobster, Conch, Clams, Mussels, Oyster, Scallops, Escargot, Squid/Calamari, Octopus, Salmon, Smoked Salmon, Cod, Mahi, Trout, Sardines
+                    </small>
+                </div>
+                <div class="w-100 border-bottom-dark-80-1 mb-4">
+                    <span class="txt-color-gold fw-700">Meat</span>
+                    <small class="form-short-description">
+                        Principal Only. Beef, Chicken, Duck, Lamb, Pork, Turkey, Veal
+                    </small>
+                </div>
+                <div class="w-100 border-bottom-dark-80-1 mb-4">
+                    <span class="txt-color-gold fw-700">Bread</span>
+                    <small class="form-short-description">
+                        Principal Only. Baguette, Rye, Breadsticks, Brioche, Brown, Ciabatta, Focaccia, Pita, White
+                    </small>
+                </div>
+                <div class="w-100 border-bottom-dark-80-1 mb-4">
+                    <span class="txt-color-gold fw-700">Salad</span>
+                    <small class="form-short-description">
+                        Principal Only. Caprese, Ceaser, Coleslaw, Greek, Brioche, Mixed Leaf, Nicoise, Pasta, Potato, Russian, Seafood
+                    </small>
+                </div>
+                <div class="w-100 border-bottom-dark-80-1 mb-4">
+                    <span class="txt-color-gold fw-700">Soup</span>
+                    <small class="form-short-description">
+                        Principal Only. Caprese, Ceaser, Coleslaw, Greek, Brioche, Mixed Leaf, Nicoise, Pasta, Potato, Russian, Seafood
+                    </small>
+                </div>
+                <div class="w-100 border-bottom-dark-80-1 mb-4">
+                    <span class="txt-color-gold fw-700">Cheese</span>
+                    <small class="form-short-description">
+                        Principal Only. Blue, Brie, Gouda, Cheddar, Feta, Parmesan, Goat, Camembert, Mozzarella
+                    </small>
+                </div>
+                <div class="w-100 border-bottom-dark-80-1 mb-4">
+                    <span class="txt-color-gold fw-700">Dessert</span>
+                    <small class="form-short-description">
+                        Principal Only. Chocolate, Caramel, Creamy, Cake, Fruit Salad, Ice Cream, Mousse, Sorbet, Souffle, Tart, Light
+                    </small>
+                </div>
+                <div class="w-100 border-bottom-dark-80-1 mb-4">
+                    <span class="txt-color-gold fw-700">Milk</span>
+                    <small class="form-short-description">
+                        Principal & Guests. Whole, 2%, Skim, Soya, Rice
+                    </small>
+                </div>
+                <div class="w-100 border-bottom-dark-80-1 mb-4">
+                    <span class="txt-color-gold fw-700">Coffee</span>
+                    <small class="form-short-description">
+                        Principal & Guests. Cappuccino, Latte, Espresso, American, Macciato, Iced Coffee
+                    </small>
+                </div>
+                <div class="w-100 border-bottom-dark-80-1 mb-4">
+                    <span class="txt-color-gold fw-700">Tea</span>
+                    <small class="form-short-description">
+                        Principal & Guests. Earl Grey, Rooibois, Mint, Herbal tea, Chamomile, Green
+                    </small>
+                </div>
+                <div class="w-100 border-bottom-dark-80-1 mb-4">
+                    <span class="txt-color-gold fw-700">Water</span>
+                    <small class="form-short-description">
+                        Principal & Guests. Sparkling, Still
+                    </small>
+                </div>
+                <div class="w-100 border-bottom-dark-80-1 mb-4">
+                    <span class="txt-color-gold fw-700">Juice</span>
+                    <small class="form-short-description">
+                        Principal & Guests. Grapefruit, Orange, Fresh Pineapple, Apple, Carrot, Green Juice
+                    </small>
+                </div>
+                <div class="w-100 border-bottom-dark-80-1 mb-4">
+                    <span class="txt-color-gold fw-700">Soda & Mixers</span>
+                    <small class="form-short-description">
+                        Principal & Guests. Coke, Diet Coke, Pepsi, Ginger Ale, Soda Water, Tonic, La Croix, Red Bull, 7-up, Sprite
+                    </small>
+                </div>
+                <div class="w-100 border-bottom-dark-80-1 mb-4">
+                    <span class="txt-color-gold fw-700">Beverage Add Ons</span>
+                    <small class="form-short-description">
+                        Principal & Guests. Citrus, Sweetener, Sugar, Creamer
+                    </small>
+                </div>
+                <div class="w-100 border-bottom-dark-80-1 mb-4">
+                    <span class="txt-color-gold fw-700">Alcoholic</span>
+                    <small class="form-short-description">
+                        Principal & Guests will be provided space to list their favorite alcohols and note quantity of bottles requested.
+                    </small>
+                </div>
+                <div class="w-100 border-bottom-dark-80-1 mb-4">
+                    <span class="txt-color-gold fw-700">Meal Times</span>
+                    <small class="form-short-description">
+                        Principal can select meal service times for breakfast, lunch, dinner, mid-morning & mid-afternoon snacks, and canapes.
+                    </small>
+                </div>
+                <div class="w-100 border-bottom-dark-80-1 mb-4">
+                    <span class="txt-color-gold fw-700">Meal Types - Breakfast</span>
+                    <small class="form-short-description">
+                        Principal only. Buffet, Table Service, Family Style, Room Service, Al Fresco
+                    </small>
+                </div>
+                <div class="w-100 border-bottom-dark-80-1 mb-4">
+                    <span class="txt-color-gold fw-700">Meal Types - Lunch</span>
+                    <small class="form-short-description">
+                        Principal only. Buffet, 2-course, 3-course, 4-course, Family Style, Russian Style, BBQ, Informal, Formal, Light, Chef’s Tasting Menu
+                    </small>
+                </div>
+                <div class="w-100 border-bottom-dark-80-1 mb-4">
+                    <span class="txt-color-gold fw-700">Meal Types - Dinner</span>
+                    <small class="form-short-description">
+                        Principal only. Buffet, 2-course, 3-course, 4-course, Family Style, Russian Style, BBQ, Informal, Formal, Light, Chef’s Tasting Menu
+                    </small>
+                </div>
+                <div class="w-100 border-bottom-dark-80-1 mb-4">
+                    <span class="txt-color-gold fw-700">Other Room & Services</span>
+                    <small class="form-short-description">
+                        Principal can advise about floral preferences.
+                        <br>
+                        <br>
+                        Principal & Guests can advise their preferred room temperature.
+                        <br>
+                        <br>
+                        Principal & Guests can advise other services they would be intereted in: Massage Therapy, Yoga Instruction, Diving Excursion, Land Excursion
+                    </small>
+                </div>
+
+                <div class="w-100 border-bottom-dark-80-1 mb-4">
+                    <span class="txt-color-gold fw-700">Sizing</span>
+                    <small class="form-short-description">
+                        Principal & Guests can advise shirt and shoe sizing. Mens & Womens. US, UK, EU.
+                    </small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block css %}
+    {{ block.super }}
+    <style>
+        /* Google design compatibility issue */
+        .notif-item {
+            color: #FBC25E;
+            position: relative;
+        }
+
+        .notif-item.active::after {
+            content: ' ';
+            width: 8px;
+            height: 8px;
+            background: #FF3168;
+            position: absolute;
+            top: 3px;
+            right: 3px;
+            border-radius: 3px;
+        }
+    </style>
+{% endblock %}
+
+{% block js %}
+    {{ block.super }}
+    <script>
+        $('#expand_menu').click(function () {
+            $('.drop-menu').toggle();
+        });
+
+    </script>
+{% endblock %}

@@ -1,0 +1,55 @@
+{% load static %}
+<div class="sidebar  float-left">
+    <div class="sidebar-content">
+        <div class="logo">
+            <a href="javascript:void(0);" class="close-btn">
+                <span class="material-icons material-icons-outlined">
+                    close
+                </span>
+            </a>
+            <a href="{% url 'guests:dashboard' %}">
+                <img src="{% static 'authentication/img/logo-sol.svg' %}" alt="Harpoon Logo" class="img-fluid">
+            </a>
+        </div>
+
+        <div class="sidebar-menu">
+            <ul>
+                <li>
+                <a href="{% url 'guests:dashboard' %}" class="item-nav {% if active == 'dashboard' %}active{% endif %}">
+                        <span class="material-icons item-nav-icon ">home</span>
+                        Dashboard
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'guests:trips' %}" class="item-nav {% if active == 'trips' %}active{% endif %}">
+                        <span class="material-icons item-nav-icon">
+                            local_activity
+                        </span>
+                        Trips
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'guests:profile' %}" class="item-nav {% if active == 'profile' %}active{% endif %}">
+                        <span class="material-icons item-nav-icon">
+                            assignment_ind
+                        </span>
+                        Profile
+                    </a>
+                </li>
+                <li>
+                    <a href="{% if guest.is_principal %}{% url 'preferences:food_preferences' %}{% else %}{% url 'preferences:diet_services_sizing' %}{% endif %}" class="item-nav {% if active == 'preferences' %}active{% endif %}">
+                        <span class="material-icons item-nav-icon">
+                            assignment
+                        </span>
+                        Preferences
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'guests:dashboard-2' %}" class="item-nav">
+                        <span class="material-icons item-nav-icon ">house</span>New Dashboard Preview
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,190 @@
+{% extends 'admins/admin_base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="container-fluid">
+
+    <div class="row">
+        <!-- upcoming trips -->
+        <div class="col-md-12 mb-4">
+            <div class="w-100" data-aos="fade-down" data-aos-duration="1000" data-aos-delay="0">
+
+                <div class="w-100 bg-color-dark2 rounded-8 px-3 py-4 h-100">
+                    <h3 class="fs-26 txt-color-white mb-4 ml-2">Guest Information</h3>
+
+                    <div class="w-100 bg-color-dark rounded-8 p-3 p-md-4 border-gold-1">
+                        
+                        <!-- -->
+                        <div class="form-container-profile ml-0">
+                            <div class="row mb-5">
+                                <div class="col-12">
+                                    <ul class="nav nav-line mb-0" id="myTab" role="tablist">
+
+                                        <li class="nav-item mr-4">
+                                            <a href="{% url 'admins:guest_info_list' %}" class="nav-link {% if 'create' not in request.build_absolute_uri %}active{% endif %} ff-open-sans px-0 fs-16">
+                                                Guest Information
+                                            </a>
+                                        </li>
+                                        <li class="nav-item mr-4">
+                                            <a href="{% url 'admins:guest_info_create' %}" class="nav-link {% if 'create' in request.build_absolute_uri %}active{% endif %} ff-open-sans px-0 fs-16">
+                                                Create Guest Information
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            {% if 'edit' in request.build_absolute_uri %}
+                                {% crispy image_form %}
+                            {% endif %}
+                            <!-- /ITEM -->
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="d-flex justify-content-between">
+                                        <div>
+                                            <span class="fs-18 fw-700 txt-color-white text-uppercase">Personal Details</span>
+                                        </div>
+
+                                    </div>
+                                    {% crispy form %}
+                                </div>
+                            </div>
+                            <div class="row my-5">
+                                <div class="col-md-12 mb-3 mb-lg-0">
+                                    <a href="#" onclick="submitForm()" class="btn btn-solid-gold w-100">Save</a>
+                                </div>
+                            </div>
+                            <!--  ITEM -->
+
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <!-- Preference Sheets -->
+
+    </div>
+</div>
+</div>
+
+<div class="footer-main px-3 px-md-5"> 
+    <div class="container-fluid">
+        <div class="row align-items-center">
+            <div class="col">
+                <img src="{% static 'authentication/img/logo-sol.svg' %}">
+            </div>
+            <div class="col text-right">
+                <a href="{% url 'admins:terms_and_conditions' %}" class="mr-4">Terms</a>
+                <a href="{% url 'admins:privacy_policy' %}">Privacy Policy</a>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<script type="text/javascript">
+    const form = document.getElementById("id-guestInfoForm")
+
+    function submitForm() {
+        form.submit()
+    }
+
+    var imageForm = document.getElementById("id-imageForm")
+        imageForm.submit = function(e) {
+            var formData = new FormData(document.getElementById("id-imageForm"))
+            $.ajax({
+            type: $(this).attr('method'),
+            url: $(this).attr('action'), // the file to call
+            data: formData,
+            contentType: false,
+            processData: false,
+            success:function(data, textStatus, XmlHttpResponse){
+                if (data.error) {
+                    alert(data.error)
+                } else {
+                    $('#profile_image').prop('src', data.url); 
+                }
+            },
+            })
+            e.preventDefault();
+        }
+
+        document.getElementById("profile_picture").onchange = function(e) {
+            e.preventDefault()
+            imageForm.submit(e)
+        }
+    
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.3/js/intlTelInput.min.js"
+            integrity="sha512-kkBkPRO6dSkCJDPNpW4Bb/1Z585gN++HKcIpClQW9IYI+4gk4yPC+eaE3CSQp3Ex+48NvzUvqmroZtR4gZnt4g=="
+            crossorigin="anonymous"></script>
+    <script>
+        $(document).ready(function () {
+            var phone_country = document.getElementsByClassName("iti iti--allow-dropdown iti--separate-dial-code")
+            phone_country[0].style.paddingTop= "0px"
+            phone_country[0].style.paddingBottom= "0px"
+
+            //ALLOW ONLY NUMBER
+            $('#phone_num').keypress(function(e) {
+                    var verified = (e.which == 8 || e.which == undefined || e.which == 0) ? null : String.fromCharCode(e.which).match(/[^0-9]/);
+                    if (verified) {e.preventDefault();}
+                });
+
+            $('#phone_num').keyup(function(e){
+                var ph = this.value.replace(/\D/g,'').substring(0,10);
+                // Backspace and Delete keys
+                var deleteKey = (e.keyCode == 8 || e.keyCode == 46);
+                var len = ph.length;
+                if(len==0){
+                    ph=ph;
+                }else if(len<3){
+                    ph=ph;
+                }else if(len==3){
+                    ph=ph + (deleteKey ? '' : '-');
+                }else if(len<6){
+                    ph=ph.substring(0,3)+'-'+ph.substring(3,6);
+                }else if(len==6){
+                    ph=ph.substring(0,3)+'-'+ph.substring(3,6)+ (deleteKey ? '' : '-');
+                }else{
+                    ph=ph.substring(0,3)+'-'+ph.substring(3,6)+'-'+ph.substring(6,10);
+                }
+                this.value = ph;
+            });
+                
+            //ALLOW ONLY LETTERS
+            $( ".text-only" ).keypress(function(e) {
+                var key = e.keyCode;
+                if (key >= 48 && key <= 57) {
+                    e.preventDefault();
+                }
+            });
+
+            $('.datepicker').datepicker({
+                format: 'dd MM yyyy',
+            });
+
+            //CAPITALIZE FIRST LETTER OF EACH WORD
+            $(".text-only").keyup(function () {  
+                $('.text-only').css('textTransform', 'capitalize');  
+            });
+        });
+
+        const input = document.getElementById("phone_num");
+        const iti = intlTelInput(input, {
+            // any initialisation options go here
+            default: false,
+            separateDialCode: true,
+            utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.3/js/utils.js",
+        });
+
+        const registrationForm = document.getElementById("id-registrationForm");
+        if(registrationForm){
+
+            registrationForm.addEventListener("submit", function () {
+                input.value = iti.getNumber();
+                return true;
+            });
+        }
+    </script>
+{% endblock %}

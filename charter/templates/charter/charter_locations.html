@@ -1,0 +1,124 @@
+{% extends "charter/base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block title %}Harpoon {{ title }}{% endblock %}
+
+{% block content %}
+{% include "charter/partials/header.html" with vessel=vessel breadcrumbs=breadcrumbs is_common_header=False %}
+<div class="container-fluid my-5">
+    <div class="row">
+        <div class="col-12 px-0">
+            <div class="w-100 d-flex justify-content-between mb-2">
+                <span class="small txt-color-gray">
+                    Step 2 of 4
+                </span>
+                <span class="small txt-color-gray">
+                    Departure & Arrival Locations
+                </span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-bar-status" style="width: 50%;"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid">
+    <div class="row mb-5">
+        <div class="col-12">
+            <div class="w-100">
+                <div class="form-row">
+                    <div class="col-12 d-sm-flex justify-content-between">
+                        <div class="d-flex mb-3">
+                            <div class="icon mr-4">
+                                <img src="{% static 'charter/img/ship-small.svg' %}" alt="">
+                            </div>
+                            <div class="w-100">
+                                <span class="txt-color-gold fs-12 fw-700 d-table">
+                                    STATUS: TRIP SET-UP IN PROGRESS
+                                </span>
+                                <h5 class="txt-color-gold ff-source-serif-pro fs-24">
+                                    {{ charter }}
+                                </h5>
+                                <span class="txt-color-white fs-16 d-table">
+                                    {{ charter.embark_country }} Yacht Charter <br>
+                                    {{ charter.embark_date }} - {{ charter.disembark_date }}
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="d-flex">
+                            <span class="txt-color-gold fs-12 fw-700 d-table">
+                                BOOKING ID: #{{ charter.booking_id }}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div>
+<div class="w-100 bg-color-dark2 rounded-8 px-3 py-4 h-100">
+    <h3 class="fs-26 txt-color-white mb-4 mx-2">Charter Locations</h3>
+    <p class="txt-color-white fs-14 fw-700 mb-4 col-lg-8 px-0 mx-2">Let your guests know where they will be embarking and disembarking.<br /> 
+        This will allow them to make their pre- & post-board arrangements.</p>
+
+        {% crispy form %}
+    </div>
+    </div>
+
+{% endblock %}
+
+{% block css %}
+    {{ block.super }}
+    <style>
+        /* Google design compatibility issue */
+        .notif-item {
+            color: #FBC25E;
+            position: relative;
+        }
+
+        .notif-item.active::after {
+            content: ' ';
+            width: 8px;
+            height: 8px;
+            background: #FF3168;
+            position: absolute;
+            top: 3px;
+            right: 3px;
+            border-radius: 3px;
+        }
+    </style>
+{% endblock %}
+
+{% block js %}
+    {{ block.super }}
+    <script src="{% static 'charter/js/custom-script.js' %}"></script>
+
+    <script>
+        $('#expand_menu').click(function () {
+            $('.drop-menu').toggle();
+        });
+
+        // DatePicker Format
+        $('.datepicker').datepicker({
+            format: 'dd MM yyyy',
+        });
+
+        // Timepicker Format
+        $('.timepicker').timepicker({
+            timeFormat: 'HH:mm',
+        });
+
+        $(document).ready(function(){
+
+            //CAPITALIZE FIRST LETTER OF EACH WORD
+            $(".textInput").keyup(function () {  
+                $('.textInput').css('textTransform', 'capitalize');  
+            });
+        })
+
+    </script>
+{% endblock %}

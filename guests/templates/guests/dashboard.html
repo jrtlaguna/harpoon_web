@@ -1,0 +1,412 @@
+{% extends 'guests/base.html' %}
+{% load static %}
+{% block content %}
+<!--SUPPORTING CONTENTS-->
+<div class="container-fluid">
+    <div class="row justify-content-between">
+        <div class="col-md-6">
+        </div>
+        <!-- WEATHER -->
+        <div class="col-md-6 col-lg-6 col-xl-4 mb-5">
+            <div class="d-table w-100 bg-color-dark2 rounded-5 p-3 p-md-4 border-gold-1" data-aos="fade-right" data-aos-duration="1000" data-aos-delay="0" style="min-width: 390px;">
+                <!-- WEATHER CONTENT -->
+                <div class="d-flex justify-content-between">
+                    <div class="yatch-weather-date txt-color-gray">
+                <span class="w-100 yatch-weather-date txt-color-gray">{% now "l, F d Y"%}</span>
+                    </div>
+                    <div class="yatch-weather-date txt-color-gray mr-5">
+                <span class="w-100 yatch-weather-date txt-color-gray">{% now "H:i"%}</span>
+                    </div>
+                </div>
+                <div class="w-100 d-table">
+                    <div class="yatch-weather-details">
+                        <span id="state" class="yatch-weather-details-state txt-color-gold">...</span><br>
+                        <span id="tides" class="yatch-weather-details-tide txt-color-gray">High Tide / Low Tide</span><br>
+                        <span id="sunrise" class="yatch-weather-details-sun txt-color-gray">Sunrise / Sunset</span>
+                    </div>
+
+                    <div class="yatch-weather-temp d-table-cell align-middle text-right">
+                        <span id="weather" class="yatch-weather-temp-sunny txt-color-gray">...</span><br>
+                        <span id="currentTemp" class="yatch-weather-temp-farenheit txt-color-white">...</span><br>
+                        <span id="minMaxTemp" class="yatch-weather-temp-degrees txt-color-gray">...</span>
+                    </div>
+
+                    <div class="yatch-weather-temp d-table-cell align-middle text-center font-weight-bold">
+                        <span class="material-icons material-icons-outlined yatch-weather-temp-sun-icon txt-color-gold">
+                            wb_sunny
+                        </span>
+                    </div>
+                </div>
+                 <!-- WEATHER CONTENT END-->        
+            </div>                        
+        </div>
+    </div> 
+    
+    <!-- UPCOMING TRIPS -->
+    <div class="row">
+        <!-- upcoming trips -->
+        <div class="col-md-12 mb-4">
+            <div class="w-100" data-aos="fade-down" data-aos-duration="1000" data-aos-delay="0">
+                <span class="ff-playfair fs-22 txt-color-white bg-color-dark2 rounded-top-left-8 rounded-top-right-8 p-3 d-table fw-700">
+                    Upcoming Trips
+                </span>
+                {% for charter in upcoming_charters %}
+                <div class="w-100 bg-color-dark2 rounded-bottom-left-8 rounded-bottom-right-8 rounded-top-right-8 px-3 py-4 h-100">
+                    <div class="w-100 bg-color-dark rounded-8 p-2 p-md-4 mb-3 border-gold-1">
+                        <div class="form-row">
+                            <div class="col-12 d-sm-flex justify-content-between">
+                                <div class="d-flex mb-3 align-items-center">
+                                    <div class="icon mr-4">
+                                        <img src="{% static 'guests/img/icon-trips.svg' %}" alt="">
+                                    </div>
+                                    <div class="w-100">
+                                        <a href="{% url 'guests:trip_details' charter_id=charter.id %}" class="h5 txt-color-gold ff-playfair fs-22 fw-700">
+                                            Yacht Charter : {{charter.embark_city}}
+                                        </a>
+                                        <span class="txt-color-white fs-16 d-table">
+                                            {{charter.vessel.proper_name}}
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div class="d-flex justify-content-center">
+                                    <span class="material-icons-outlined txt-color-white mr-3">
+                                        calendar_today
+                                    </span>
+
+                                    <span class="txt-color-white fs-14">
+                                        {{charter.embark_date|date:'D, M j, Y'|default:"N/A"}}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>     
+                    <div class="text-right">
+                        <a href="{% url 'guests:trips' %}" class="txt-color-gold fs-14 fw-700">See all Trips</a>
+                    </div>   
+                </div>
+                {% empty %}
+                <div class="w-100 bg-color-dark2 rounded-bottom-left-8 rounded-bottom-right-8 rounded-top-right-8 px-3 py-4 h-100">
+                    <div class="w-100 bg-color-dark rounded-8 border-gold-1 p-2 p-md-4 ">
+                        <div class="w-100 d-flex align-items-center justify-content-center my-2">
+                            <span class="txt-color-white fs-14">
+                                You do not have any trips currently scheduled.
+                            </span>
+                        </div>
+                    </div>                                              
+                </div>
+                {% endfor %}
+                    
+            </div>
+        </div>
+        <!-- Preference Sheets -->
+        <div class="col-md-12 mb-4">
+            <div class="w-100" data-aos="fade-down" data-aos-duration="1000" data-aos-delay="200">
+                <span class="ff-playfair fs-22 txt-color-white bg-color-dark2 rounded-top-left-8 rounded-top-right-8 p-3 d-table fw-700">
+                    Preference Sheets
+                </span>
+                
+                
+                <div class="w-100 bg-color-dark2 rounded-bottom-left-8 rounded-bottom-right-8 rounded-top-right-8 px-3 py-4 h-100">
+                    {% if guest.completed_preference %}
+                    <div class="w-100 bg-color-dark2 border-dark-light-1 rounded-8 p-2 p-md-4 mb-3">
+                        <div class="w-100 d-flex align-items-center my-2">
+                            <span class="material-icons txt-color-white mr-2">
+                                check_circle
+                            </span>
+
+                            <span class="txt-color-white fs-14">
+                                Thank you for completing your preference sheet. No further changes will be allowed 2 days prior to departure.
+                            </span>
+                        </div>
+                    </div>  
+                    {% else %}
+                    <!-- -->
+                    <div class="w-100 bg-color-dark2 border-dark-light-1 rounded-8 p-2 p-md-4 mb-3">
+                        <div class="w-100 d-flex align-items-center my-2">
+                            <span class="material-icons txt-color-magenta mr-2">
+                                error
+                            </span>
+                            
+                            <span class="txt-color-magenta fs-14">
+                                Please complete your preference sheet. 
+                            </span>
+                        </div>
+                    </div> 
+                    {% endif %}     
+
+                    <div class="w-100 bg-color-dark rounded-8 p-3 p-md-4 mb-3  border-gold-1">
+                        <div class="col-12 d-sm-flex justify-content-between align-items-center">
+                            <div class="d-flex align-items-center mb-3 mb-md-0">
+                                <div class="icon mr-4">
+                                    <img src="{% static 'guests/img/icon-yacht-pref.svg' %}" alt="">
+                                </div>
+                                <div class="w-100">
+                                    <a href="{% url 'preferences:yacht_food_preference' %}"  class="h5 txt-color-gold ff-playfair fs-22 fw-700">
+                                        Yacht and Estate Preferences
+                                    </a>
+                                </div>
+                            </div>
+
+                            <div class="d-md-flex align-items-center text-center">
+                                <div class="mb-2 mb-md-0">
+                                    {% if complete_preferences  %}
+                                    <span class="material-icons txt-color-magenta ml-2 mr-3">
+                                        error
+                                    </span>
+                                    {% else %}
+                                    <span class="material-icons txt-color-gold mr-3">
+                                        done
+                                    </span>
+                                    <a href="#" class="mr-3">
+                                        <span class="material-icons txt-color-gold">
+                                            file_download
+                                        </span>
+                                    </a>
+                                    {% endif %}
+                                </div>
+                                <div>
+                                    <a href="{% url 'preferences:food_preferences' %}" class="btn btn-outline-gold w-100 d-flex align-items-center justify-content-center">
+                                        Select
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>    
+
+                    <div class="w-100 bg-color-dark rounded-8 p-3 p-md-4 mb-3  border-gold-1">
+                        <div class="col-12 d-sm-flex justify-content-between align-items-center">
+                            <div class="d-flex align-items-center mb-3 mb-md-0">
+                                <div class="icon mr-4">
+                                    <img src="{% static 'guests/img/icon-day-charter.svg' %}" alt="">
+                                </div>
+                                <div class="w-100">
+                                    <a href="{% url 'preferences:long_jet_preference' %}" class="h5 txt-color-gold ff-playfair fs-22 fw-700">
+                                        Day Charter / Long Leg Jet
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="d-md-flex align-items-center text-center">
+                                <div class="mb-2 mb-md-0">
+                                    {% if guest.long_jet_complete  %}
+                                    <span class="material-icons txt-color-gold mr-3">
+                                        done
+                                    </span>
+                                    <a href="#" class="mr-3">
+                                        <span class="material-icons txt-color-gold">
+                                            file_download
+                                        </span>
+                                    </a>
+                                    {% else %}
+                                    <span class="material-icons txt-color-magenta ml-2 mr-3">
+                                        error
+                                    </span>
+                                    {% endif %}
+                                </div>
+                                <div>
+                                    <a href="{% url 'preferences:long_jet_preference' %}" class="btn btn-outline-gold w-100 d-flex align-items-center justify-content-center">
+                                        Select
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div> 
+
+                    <div class="w-100 bg-color-dark rounded-8 p-3 p-md-4 mb-3  border-gold-1">
+                        <div class="col-12 d-sm-flex justify-content-between align-items-center">
+                            <div class="d-flex align-items-center mb-3 mb-md-0">
+                                <div class="icon mr-4">
+                                    <img src="{% static 'guests/img/icon-short-leg.svg' %}" alt="">
+                                </div>
+                                <div class="w-100">
+                                    <a href="{% url 'preferences:short_jet_preference' %}" class="h5 txt-color-gold ff-playfair fs-22 fw-700">
+                                        Short Leg Jet
+                                    </a>
+                                </div>
+                            </div>
+                                
+                            <div class="d-md-flex align-items-center text-center">
+                                <div class="mb-2 mb-md-0">
+                                    {% if guest.short_jet_complete  %}
+                                    <span class="material-icons txt-color-gold mr-3">
+                                        done
+                                    </span>
+                                    <a href="#" class="mr-3">
+                                        <span class="material-icons txt-color-gold">
+                                            file_download
+                                        </span>
+                                    </a>
+                                    {% else %}
+                                    <span class="material-icons txt-color-magenta ml-2 mr-3">
+                                        error
+                                    </span>
+                                    {% endif %}
+                                </div>
+                                <div>
+                                    <a href="{% url 'preferences:short_jet_preference' %}" class="btn btn-outline-gold w-100 d-flex align-items-center justify-content-center">
+                                        Select
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>                                     
+                </div>
+            </div>
+        </div>
+    </div>
+    <section class="row guest-section">
+        <div class="col-12">
+            <div class="w-100 p-5 bg-trident-app border-grey-1 rounded-5 guest-section">
+                <div class="form-row justify-content-lg-end">
+                    <div class="col-12 col-md-6">
+                        <h3 class="h2 ff-playfair txt-color-off-white fw-700 fs-28">
+                            Harpoon App
+                        </h3>
+                        <p class="fs-16 txt-color-off-white mt-4">
+                            Try our exciting new Harpoon Charter App! Giving you access to key pre trip reminders and post trip memories, as well as keeping you updated throughout your journey.
+                            <br><br>
+                            Feel more confident at sea with our first-of-its kind, iBeacon technology, enabling additional onboard safety features and emergency procedures linked directly to your phone.
+                            <br><br>
+                            Welcome to the creation of your very own Charter Profile, growing and evolving the more you use it.
+                        </p>
+
+                        <button class="save-btn col-lg-6 mt-4">
+                            <span class="txt-color-black-75">
+                                Learn More
+                            </span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        if (/past/.test(window.location.href)) {
+            // Handler for .ready() called.
+            $('html, body').animate({
+                scrollTop: $('#upcoming-past').offset().top
+            }, 'slow');
+        }
+
+        if (navigator.geolocation) {
+            // Request the current position
+            // If successful, call getPosSuccess; On error, call getPosErr
+            navigator.geolocation.getCurrentPosition(getPosSuccess, getPosErr);
+        } else {
+            alert('geolocation not available?! What year is this?');
+            // IP address or prompt for city?
+        }
+
+        // getCurrentPosition: Successful return
+        function getPosSuccess(pos) {
+            // Get the coordinates and accuracy properties from the returned object
+            var lat = pos.coords.latitude.toFixed(5);
+            var long = pos.coords.longitude.toFixed(5);
+            var geoAcc = pos.coords.accuracy.toFixed(1);
+            const weatherApiKey = "{{weather_api_key}}" || "0934fe0eb943db127847b7503baccff8";
+            const geocodeApiKey = "{{ geocode_api_key }}" || "26376185714541b8ac364569e094dd13";
+
+
+            const geocodeUrl = `https://api.geoapify.com/v1/geocode/reverse?lat=${lat}&lon=${long}&apiKey=${geocodeApiKey}`;
+            const tideApiUrl = `https://api.sunrise-sunset.org/json?lat=${lat}&lng=${long}&formatted=0`;
+            const weatherApiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${long}&units=imperial&appid=${weatherApiKey}`;
+
+            $.ajax({
+                url: weatherApiUrl,
+                type: "GET",
+                dataType: "JSON",
+                success: function (data) {
+                    $('#currentTemp').html(`${data.main.temp.toString().split(".")[0]} F`);
+                    $('#minMaxTemp').html(`${data.main.temp_min.toString().split(".")[0]} F / ${data.main.temp_max.toString().split(".")[0]} F`);
+                    $('#weather').html(data.weather[0].main);
+                }
+            });
+
+            $.ajax({
+                url: geocodeUrl,
+                type: "GET",
+                dataType: "JSON",
+                success: function (data) {
+                    $('#state').html(`${data.features[0].properties.state}`);
+                }
+            });
+
+            $.ajax({
+                url: tideApiUrl,
+                type: "GET",
+                dataType: "JSON",
+                success: function (data) {
+                    var sunrise = new Date(data.results.sunrise)
+                    var sunset = new Date(data.results.sunset)
+                    var lowTide = addMinutes(sunrise, getRandomInt(0, 30))
+                    var highTide = addMinutes(sunset, getRandomInt(0, 30))
+                    sunrise = sunrise.toTimeString().slice(0,5)
+                    sunset = sunset.toTimeString().slice(0,5)
+                    lowTide = lowTide.toTimeString().slice(0,5)
+                    highTide = highTide.toTimeString().slice(0,5)
+                    $('#sunrise').html(`${sunrise} Sunrise / ${sunset} Sunset`);
+                    $('#tides').html(`${highTide} High Tide / ${lowTide} Low Tide`);
+                }
+            });
+            //const settings = {
+            //    "async": true,
+            //    "crossDomain": true,
+            //    "url": "https://tides.p.rapidapi.com/tides?longitude=-2.097&latitude=44.414&interval=60&duration=1440",
+            //    "method": "GET",
+            //    "headers": {
+            //        "X-RapidAPI-Key": "9f08851b50mshfde1492014d880cp1c4b2ejsn317ae7626777",
+            //        "X-RapidAPI-Host": "tides.p.rapidapi.com"
+            //    }
+            //};
+        }
+
+        function addMinutes(date, minutes) {
+            return new Date(date.getTime() + minutes*60000);
+        }
+
+        function getRandomInt(min, max) {
+            min = Math.ceil(min);
+            max = Math.floor(max);
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+            
+
+        // getCurrentPosition: Error returned
+        function getPosErr(err) {
+            switch (err.code) {
+                case err.PERMISSION_DENIED:
+                    alert("User denied the request for Geolocation.");
+                    break;
+                case err.POSITION_UNAVAILABLE:
+                    alert("Location information is unavailable.");
+                    break;
+                case err.TIMEOUT:
+                    alert("The request to get user location timed out.");
+                    break;
+                default:
+                    alert("An unknown error occurred.");
+            }
+        }
+    });
+
+    function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+        // if the item doesn't exist, return null
+        if (!itemStr) {
+            return null
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+        // compare the expiry time of the item with the current time
+        if (now.getTime() > item.expiry) {
+            // If the item is expired, delete the item from storage
+            // and return null
+            localStorage.removeItem(key)
+            return null
+        }
+        return item.value
+    }
+</script>
+{% endblock content %}

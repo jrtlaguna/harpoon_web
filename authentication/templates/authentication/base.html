@@ -1,0 +1,127 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {% block meta %}
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!--FAVICON-->
+        <link rel="icon" href="{% static 'authentication/img/favicon.png' %}" type="image/png" sizes="16x16">
+    {% endblock meta %}
+
+    <title>{% block title %}{% endblock %} - Harpoon</title>
+
+    {% block css %}
+        <!--CALENDAR-->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.1.0/fullcalendar.min.css"
+              integrity="sha512-aV/CBF2tMLcys/fQfJ+0vGZRrPYRrA0KNuwqpdaSz9RCmWQIjrdybgvvHxRnzohAFV0e1B5EsnHR6W3XnH7ryg=="
+              crossorigin="anonymous" referrerpolicy="no-referrer"/>
+
+
+        <!--BOOTSTRAP-->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
+              integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2"
+              crossorigin="anonymous">
+        <!--FONTAWESOME 5-->
+        <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.8.2/css/all.css"
+              integrity="sha384-xVVam1KS4+Qt2OrFa+VdRUoXygyKIuNWUUUBZYv+n27STsJ7oDOHJgfF0bNKLMJF"
+              crossorigin="anonymous">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-2/css/all.min.css"
+              integrity="sha256-46r060N2LrChLLb5zowXQ72/iKKNiw/lAmygmHExk/o=" crossorigin="anonymous"/>
+
+
+        <!--LINEAR ICONS-->
+        <link rel="stylesheet" href="https://cdn.linearicons.com/free/1.0.0/icon-font.min.css">
+
+        <!-- box icon -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
+
+
+        <!--GOOGLE FONTS-->
+        <link
+                href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&family=Source+Serif+Pro:wght@400;600;700&display=swap"
+                rel="stylesheet">
+        <link
+                href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp"
+                rel="stylesheet">
+
+        <!--CUSTOM STYLE-->
+        <link rel="stylesheet" href="{% static 'authentication/css/main.css' %}"/>
+        <link rel="stylesheet" href="{% static 'authentication/css/custom_calendar.css' %}"/>
+        <link rel="stylesheet" href="{% static 'authentication/css/hide-show.css' %}"/>
+
+        {% endblock %}
+</head>
+
+<body class="dark">
+{% block content %}{% endblock %}
+
+{% block js %}
+    <!--JQUERY-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"
+            integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+            integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx"
+            crossorigin="anonymous"></script>
+
+
+    <!--CALENDAR INITIALIZE-->
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#calendar').fullCalendar({
+                // put your options and callbacks here
+                defaultView: 'month',
+
+                header: {
+                    left: 'title',
+                    center: '',
+                    right: 'prev,next'
+                },
+            })
+
+            $('.menu-btn').click(function () {
+                $('.sidebar').show();
+            });
+
+            $('.close-btn').click(function () {
+                $('.sidebar').hide();
+            });
+
+            //ALLOW ONLY NUMBER
+            $('#phone_num').keypress(function(e) {
+                    var verified = (e.which == 8 || e.which == undefined || e.which == 0) ? null : String.fromCharCode(e.which).match(/[^0-9]/);
+                    if (verified) {e.preventDefault();}
+                });
+
+            $('#phone_num').keyup(function(e){
+                var ph = this.value.replace(/\D/g,'').substring(0,10);
+                // Backspace and Delete keys
+                var deleteKey = (e.keyCode == 8 || e.keyCode == 46);
+                var len = ph.length;
+                if(len==0){
+                    ph=ph;
+                }else if(len<3){
+                    ph='('+ph;
+                }else if(len==3){
+                    ph = '('+ph + (deleteKey ? '' : ') ');
+                }else if(len<6){
+                    ph='('+ph.substring(0,3)+') '+ph.substring(3,6);
+                }else if(len==6){
+                    ph='('+ph.substring(0,3)+') '+ph.substring(3,6)+ (deleteKey ? '' : '-');
+                }else{
+                    ph='('+ph.substring(0,3)+') '+ph.substring(3,6)+'-'+ph.substring(6,10);
+                }
+                this.value = ph;
+            });
+
+        });
+    </script>
+{% endblock %}
+</body>
+</html>

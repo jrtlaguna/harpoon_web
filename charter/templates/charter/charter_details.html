@@ -1,0 +1,190 @@
+{% extends "charter/base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block title %}Harpoon {{ title }}{% endblock %}
+
+{% block content %}
+{% include "charter/partials/header.html" with vessel=vessel breadcrumbs=breadcrumbs is_common_header=False %}
+<div class="container-fluid">
+    <div class="row mb-5">
+        <div class="col-12">
+            <div class="w-100 d-flex justify-content-between mb-2">
+                <span class="small txt-color-gray">
+                    Step 1 of 4
+                </span>
+                <span class="small txt-color-gray">
+                    Charter Details
+                </span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-bar-status" style="width: 25%;"></div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <!-- upcoming trips -->
+        <div class="col-md-12 mb-4">
+            <div class="w-100">
+                
+                <div class="w-100 bg-color-dark2 rounded-8 px-3 py-4 h-100">
+                    <h3 class="fs-26 txt-color-white mb-4">Charter Details</h3>
+
+                    <div class="w-100 bg-color-dark rounded-8 p-3 p-md-4 border-gold-1">
+
+        {% crispy form %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block modal %}
+{% if charter %}
+<div class="modal fade" id="success_modal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content bg-color-dark">
+            <div class="success-msg p-5">
+                <img src="{% static 'charter/img/success.svg' %}" alt="" class="mx-auto d-table modal-icon">
+                <h3 class="form-title text-center d-table mx-auto">Success!</h3>
+                <small class="form-short-description text-center d-table mx-auto">
+                    You have successfully created a booking ID#
+                    <span class="fw-700 txt-color-gold d-table mx-auto my-3">
+                       #{{ booking_id }}
+                    </span>
+
+                    Please continue to add the rest of the trip details.
+                </small>
+                <div class="w-100 mt-5">
+                    
+                    <a href="{% url 'charter:charter_locations' charter_id=charter.id %}" class="btn btn-solid-gold w-100 d-table text-center mb-3" id="get_started" >Continue to add details</a>
+                    <a href="{% url 'admins:dashboard' %}" class="btn btn-outline-gold w-100 d-table text-center mb-3" >I’ll finish set up later</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+<script src="{% static 'authentication/js/popper.min.js' %}"></script>
+<script src="{% static 'authentication/js/bootstrap.min.js' %}"></script>
+<script>
+    $(document).ready(function () {
+      var booking = "{{booking_id}}"
+      var show_modal = "{{show_modal}}" == "True"
+      if(booking & show_modal){
+        $("#success_modal").modal("show")
+      }
+    })
+</script>
+{% endblock %}
+
+{% block css %}
+    {{ block.super }}
+    <style>
+        /* Google design compatibility issue */
+        .notif-item {
+            color: #FBC25E;
+            position: relative;
+        }
+
+        .notif-item.active::after {
+            content: ' ';
+            width: 8px;
+            height: 8px;
+            background: #FF3168;
+            position: absolute;
+            top: 3px;
+            right: 3px;
+            border-radius: 3px;
+        }
+
+        /* Currency Field */
+        .currency-symbol{
+            color: #495057;
+            font-weight: 700;
+            border-left: none;
+            border-right: none;
+            border-top: none;
+        }
+        .currency-selector {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            padding-left: .5rem;
+            
+            border: 0;
+            background: transparent;   
+
+            background-color: #111213;
+            border-radius: 0 .2rem .2rem 0;
+            
+            font-family: inherit;
+            color: #fff;
+            font-weight:700;
+        }
+
+        .currency-amount {
+            text-align: right;
+            padding-right: .5rem;
+        }
+
+        .currency-addon {
+            width: 6em;
+            text-align: left;
+            position: relative;
+            color: #495057;
+            font-weight: 700;
+        }
+    </style>
+{% endblock %}
+
+{% block js %}
+    {{ block.super }}
+    <script>
+        $('#expand_menu').click(function () {
+            $('.drop-menu').toggle();
+        });
+        $(".currency-selector").css("background-color", "#181919").css("margin-top", "46px")
+
+        // Currency field
+        function updateSymbol( e ) {
+            var selected = $( ".currency-selector option:selected" );
+            $( ".currency-symbol" ).text( selected.data( "symbol" ) )
+        }
+
+        $( ".currency-selector" ).on( "change", updateSymbol )
+
+        updateSymbol()
+
+        // Price Format
+        $('.currency-amount').on('change click keyup input paste',(function (event) {
+            $(this).val(function (index, value) {
+                return value.replace(/(?!\.)\D/g, "").replace(/(?<=\..*)\./g, "").replace(/(?<=\.\d\d).*/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            });
+        }));
+
+        // DatePicker Format
+        $('.datepicker').datepicker({
+            format: 'dd MM yyyy',
+        });
+
+        $(document).ready(function(){
+            //ALLOW ONLY NUMBER
+            $('.numberinput').keypress(function(e) {
+                    var verified = (e.which == 8 || e.which == undefined || e.which == 0) ? null : String.fromCharCode(e.which).match(/[^0-9]/);
+                    if (verified) {e.preventDefault();}
+                });
+
+            //CAPITALIZE FIRST LETTER OF EACH WORD
+            $(".textInput").keyup(function () {  
+                $('.textInput').css('textTransform', 'capitalize');  
+            });
+        })
+
+    </script>
+{% endblock %}

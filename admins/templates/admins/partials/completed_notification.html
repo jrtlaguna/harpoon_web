@@ -1,0 +1,26 @@
+<div>
+    <a href="{% url 'charter:preferences_and_shopping_list' notification.charter.id %}" class="w-100 border-bottom-dark-80-1 d-flex py-3 align-items-start">
+        <span class="material-icons txt-color-gold drop-menu-notif-icon">
+            view_list
+        </span>
+        {% with charter=notification.charter %}
+        <div class="w-100 ml-3">
+            <span class="txt-color-gold fs-16 fw-700 d-table">
+                {{charter}}
+            </span>
+            <span class="txt-color-gold fs-12 fw-700 d-table">
+                Booking ID: {{charter.booking_id}}
+            </span>
+            <span class="txt-color-white fs-12 fw-400 d-table mt-2">
+                Departing: {{charter.disembark_date}}
+            </span>
+            <span class="txt-color-white fs-12 fw-400 d-table mb-2">
+                Time: {{charter.disembark_time}}
+            </span>
+            <p class="txt-color-gray fs-12 fw-400 my-2">
+                A guest of this trip has completed their preferences. Please check in Harpoon Solution for review.
+            </p>
+        </div>
+        {% endwith %}
+    </a>
+</div>

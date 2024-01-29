@@ -1,0 +1,228 @@
+{% extends "charter/base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block title %}{{ guest }} - {{ guest.charter }}{% endblock %}
+
+
+{% block content %}
+{% include "charter/partials/header.html" with vessel=vessel breadcrumbs=breadcrumbs is_common_header=False %}
+{% include "charter/partials/guest_detail_vessel_header.html" with charter=charter %}
+    <div class="container-fluid  px-5 pb-5 border-dark-80-1 rounded-5">
+        {% include "charter/partials/guest_detail_header.html" with guest=guest %}
+
+        <!-- Nav tabs -->
+        {% include "charter/partials/guest_detail_navs.html" with charter=charter guest=guest active="profile" %}
+
+
+        <div class="form-container-profile ml-0">
+            <div class="row">
+                <div class="col-12">
+                    <div class="w-100 mb-4">
+                        <span class="fs-11 fw-700 txt-color-gray text-uppercase">
+                            Personal Details
+                        </span>
+
+                        <div class="form-row pl-3 pt-3 border-left-gray-80-1 mx-0">
+                            <div class="col-12 col-md-6">
+                                <div class="form-group">
+                                    <label for="" class="form-label">Name</label>
+                                    <span class="txt-color-white fs-16 fw-700 d-table mt-2">
+                                        {{ guest.first_name|default:"N/A" }} {{ guest.last_name }}
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-md-6">
+                                <div class="form-group">
+                                    <label for="" class="form-label">Email Address</label>
+                                    <span class="txt-color-white fs-16 fw-700 d-table mt-2">
+                                        {% if is_admin %}
+                                            {{ guest.email }}
+                                        {% else %}
+                                            N/A
+                                        {% endif %}
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <div class="form-group">
+                                    <label for="" class="form-label">Phone Number</label>
+                                    <span class="txt-color-white fs-16 fw-700 d-table mt-2">
+                                        {% if is_admin %}
+                                            {{ guest.profile.phone_number|default:"N/A" }}
+                                        {% else %}
+                                            N/A
+                                        {% endif %}
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <div class="form-group">
+                                    <label for="" class="form-label">Company Name</label>
+                                    <span class="txt-color-white fs-16 fw-700 d-table mt-2">
+                                        {{ guest.company_name|default:"N/A" }}
+                                    </span>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                
+                {% if is_admin %}
+                <div class="col-12">
+                    <div class="w-100 mb-4">
+                        <span class="fs-11 fw-700 txt-color-gray text-uppercase">
+                            Address
+                        </span>
+
+                        <div class="form-row pl-3 pt-3 border-left-gray-80-1 mx-0">
+                            <div class="col-12 col-md-12 mb-3">
+                                <label for="" class="form-label">Home Address*</label>
+                                <span class="txt-color-white fs-16 fw-700 d-table mt-2">
+                                    {{ guest.address_street|default:"N/A" }}
+                                </span>
+                            </div>
+
+                            <div class="col-12 col-md-6 mb-3">
+                                <span class="txt-color-white fs-16 fw-700 d-table mt-2">
+                                    {{ guest.address_city }}
+                                </span>
+                            </div>
+                            <div class="col-12 col-md-6 mb-3">
+                                <span class="txt-color-white fs-16 fw-700 d-table mt-2">
+                                    {{ guest.address_state }}
+                                </span>
+                            </div>
+                            <div class="col-12 col-md-6 mb-3">
+                                <span class="txt-color-white fs-16 fw-700 d-table mt-2">
+                                    {{ guest.address_zipcode }}
+                                </span>
+                            </div>
+                            <div class="col-12 col-md-6 mb-3">
+                                <span class="txt-color-white fs-16 fw-700 d-table mt-2">
+                                    {{ guest.address_country }}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+                <div class="col-12">
+                    <div class="w-100 mb-4">
+                        <span class="fs-11 fw-700 txt-color-gray text-uppercase">
+                            Health Info*
+                        </span>
+
+                        <div class="form-row pl-3 pt-3 border-left-gray-80-1 mx-0">
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label for="" class="form-label">
+                                        Are there any medical issues the crew should know
+                                        about?
+                                    </label>
+                                    <span class="txt-color-white fs-16 fw-700 d-table mt-2">
+                                        {{ guest.medical_issues|default:"N/A" }}
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-md-6">
+                                <div class="form-group">
+                                    <label for="" class="form-label">Do you have any allergies?</label>
+                                    <span class="txt-color-white fs-16 fw-700 d-table mt-2">
+                                        {{ guest.allergies|default:"N/A" }}
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-md-6">
+                                <div class="form-group">
+                                    <label for="" class="form-label">Medications</label>
+                                    <span class="txt-color-white fs-16 fw-700 d-table mt-2">
+                                        {{ guest.medications|default:"N/A" }}
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-md-6">
+                                <div class="form-group">
+                                    <label for="" class="form-label">Food Sensitivities</label>
+                                    <span class="txt-color-white fs-16 fw-700 d-table mt-2">
+                                        {% if guest.lactose_intolerant %}Lactose Intolerant, {% endif %}
+                                        {% if guest.shellfish_allergy %}Shellfish Allergy, {% endif %}
+                                        {% if guest.nut_allergy %}Nut Allergy, {% endif %}
+                                        {% if guest.gluten_free %}Gluten Free, {% endif %}
+                                        {% if guest.none_food_sensitivity %}None{% endif %}
+                                        {% if not guest.lactose_intolerant and not guest.shellfish_allergy and not guest.nut_allergy and not guest.gluten_free and not guest.none_food_sensitivity %}N/A{% endif %}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12">
+                    <div class="w-100 mb-4">
+                        <span class="fs-11 fw-700 txt-color-gray text-uppercase">
+                            HIGH PRIORITY INFO
+                        </span>
+
+                        <div class="form-row pl-3 pt-3 border-left-gray-80-1 mx-0">
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label for="" class="form-label">Would like to be addressed as:</label>
+                                    <span class="txt-color-white fs-16 fw-700 d-table mt-2">
+                                        {{ guest.salutation_nickname }}
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label for="" class="form-label">Please note any other high priority details
+                                        here:</label>
+                                    <span class="txt-color-white fs-16 fw-700 d-table mt-2">
+                                        {{ guest.high_priority_details }}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block css %}
+    {{ block.super }}
+    <style>
+        /* Google design compatibility issue */
+        .notif-item {
+            color: #FBC25E;
+            position: relative;
+        }
+
+        .notif-item.active::after {
+            content: ' ';
+            width: 8px;
+            height: 8px;
+            background: #FF3168;
+            position: absolute;
+            top: 3px;
+            right: 3px;
+            border-radius: 3px;
+        }
+    </style>
+{% endblock %}
+
+{% block js %}
+    {{ block.super }}
+    <script>
+        $('#expand_menu').click(function () {
+            $('.drop-menu').toggle();
+        });
+
+    </script>
+{% endblock %}

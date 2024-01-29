@@ -1,0 +1,14 @@
+{%load static%}
+<div class="footer-main px-3 px-md-5"> 
+    <div class="container-fluid">
+        <div class="row align-items-center">
+            <div class="col">
+                <img src="{% static 'authentication/img/logo-sol.svg' %}">
+            </div>
+            <div class="col text-right">
+                <a href="{% url 'admins:terms_and_conditions' %}" class="mr-4">Terms</a>
+                <a href="{% url 'admins:privacy_policy' %}">Privacy Policy</a>
+            </div>
+        </div>
+    </div>
+</div>

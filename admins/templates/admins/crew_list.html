@@ -1,0 +1,134 @@
+{% extends 'admins/admin_base.html' %}
+{% load static %}
+{% block content %}
+<div class="container-fluid">
+
+    <div class="row">
+        <!-- upcoming trips -->
+        <div class="col-md-12 mb-4">
+            <div class="w-100" data-aos="fade-down" data-aos-duration="1000" data-aos-delay="0">
+
+                <div class="w-100 bg-color-dark2 rounded-8 px-3 py-4 h-100">
+                    <h3 class="fs-26 txt-color-white mb-4 ml-2">Crew Profile</h3>
+
+                    <div class="w-100 bg-color-dark rounded-8 p-3 p-md-4 border-gold-1">
+
+                        <!-- -->
+                        <div class="form-container-profile ml-0">
+                            <!--  ITEM -->
+                            <div class="row mb-5">
+                                <div class="col-12">
+                                    <ul class="nav nav-line mb-0" id="myTab" role="tablist">
+
+                                        <li class="nav-item mr-4">
+                                            <a href="{% url 'admins:crew_profile_list' %}" class="nav-link {% if 'create' not in request.build_absolute_uri %}active{% endif %} ff-open-sans px-0 fs-16">
+                                                Crew Profile
+                                            </a>
+                                        </li>
+                                        <li class="nav-item mr-4">
+                                            <a href="{% url 'admins:crew_profile_create' %}" class="nav-link {% if 'create' in request.build_absolute_uri %}active{% endif %} ff-open-sans px-0 fs-16">
+                                                Create Crew Profile
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <!-- /ITEM -->
+                            <div class="row mb-5">
+                                <div class="col-12">
+                                    <div class="d-flex justify-content-between">
+                                        <div>
+                                            <span class="fs-18 fw-700 txt-color-white text-uppercase">Crew</span>
+                                        </div>
+
+                                    </div>
+                                    <div class="form-row pl-3 pt-3 border-left-gray-80-1 mx-0">
+                                        <div class="col-12">
+                                            {% for crew in crew_members %}
+                                                <div id="crew{{crew.id}}"
+                                                    class="d-sm-flex justify-content-between align-items-center border-bottom-dark-light-1 py-4">
+                                                    <div class="mb-3 mb-lg-0">
+                                                        <div class="d-flex align-items-center"
+                                                            style="transform: rotate(0);">
+                                                            <div class="profile-thumb mr-3">
+                                                                {% if crew.profile_picture %}
+                                                                <img
+                                                                    src="{{crew.profile_picture.url}}" alt=""
+                                                                    class="rounded-circle img-fluid" />
+                                                                    {% else %}
+                                                                <img
+                                                                    src="{% static 'guests/img/account_profile.svg' %}" alt=""
+                                                                    class="rounded-circle img-fluid" />
+                                                                {% endif %}
+                                                                </div>
+                                                            <div class="fs-16 fw-700">
+                                                                <span class="txt-color-white d-table">{{crew.name}}</span>
+                                                                <span class="txt-color-white d-block fw-400">{{crew.get_crew_type_display}}</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="d-flex justify-content-center">
+                                                        <a href="{% url 'admins:crew_profile_edit' crew_id=crew.id %}" 
+                                                            class="fw-700 bev d-flex align-items-center ">
+                                                            <span class="material-icons mr-1">
+                                                                edit
+                                                            </span>
+                                                        </a>
+                                                        <a href="javascript:void(0)"
+                                                            class="fw-700 bev d-flex align-items-center txt-color-magenta">
+                                                            <span id="delete{{crew.id}}" onClick="deleteCrew({{crew.id}})" crewName={{crew.name}} data-url="{% url 'admins:crew_profile_delete' crew_id=crew.id %}" class="material-icons mr-1">
+                                                                delete
+                                                            </span>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            {% endfor %}
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--  ITEM -->
+
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <!-- Preference Sheets -->
+
+    </div>
+</div>
+</div>
+</div>
+<div class="footer-main px-3 px-md-5"> 
+    <div class="container-fluid">
+        <div class="row align-items-center">
+            <div class="col">
+                <img src="{% static 'authentication/img/logo-sol.svg' %}">
+            </div>
+            <div class="col text-right">
+                <a href="{% url 'admins:terms_and_conditions' %}" class="mr-4">Terms</a>
+                <a href="{% url 'admins:privacy_policy' %}">Privacy Policy</a>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<script type="text/javascript">
+    function deleteCrew(val) {
+        let name = $(`#delete${val}`).attr("crewName")
+        var confirm = window.confirm(`Remove Crew ${name}?`)
+        if (confirm) {
+            let url = $(`#delete${val}`).attr("data-url")
+            var xhttp = new XMLHttpRequest();
+            xhttp.open("POST", url, true);
+            xhttp.setRequestHeader("X-CSRFToken", "{{ csrf_token }}");
+            xhttp.send();
+            $(`#crew${val}`).remove();
+        }
+    }
+</script>
+{% endblock %}

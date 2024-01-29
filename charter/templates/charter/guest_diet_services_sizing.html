@@ -1,0 +1,178 @@
+{% extends "charter/base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% load preference_tag %}
+
+{% block title %}Diet, Services, Sizing - {{ guest }} - {{ guest.charter }}{% endblock %}
+
+
+{% block content %}
+{% include "charter/partials/header.html" with vessel=vessel breadcrumbs=breadcrumbs is_common_header=False %}
+{% include "charter/partials/guest_detail_vessel_header.html" with charter=charter %}
+    <div class="container-fluid  px-5 pb-5 border-dark-80-1 rounded-5">
+        {% include "charter/partials/guest_detail_header.html" with guest=guest %}
+
+        <!-- Nav tabs -->
+        {% include "charter/partials/guest_detail_navs.html" with charter=charter guest=guest active="diet_services_sizing" %}
+
+        <div class="form-container-profile ml-0">
+            <div class="row">
+                <div class="col-12">
+                    <div class="w-100 mb-4">
+                        <span class="fs-11 fw-700 txt-color-gray text-uppercase">
+                            Dietary Restrictions
+                        </span>
+
+                        <div class="form-row pl-3 pt-3 border-left-gray-80-1 mx-0">
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label class="form-label">Dietary Restrictions</label>
+                                    <span class="txt-color-white fs-16 fw-700 d-table mt-2">
+                                        {{ guest.diet_services_sizes_preferences.get_dietary_restrictions_display|default:"N/A" }}
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label class="form-label">Notes</label>
+                                    <span class="txt-color-white fs-16 fw-700 d-table mt-2">
+                                        {{ guest.diet_services_sizes_preferences.dietary_restrictions_notes|default:"N/A"  }}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12">
+                    <div class="w-100 mb-4">
+                        <span class="fs-11 fw-700 txt-color-gray text-uppercase">
+                            Other Services
+                        </span>
+
+                        <div class="form-row pl-3 pt-3 border-left-gray-80-1 mx-0">
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label class="form-label">Other Services</label>
+                                    <span class="txt-color-white fs-16 fw-700 d-table mt-2">
+                                        {% if other_services == None %}
+                                            N/A
+                                        {% else %}
+                                            {% for item in other_services|get_string_as_list %}
+                                                {{ item|get_display_name:"OTHER_SERVICES" }}<br>
+                                            {% empty %}
+                                                N/A
+                                            {% endfor %}
+                                        {% endif %}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12">
+                    <div class="w-100 mb-4">
+                        <span class="fs-11 fw-700 txt-color-gray text-uppercase">
+                            Shirt Sizing
+                        </span>
+
+                        <div class="form-row pl-3 pt-3 border-left-gray-80-1 mx-0">
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label class="form-label">Shirt Sizing</label>
+                                    <span class="txt-color-white fs-16 fw-700 d-table mt-2">
+                                        
+                                        {% if not guest.diet_services_sizes_preferences.get_shirt_sizing_display and not guest.diet_services_sizes_preferences.get_international_shirt_sizing_display and not guest.diet_services_sizes_preferences.get_shirt_size_display %}
+                                        N/A
+                                        {% else %}
+                                        {{ guest.diet_services_sizes_preferences.get_shirt_sizing_display|default:"N/A" }},
+                                        {{ guest.diet_services_sizes_preferences.get_international_shirt_sizing_display|default:"N/A" }}
+                                        {{ guest.diet_services_sizes_preferences.get_shirt_size_display|default:"N/A" }}
+                                        {% endif %}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12">
+                    <div class="w-100 mb-4">
+                        <span class="fs-11 fw-700 txt-color-gray text-uppercase">
+                            Shoe Size
+                        </span>
+
+                        <div class="form-row pl-3 pt-3 border-left-gray-80-1 mx-0">
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label class="form-label">Shoe Sizing</label>
+                                    <span class="txt-color-white fs-16 fw-700 d-table mt-2">
+                                        {% if not guest.diet_services_sizes_preferences.get_shoe_sizing_display and not guest.diet_services_sizes_preferences.get_international_shoe_sizing_display and not guest.diet_services_sizes_preferences.shoe_size %}
+                                        N/A
+                                        {% else %}
+                                        {{ guest.diet_services_sizes_preferences.get_shoe_sizing_display|default:"N/A" }},
+                                        {{ guest.diet_services_sizes_preferences.get_international_shoe_sizing_display|default:"N/A" }}
+                                        {{ guest.diet_services_sizes_preferences.shoe_size|default:"N/A" }}
+                                        {% endif %}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12">
+                    <div class="w-100 mb-4">
+                        <span class="fs-11 fw-700 txt-color-gray text-uppercase">
+                            Room
+                        </span>
+
+                        <div class="form-row pl-3 pt-3 border-left-gray-80-1 mx-0">
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label class="form-label">Room Temperature</label>
+                                    <span class="txt-color-white fs-16 fw-700 d-table mt-2">
+                                        {{ guest.diet_services_sizes_preferences.preferred_room_temperature|default:"N/A" }}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block css %}
+    {{ block.super }}
+    <style>
+        /* Google design compatibility issue */
+        .notif-item {
+            color: #FBC25E;
+            position: relative;
+        }
+
+        .notif-item.active::after {
+            content: ' ';
+            width: 8px;
+            height: 8px;
+            background: #FF3168;
+            position: absolute;
+            top: 3px;
+            right: 3px;
+            border-radius: 3px;
+        }
+    </style>
+{% endblock %}
+
+{% block js %}
+    {{ block.super }}
+    <script>
+        $('#expand_menu').click(function () {
+            $('.drop-menu').toggle();
+        });
+
+    </script>
+{% endblock %}

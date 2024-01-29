@@ -1,0 +1,255 @@
+{% extends 'guests/base.html' %}
+{% load static %}
+{% block content %}
+<!--SUPPORTING CONTENTS-->
+<div class="container-fluid">
+                
+                
+    <!-- UPCOMING TRIPS -->
+    <div class="row">
+        <!-- upcoming trips -->
+        <div class="col-md-12 mb-4">
+            <div class="w-100" data-aos="fade-down" data-aos-duration="1000" data-aos-delay="0">
+                <span class="ff-playfair fs-22 txt-color-white bg-color-dark2 rounded-top-left-8 rounded-top-right-8 p-3 d-table fw-700">
+                    All Trips
+                </span>
+                {% for trip in trips %}
+                <div class="w-100 bg-color-dark2 rounded-bottom-left-8 rounded-bottom-right-8 rounded-top-right-8 px-3 py-4 h-100">
+                    <div class="w-100 bg-color-dark rounded-8 p-2 p-md-4 mb-3 border-gold-1">
+                        <div class="form-row">
+                            <div class="col-12 d-sm-flex justify-content-between">
+                                <div class="d-flex mb-3 align-items-center">
+                                    <div class="icon mr-4">
+                                        <img src="{% static 'guests/img/icon-trips.svg' %}" alt="">
+                                    </div>
+                                    <div class="w-100">
+                                        <a href="{% url 'guests:trip_details' charter_id=trip.id %}" class="h5 txt-color-gold ff-playfair fs-22 fw-700">
+                                            Yacht Charter : {{trip.embark_city}}
+                                        </a>
+                                        <span class="txt-color-white fs-16 d-table">
+                                            {{trip.vessel.proper_name}}
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div class="d-flex justify-content-center">
+                                    <span class="material-icons-outlined txt-color-white mr-3">
+                                        calendar_today
+                                    </span>
+
+                                    <span class="txt-color-white fs-14">
+                                        {{trip.embark_date|date:'D, M j, Y'|default:"N/A"}}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="my-3 my-md-0">
+                            <a href="{% url 'preferences:food_preferences' %}" class="btn btn-outline-gold w-100 d-flex align-items-center justify-content-center">
+                                Yacht Preference Sheet 
+                                {% if not guest.completed_preference %}
+                                    <span class="material-icons txt-color-magenta ml-2">
+                                        error
+                                    </span>
+                                {% endif %}
+                            </a>
+                        </div>
+                    </div>     
+                </div>
+                {% empty %}
+                <div class="w-100 bg-color-dark2 rounded-bottom-left-8 rounded-bottom-right-8 rounded-top-right-8 px-3 py-4 h-100">
+                    <div class="w-100 bg-color-dark rounded-8 p-2 p-md-4 border-gold-1">
+                        <div class="w-100 d-flex align-items-center justify-content-center my-2">
+                            <span class="txt-color-white fs-14">
+                                You do not have any trips currently scheduled.
+                            </span>
+                        </div>
+                    </div>                                              
+                </div>
+                {% endfor %}
+                    
+            </div>
+        </div>
+        <!-- Preference Sheets -->
+        <div class="col-md-12 mb-4">
+            <div class="w-100" data-aos="fade-down" data-aos-duration="1000" data-aos-delay="300">
+                <span class="ff-playfair fs-22 txt-color-white bg-color-dark2 rounded-top-left-8 rounded-top-right-8 p-3 d-table fw-700">
+                    Preference Sheets
+                </span>
+                
+                
+                <div class="w-100 bg-color-dark2 rounded-bottom-left-8 rounded-bottom-right-8 rounded-top-right-8 px-3 py-4 h-100">
+                    {% if guest.completed_preference %}
+                    <div class="w-100 bg-color-dark2 border-dark-light-1 rounded-8 p-2 p-md-4 mb-3">
+                        <div class="w-100 d-flex align-items-center my-2">
+                            <span class="material-icons txt-color-white mr-2">
+                                check_circle
+                            </span>
+
+                            <span class="txt-color-white fs-14">
+                                Thank you for completing your preference sheet. No further changes will be allowed 2 days prior to departure.
+                            </span>
+                        </div>
+                    </div>  
+                    {% else %}
+                    <!-- -->
+                    <div class="w-100 bg-color-dark2 border-dark-light-1 rounded-8 p-2 p-md-4 mb-3">
+                        <div class="w-100 d-flex align-items-center my-2">
+                            <span class="material-icons txt-color-magenta mr-2">
+                                error
+                            </span>
+                            
+                            <span class="txt-color-magenta fs-14">
+                                Please complete your preference sheet. 
+                            </span>
+                        </div>
+                    </div> 
+                    {% endif %}     
+
+                    <div class="w-100 bg-color-dark rounded-8 p-3 p-md-4 mb-3  border-gold-1">
+                        <div class="col-12 d-sm-flex justify-content-between align-items-center">
+                            <div class="d-flex align-items-center mb-3 mb-md-0">
+                                <div class="icon mr-4">
+                                    <img src="{% static 'guests/img/icon-yacht-pref.svg' %}" alt="">
+                                </div>
+                                <div class="w-100">
+                                    <a href="{% url 'preferences:food_preferences' %}"  class="h5 txt-color-gold ff-playfair fs-22 fw-700">
+                                        Yacht and Estate Preferences
+                                    </a>
+                                </div>
+                            </div>
+
+                            <div class="d-md-flex align-items-center text-center">
+                                <div class="mb-2 mb-md-0">
+                                    {% if complete_preferences  %}
+                                    <span class="material-icons txt-color-magenta ml-2 mr-3">
+                                        error
+                                    </span>
+                                    {% else %}
+                                    <span class="material-icons txt-color-gold mr-3">
+                                        done
+                                    </span>
+                                    <a href="#" class="mr-3">
+                                        <span class="material-icons txt-color-gold">
+                                            file_download
+                                        </span>
+                                    </a>
+                                    {% endif %}
+                                </div>
+                                <div>
+                                    <a href="{% url 'preferences:food_preferences' %}" class="btn btn-outline-gold w-100 d-flex align-items-center justify-content-center">
+                                        Select
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>    
+
+                    <div class="w-100 bg-color-dark rounded-8 p-3 p-md-4 mb-3  border-gold-1">
+                        <div class="col-12 d-sm-flex justify-content-between align-items-center">
+                            <div class="d-flex align-items-center mb-3 mb-md-0">
+                                <div class="icon mr-4">
+                                    <img src="{% static 'guests/img/icon-day-charter.svg' %}" alt="">
+                                </div>
+                                <div class="w-100">
+                                    <a href="{% url 'preferences:long_jet_preference' %}" class="h5 txt-color-gold ff-playfair fs-22 fw-700">
+                                        Day Charter / Long Leg Jet
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="d-md-flex align-items-center text-center">
+                                <div class="mb-2 mb-md-0">
+                                    {% if guest.long_jet_complete  %}
+                                    <span class="material-icons txt-color-gold mr-3">
+                                        done
+                                    </span>
+                                    <a href="#" class="mr-3">
+                                        <span class="material-icons txt-color-gold">
+                                            file_download
+                                        </span>
+                                    </a>
+                                    {% else %}
+                                    <span class="material-icons txt-color-magenta ml-2 mr-3">
+                                        error
+                                    </span>
+                                    {% endif %}
+                                </div>
+                                <div>
+                                    <a href="{% url 'preferences:long_jet_preference' %}" class="btn btn-outline-gold w-100 d-flex align-items-center justify-content-center">
+                                        Select
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div> 
+
+                    <div class="w-100 bg-color-dark rounded-8 p-3 p-md-4 mb-3  border-gold-1">
+                        <div class="col-12 d-sm-flex justify-content-between align-items-center">
+                            <div class="d-flex align-items-center mb-3 mb-md-0">
+                                <div class="icon mr-4">
+                                    <img src="{% static 'guests/img/icon-short-leg.svg' %}" alt="">
+                                </div>
+                                <div class="w-100">
+                                    <a href="{% url 'preferences:short_jet_preference' %}" class="h5 txt-color-gold ff-playfair fs-22 fw-700">
+                                        Short Leg Jet
+                                    </a>
+                                </div>
+                            </div>
+                                
+                            <div class="d-md-flex align-items-center text-center">
+                                <div class="mb-2 mb-md-0">
+                                    {% if guest.short_jet_complete  %}
+                                    <span class="material-icons txt-color-gold mr-3">
+                                        done
+                                    </span>
+                                    <a href="#" class="mr-3">
+                                        <span class="material-icons txt-color-gold">
+                                            file_download
+                                        </span>
+                                    </a>
+                                    {% else %}
+                                    <span class="material-icons txt-color-magenta ml-2 mr-3">
+                                        error
+                                    </span>
+                                    {% endif %}
+                                </div>
+                                <div>
+                                    <a href="{% url 'preferences:short_jet_preference' %}" class="btn btn-outline-gold w-100 d-flex align-items-center justify-content-center">
+                                        Select
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>                                     
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section class="row">
+        <div class="col-12">
+            <div class="w-100 p-5 bg-trident-app border-grey-1 rounded-5 guest-section" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="0">
+                <div class="form-row justify-content-lg-end" data-aos="fade-in" data-aos-duration="1000" data-aos-delay="500">
+                    <div class="col-12 col-md-6">
+                        <h3 class="h2 ff-playfair txt-color-off-white fw-700 fs-28">
+                            Harpoon App
+                        </h3>
+                        <p class="fs-16 txt-color-off-white mt-4">
+                            Try our exciting new Harpoon Charter App! Giving you access to key pre trip reminders and post trip memories, as well as keeping you updated throughout your journey.
+                            <br><br>
+                            Feel more confident at sea with our first-of-its kind, iBeacon technology, enabling additional onboard safety features and emergency procedures linked directly to your phone.
+                            <br><br>
+                            Welcome to the creation of your very own Charter Profile, growing and evolving the more you use it.
+                        </p>
+
+                        <button class="save-btn col-lg-6 mt-4">
+                            <span class="txt-color-black-75">
+                                Learn More
+                            </span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock content %}

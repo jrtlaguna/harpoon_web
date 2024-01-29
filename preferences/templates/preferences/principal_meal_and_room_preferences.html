@@ -1,0 +1,90 @@
+{% extends "charter/base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block title %}Harpoon - {{ title }}{% endblock %}
+
+{% block content %}
+{% include "charter/partials/header.html" with header_title='Preferences' is_common_header=True %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12 mb-4">
+            <div class="w-100" data-aos="fade-down" data-aos-duration="1000" data-aos-delay="0">
+                <div class="w-100 bg-color-dark2 rounded-8 px-3 py-4 h-100">
+                    <h3 class="fs-26 txt-color-white mb-3">Preferences Master</h3>
+                        <p class="txt-color-white fs-14 fw-700 mb-4 col-lg-8 px-0">Please complete the following sheet, being as specific as possible. Remember that not all brands or items are available, but be assured that the crew will do their best to meet your requirements.</p>
+                    <div class="w-100 bg-color-dark rounded-8 p-2 p-md-4 border-gold-1">
+                        <div class="row">
+                            <div class="col-12">
+                                {% include "preferences/partials/preference_navs.html" with active="meal_and_room" %}
+                            </div>
+                        </div>
+                        {% crispy meal_and_room_preferences_form %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block css %}
+{{ block.super }}
+<style>
+    .alert {
+        left: 0;
+        margin: auto;
+        position: absolute;
+        right: 0;
+        text-align: center;
+        top: 1em;
+        width: 30%;
+        z-index: 1;
+        /* display: inline-block; */
+    }
+
+    /* Google design compatibility issue */
+    .notif-item {
+        color: #FBC25E;
+        position: relative;
+    }
+
+    .notif-item.active::after {
+        content: ' ';
+        width: 8px;
+        height: 8px;
+        background: #FF3168;
+        position: absolute;
+        top: 3px;
+        right: 3px;
+        border-radius: 3px;
+    }
+
+    .form-checkbox:disabled+label::before {
+        border: 2px solid #4e4f50;
+    }
+</style>
+{% endblock %}
+
+{% block js %}
+{{ block.super }}
+<script>
+
+    $('#expand_menu').click(function () {
+        $('.drop-menu').toggle();
+    });
+
+    $('.form-checkbox[value="NONE"]').click(function () {
+        var $this = $(this);
+        var $name = $(this).attr("name");
+        if ($this.is(".form-checkbox[name='" + $name + "']")) {
+            if ($this.is(":checked")) {
+                $(".form-checkbox[name='" + $name + "']").not($this).prop({ disabled: true, checked: false });
+            } else {
+                $(".form-checkbox[name='" + $name + "']").prop("disabled", false);
+            }
+        }
+    });
+
+</script>
+{% endblock %}

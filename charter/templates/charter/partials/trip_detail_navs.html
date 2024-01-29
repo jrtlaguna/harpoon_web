@@ -1,0 +1,23 @@
+<!-- Nav tabs -->
+<div class="row my-5">
+    <div class="col-12">
+        <ul class="nav nav-line mb-0" id="myTab" role="tablist">
+            <li class="nav-item mr-4">
+                <a class="nav-link {% if active == 'trip_details' or active == 'edit_trip_details' %}active{% endif %} ff-open-sans px-0" id="home-tab"
+                   href="{% url 'charter:trip_details' charter_id=charter.id %}"
+                   role="tab" aria-controls="home" aria-selected="true">Trip Details</a>
+            </li>
+            <li class="nav-item mr-4 ml-3">
+                <a class="nav-link {% if active == "guests" %}active{% endif %} ff-open-sans px-0" id="home-tab"
+                   href="{% url "charter:guests" charter_id=charter.id %}"
+                   role="tab" aria-controls="home" aria-selected="true">Guests</a>
+            </li>
+            <li class="nav-item mr-4 ml-3">
+                <a class="nav-link {% if active == "preferences_and_shopping_list" %}active{% endif %} ff-open-sans px-0" id="home-tab"
+                   role="tab" aria-controls="home"
+                   href="{% url "charter:preferences_and_shopping_list" charter_id=charter.id %}"
+                   aria-selected="true">Preferences & Shopping List</a>
+            </li>
+        </ul>
+    </div>
+</div>

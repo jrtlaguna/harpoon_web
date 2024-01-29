@@ -1,0 +1,89 @@
+.input {
+  position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  /* transition effect */ }
+  .input .input__lock,
+  .input .input__icon {
+    font-size: 1.25rem;
+    z-index: 1; }
+  .input .input__lock,
+  .input .input__password {
+    color: white; }
+  .input .input__icon {
+    color: #fff;
+    cursor: pointer;
+    position: absolute;
+    right: 0; }
+  .input .input__password {
+    background: transparent;
+    border: 1px solid #4e4f50;
+    border-left: none;
+    border-right: none;
+    border-top: none;
+    outline: none;
+    font-size: 16px;
+    z-index: 1;
+    display: block;
+    width: 100%;
+    height: 55px;
+    padding-right: 32px;
+    font-weight: 700; }
+  .input .input__password::-webkit-input-placeholder {
+    color: #4e4f50;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    opacity: 1; }
+  .input .input__password:-ms-input-placeholder {
+    color: #4e4f50;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    opacity: 1; }
+  .input .input__password::-ms-input-placeholder {
+    color: #4e4f50;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    opacity: 1; }
+  .input .input__password::placeholder {
+    color: #4e4f50;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    opacity: 1; }
+  .input .input__overlay {
+    width: 32px;
+    height: 32px;
+    background-color: white;
+    position: absolute;
+    right: .9rem;
+    border-radius: 50%;
+    z-index: 0;
+    -webkit-transition: .4s ease-in-out;
+    -o-transition: .4s ease-in-out;
+    transition: .4s ease-in-out; }
+  .input .overlay-content {
+    width: 100%;
+    height: 100%;
+    border-radius: .5rem;
+    right: 0; }
+  .input .overlay-content ~ .input__lock {
+    color: #F00; }
+  .input .overlay-content ~ .input__password,
+  .input .overlay-content ~ .input__password::-webkit-input-placeholder {
+    color: #F00; }
+  .input .overlay-content ~ .input__password,
+  .input .overlay-content ~ .input__password:-ms-input-placeholder {
+    color: #F00; }
+  .input .overlay-content ~ .input__password,
+  .input .overlay-content ~ .input__password::-ms-input-placeholder {
+    color: #F00; }
+  .input .overlay-content ~ .input__password,
+  .input .overlay-content ~ .input__password::placeholder {
+    color: #F00; }

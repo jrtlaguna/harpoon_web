@@ -1,0 +1,427 @@
+
+{% extends 'vessels/vessel_profile_base.html' %}
+{% load crispy_forms_tags %}
+{% crispy form %}
+{% load static %}
+{% block main_body %}
+<style>
+    #save_button {
+        background: none;
+        color: #212529;
+        border: none;
+        padding: 0;
+        cursor: pointer;
+        outline: inherit;
+    }
+    #div_id_charter_type{
+        padding-bottom: 1em;
+    }
+</style>
+<div class="container-fluid">
+                    
+    <div class="row mb-4">
+        <div class="col-12 d-sm-flex justify-content-between">
+            <div class="d-flex mb-3 align-items-center">
+                <div class="icon mr-4">
+                    <img src="{% static 'guests/img/icon-trips.svg' %}" alt="">
+                </div>
+                <div class="w-100">
+                    <div class="mb-2">
+                        <span class="h5 txt-color-gold ff-playfair fs-22 fw-700">
+                            {{vessel.proper_name}}
+                        </span>
+                    </div>
+                    <span class="txt-color-white fs-16 d-table">
+                        {{vessel.get_charter_type_display}}
+                    </span>
+                    
+                </div>
+            </div>
+
+            <div class="d-flex align-items-center">
+                <a class="btn btn-outline-gold w-100" data-toggle="modal" data-target="#add_vessel_modal">
+                    + Add a Vessel
+                </a>
+            </div>
+        </div>
+    </div>
+
+                <div class="row">
+                    <!-- upcoming trips -->
+                    <div class="col-md-12 mb-4">
+                        <div class="w-100">
+                            
+                            <div class="w-100 bg-color-dark2 rounded-8 px-3 py-4 h-100">
+                                <h3 class="fs-26 txt-color-white mb-4 mx-2">Edit Vessel Details</h3>
+                                <p class="txt-color-white fs-14 mb-4 col-lg-8 px-0 mx-2">
+                                    Vessel Profile can only be edited if there are no upcoming, active, or past charters associated to it.
+                                    <br><br>To create record of this vessel with a new vessel name, a new vessel profile must be added.
+                                </p>
+
+                                <div class="w-100 bg-color-dark rounded-8 p-3 p-md-4 border-gold-1">
+                                    
+                                    <!-- -->
+                                    <div class="form-container-profile ml-0">
+                    {% if charter_exists %}
+                        <div class="row mb-3">
+                            <div class="col-12 col-md-12">
+                                <div class="form-register mt-4">
+                                    {% if form %}
+                                        <span class="txt-color-gold fw-700">
+                                            Edit Vessel Details
+                                        </span>
+                                        <small class="form-short-description pr-md-5 mb-0">
+                                            Vessel Profile can only be edited if there are no upcoming, active, or past charters associated to it.
+                                            <br><br>
+                                        </small>
+                                    {% else %}
+                                        <span class="txt-color-gold fw-700">
+                                            View Vessel Details
+                                        </span>
+                                        <small class="form-short-description pr-md-5">
+                                        The details in this Vessel Profile cannot be edited because there are upcoming, active, or past charters associated to it.
+                                        <br>
+                                            <br>
+                                            To create record of this vessel with a new vessel name, a new vessel profile must be added.
+                                        </small>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+
+                    <div class="row">
+                        <div class="col-12">
+                            {% if form %}
+                                {% crispy form %}
+                                <div class="col-12 mb-3">
+                                    <button id="submit_button" class="btn btn-solid-gold px-5" data-toggle="modal" data-target="#success_modal">
+                                        Save Changes
+                                    </button>
+                                </div>
+                                <div class="separator">
+                                    <div class="line"><hr></div>
+                                    <div><img src={% static 'core/img/form-sep-img.svg'%}></div>
+                                    <div class="line"><hr></div>
+                                </div>
+                            {% else %}
+                            <div class="w-100 mb-4">
+                                <div class="w-100 d-flex justify-content-between">
+                                    <span class="fs-11 fw-700 txt-color-gray text-uppercase">
+                                        Vessel Details
+                                    </span>
+                                </div>
+                                <div class="form-row pl-3 pt-3 border-left-gray-80-1 mx-0">
+                                    <div class="col-12">
+                                        <div class="form-group">
+                                            <label for="" class="form-label">Charter Type</label>
+                                            <span class="txt-color-white fs-16 fw-700 d-table mt-2">
+                                                {{vessel.get_charter_type_display}}
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="form-group">
+                                            <label for="" class="form-label">Name of Vessel</label>
+                                            <span class="txt-color-white fs-16 fw-700 d-table mt-2">
+                                                {{vessel.proper_name}}
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="form-group">
+                                            <span for="" class="txt-color-gray">IMO # (International Maritime Organization #)</span>
+                                            <div class="d-flex mt-2 align-items-center">
+                                                <label for="" class="form-label mr-2">IMO - </label>
+                                                <span class="txt-color-white fs-16 fw-700 d-table">
+                                                    {{vessel.imo_number}}
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            {% endif %}
+                        </div>
+                        <div class="col-12">
+                            <div class="row mb-5">
+                                <div class="col-12">
+                                    <div class="d-flex justify-content-between">
+                                        <div>
+                                            <span class="fs-18 fw-700 txt-color-white text-uppercase">Preferences Sheet</span></div>
+                                        <div>
+                                            
+                                        </div>
+                                    </div>
+                                    <div class="form-row pl-3 pt-3 border-left-gray-80-1 mx-0">
+                                        <div class="col-12">
+                                            <div class="form-group pb-0">
+                                                <label for="" class="form-label">
+                                                    Default Yacht Preference Sheet
+                                                </label>
+                                                <p class="txt-color-white fs-14">A preference sheet including offerings for all categories in the summary will be provide for principle and/or guests to make selections.  You may view the summary <a href="javascript:void(0)" class="font-weight-bold bev" data-toggle="modal" data-target="#pref-sheet_modal">here</a>.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {% crispy document_form %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock main_body %}
+
+{% block modal %}
+<script src="{% static 'authentication/js/popper.min.js' %}"></script>
+<script src="{% static 'authentication/js/bootstrap.min.js' %}"></script>   
+
+<div class="modal fade" id="pref-sheet_modal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content bg-color-dark2">
+            <div class="success-msg p-5">
+                <div class="mb-4">
+                    <h3 class="form-title mb-2 mt-0">Default Yacht Preference Sheet</h3>
+                    <p class="txt-color-white">Principle and/or guests can select from any of the options below and will be provided space to add notes to customize any of the selections or add a custom option.</p>
+                </div>
+                
+                <div class="mb-4 border-bottom-dark-80-1">
+                    <label for="" class="form-label mb-2 fs-16">General Cuisine</label>
+                    <p class="txt-color-white">Principle Only. American, British, Chinese, French, Fusion, Indian, Italian, japanese, Mexican, North Aftrican, Spanish, Thai</p>
+                </div>
+
+                <div class="mb-4 border-bottom-dark-80-1">
+                    <label for="" class="form-label mb-2 fs-16">Fish & Shellfish</label>
+                    <p class="txt-color-white">Principle Only. Crab, Lobster, Conch, Clams, Mussels, Oyster, Scallops, Escargot, Squid/Calamari, Octopus, Salmon, Smoked Salmon, Cod, Mahi, Trout, Sardines</p>
+                </div>
+
+                <div class="mb-4 border-bottom-dark-80-1">
+                    <label for="" class="form-label mb-2 fs-16">Meat</label>
+                    <p class="txt-color-white">Principle Only. Beef, Chicken, Duck, Lamb, Pork, Turkey, Veal</p>
+                </div>
+
+                <div class="mb-4 border-bottom-dark-80-1">
+                    <label for="" class="form-label mb-2 fs-16">Bread</label>
+                    <p class="txt-color-white">Principle Only. Baguette, Rye, Breadsticks, Brioche, Brown, Ciabatta, Focaccia, Pita, White, Gluten Free</p>
+                </div>
+
+                <div class="mb-4 border-bottom-dark-80-1">
+                    <label for="" class="form-label mb-2 fs-16">Salad</label>
+                    <p class="txt-color-white">Principle Only. Caprese, Ceaser, Coleslaw, Greek, Brioche, Mixed Leaf, Nicoise, Pasta, Potato, Russian, Seafood</p>
+                </div>
+
+                <div class="mb-4 border-bottom-dark-80-1">
+                    <label for="" class="form-label mb-2 fs-16">Soup</label>
+                    <p class="txt-color-white">Principle Only. Borscht, Bouillabaisse, Consomme, Creamed / Veloute, French Onion, Gazpacho, Lobster Bisque, Minestrone, Miso, Tomatio, Vegetable Broth, Vichyssoise</p>
+                </div>
+
+                <div class="mb-4 border-bottom-dark-80-1">
+                    <label for="" class="form-label mb-2 fs-16">Cheese</label>
+                    <p class="txt-color-white">Principle Only. Blue, Brie, Gouda, Cheddar, Feta, Parmesan, Goat, Camembert, Mozzarella, Vegan</p>
+                </div>
+
+                <div class="mb-4 border-bottom-dark-80-1">
+                    <label for="" class="form-label mb-2 fs-16">Dessert</label>
+                    <p class="txt-color-white">Principle Only. Chocolate, Caramel, Creamy, Cake, Fruit Salad, Ice Cream, Mousse, Sorbet, Souffle, Tart, Light</p>
+                </div>
+
+                <div class="mb-4 border-bottom-dark-80-1">
+                    <label for="" class="form-label mb-2 fs-16">Milk</label>
+                    <p class="txt-color-white">Principle & Guests. Whole, 2%, Skimmed, Soy, Almond, Oat.</p>
+                </div>
+                
+                <div class="mb-4 border-bottom-dark-80-1">
+                    <label for="" class="form-label mb-2 fs-16">Coffee</label>
+                    <p class="txt-color-white">Principle & Guests. Cappuccino, Latte, Espresso, American, Macciato, Ice Coffee, Decaf.</p>
+                </div>
+
+                <div class="mb-4 border-bottom-dark-80-1">
+                    <label for="" class="form-label mb-2 fs-16">Tea</label>
+                    <p class="txt-color-white">Principle & Guests. Earl Grey, Rooibois, Mint, Herbal tea, Chamomile, Green</p>
+                </div>
+
+                <div class="mb-4 border-bottom-dark-80-1">
+                    <label for="" class="form-label mb-2 fs-16">Water</label>
+                    <p class="txt-color-white">Principle & Guests. Sparkling, Still</p>
+                </div>
+
+                <div class="mb-4 border-bottom-dark-80-1">
+                    <label for="" class="form-label mb-2 fs-16">Juice</label>
+                    <p class="txt-color-white">Principle & Guests. Grapefruit, Orange, Pineapple, Apple, Crront, Green Juice</p>
+                </div>
+
+                <div class="mb-4 border-bottom-dark-80-1">
+                    <label for="" class="form-label mb-2 fs-16">Soda & Mixers</label>
+                    <p class="txt-color-white">Principle & Guests. Coke, Diet Coke, Pepsi, Ginger Ale, Soda Water, Tonic, La Croix, Red Bull, 7-up, Sprite</p>
+                </div>
+
+                <div class="mb-4 border-bottom-dark-80-1">
+                    <label for="" class="form-label mb-2 fs-16">Beverage Add Ons</label>
+                    <p class="txt-color-white">Principle & Guests. Citrus, Sweetener, Sugar, Creamer</p>
+                </div>
+
+                <div class="mb-4 border-bottom-dark-80-1">
+                    <label for="" class="form-label mb-2 fs-16">Alcoholic</label>
+                    <p class="txt-color-white">Principle & Guests will be provided space to list their favorite alcohols and note quantity of bottles requested..</p>
+                </div>
+
+                <div class="mb-4 border-bottom-dark-80-1">
+                    <label for="" class="form-label mb-2 fs-16">Meal Times</label>
+                    <p class="txt-color-white">Principle can select meal service times for breakfast, lunch, dinner, mid-morning & mid-afternoon snacks, and canapes.</p>
+                </div>
+
+                <div class="mb-4 border-bottom-dark-80-1">
+                    <label for="" class="form-label mb-2 fs-16">Meal Types - Breakfast </label>
+                    <p class="txt-color-white">Principle only. Buffet, Table Service, Family Style, Room Service, Al Fresco</p>
+                </div>
+
+                <div class="mb-4 border-bottom-dark-80-1">
+                    <label for="" class="form-label mb-2 fs-16">Meal Types - Lunch</label>
+                    <p class="txt-color-white">Principle only. Buffet, 2-course, 3-course, 4-course, Family Style, Russian Style, BBQ, Informal, Formal, Light, Chef’s Tasting Menu</p>
+                </div>
+
+                <div class="mb-4 border-bottom-dark-80-1">
+                    <label for="" class="form-label mb-2 fs-16">Meal Types - Dinner</label>
+                    <p class="txt-color-white">Principle only. Buffet, 2-course, 3-course, 4-course, Family Style, Russian Style, BBQ, Informal, Formal, Light, Chef’s Tasting Menu</p>
+                
+                </div>
+
+                <div class="mb-4 border-bottom-dark-80-1">
+                    <label for="" class="form-label mb-2 fs-16">Other Room & Services</label>
+                    <p class="txt-color-white">Principle can advise about floral preferences. 
+                        <br /><br />
+                        Principle & Guests can advise their preferred room temperature.
+                        <br /><br />
+                        Principle & Guests can advise other services they would be intereted in: Massage Therapy, Yoga Instruction, Diving Excursion, Land Excursion</p>
+                
+                </div>
+
+                <div class="mb-4 border-bottom-dark-80-1">
+                    <label for="" class="form-label mb-2 fs-16">Sizing</label>
+                    <p class="txt-color-white">Principle & Guests can advise shirt and shoe sizing.   Mens & Womens.  US, UK, EU.</p>
+                
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="add_vessel_modal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content bg-color-dark">
+            <div class="success-msg p-5">
+                <img src="{% static 'authentication/img/warning.svg' %}" alt="" class="mx-auto d-table w-100" style="max-width: 100px;">
+                <h3 class="form-title text-center d-table mx-auto mb-4">You are already assigned to a Vessel.</h3>
+                <small class="form-short-description text-center d-table mx-auto mb-5">By adding or joining a new vessel, you agree to disassociate yourself from the {{vessel.proper_name}} and any trip and vessel profile information associated with it. </small>
+                
+                <div class="d-flex flex-row">
+                    <div class="flex-fill mr-2">
+                        <a href="" data-dismiss="modal" class="btn btn-outline-gold d-block">Cancel</a>
+                    </div>
+                    <div class="flex-fill">
+                        <a href="{% url 'vessels:vessel_setup' %}" class="btn btn-solid-gold d-block">Continue</a>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="success_modal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content bg-color-dark">
+            <div class="success-msg p-5">
+                <img src="{% static 'core/img/success.svg' %}" alt="" class="mx-auto d-table">
+                <h3 class="form-title text-center d-table mx-auto mb-5">You have successfully updated the vessel info.</h3>
+                
+                
+                <a href='{% url "charter:new_trip_details" vessel_id=vessel.id %}' class="btn btn-solid-gold w-100 d-table text-center" id="get_started">Create Trip</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="documents_modal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-modal-dialog-scrollable modal-md">
+        <div class="modal-content bg-color-dark2">
+            <div class="success-msg p-5">
+                <div class="mb-4">
+                    <h3 class="form-title mb-2 mt-0 txt-color-gold">Vessel Documents</h3>
+                </div>
+                {% for document in vessel.documents %}
+                <div class="mb-4 border-bottom-dark-80-1 justify-content-between" id="#documentDiv_{{document.id}}">
+                    <a href="{% url 'core:download_document' document_id=document.id %}" class="txt-color-white">{{document.document.name}}</a>
+                    <a id="delete{{document.id}}" href="javascript:void(0);" class="close-btn" onClick="deleteDocument({{document.id}})" data-url="{% url 'core:remove_document' document_id=document.id %}">
+                        <span class="material-icons material-icons-outlined">
+                            close
+                        </span>
+                    </a>
+                </div>
+                {% empty %}
+                <div class="mb-4 border-bottom-dark-80-1 justify-content-center">
+                    <p class="txt-color-white text-center">No Documents for this Vessel.</p>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    var button = document.getElementById("submit_button")
+
+    var form = document.getElementById("id-vesselForm");
+    if (form) {
+        form.submit = function(e) {
+            $.ajax({
+            type: $(this).attr('method'),
+            url: $(this).attr('action'), // the file to call
+            data: $(this).serialize(),
+            success:function(){
+                console.log("Successfully submitted")
+                }
+            })
+        e.preventDefault();
+    }
+    button.onclick = function(e) { 
+        e.preventDefault()
+        form.submit(e)
+    }
+    }
+
+    function deleteDocument(val) {
+        document.getElementById(`documentDiv_${val}`).hidden = "hidden"
+        let url = $(`#delete${val}`).attr("data-url")
+        var xhttp = new XMLHttpRequest();
+        xhttp.open("POST", url, true);
+        xhttp.setRequestHeader("X-CSRFToken", "{{ csrf_token }}");
+        xhttp.send();
+    }
+    
+    
+    const documentDiv = document.getElementById("div_id_document").hidden = "hidden";
+    const documentButton = document.getElementById("documentButton");
+    const documentFile = document.getElementById("documentFile");
+    const documentForm = document.getElementById("id-fileForm")
+
+    documentButton.addEventListener("click", function(e) {
+        e.preventDefault()
+        documentFile.click();
+    })
+    documentFile.addEventListener("change", function() {
+        documentForm.submit(function(e) {
+            e.preventDefault();
+            return false;
+        })
+    })
+
+</script>
+
+{% endblock modal %}

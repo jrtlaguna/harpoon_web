@@ -1,0 +1,101 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{title|default:"Harpoon Vessel Set Up - New Vessel"}}</title>
+
+    <!--FAVICON-->
+    <link
+      rel="icon"
+      href="{% static 'authentication/img/favicon.png' %}"
+      type="image/png"
+      sizes="16x16"
+    />
+
+    <!--JQUERY-->
+    <script
+      src="{% static 'authentication/js/jquery.min.js'%}"
+    ></script>
+    
+
+    <!--CALENDAR-->
+    <link rel="stylesheet" href="{% static 'authentication/css/fullcalendar.min.css' %}"/>
+
+    <!--BOOTSTRAP-->
+    <link rel="stylesheet" href="{% static 'authentication/css/bootstrap.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'authentication/js/popper.min.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'authentication/js/bootstrap.min.js' %}"></script>
+
+    <!--FONTAWESOME 5-->
+    <link
+      rel="stylesheet"
+      href="https://pro.fontawesome.com/releases/v5.8.2/css/all.css"
+      integrity="sha384-xVVam1KS4+Qt2OrFa+VdRUoXygyKIuNWUUUBZYv+n27STsJ7oDOHJgfF0bNKLMJF"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-2/css/all.min.css"
+      integrity="sha256-46r060N2LrChLLb5zowXQ72/iKKNiw/lAmygmHExk/o="
+      crossorigin="anonymous"
+    />
+
+    <!--LINEAR ICONS-->
+    <link
+      rel="stylesheet"
+      href="https://cdn.linearicons.com/free/1.0.0/icon-font.min.css"
+    />
+
+    <!--GOOGLE FONTS-->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&family=Source+Serif+Pro:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp"
+      rel="stylesheet"
+    />
+
+    <!--CUSTOM STYLE-->
+    <link rel="stylesheet" href="{% static 'authentication/css/main.css' %}" />
+    <link
+      rel="stylesheet"
+      href="{% static 'authentication/css/custom_calendar.css' %}"
+    />
+
+    <!--CUSTOM SCRIPT-->
+    <script type="text/javascript">
+      $(document).ready(function(){
+        $('#id_crew_size').keypress(function(e) {
+          var verified = (e.which == 8 || e.which == undefined || e.which == 0) ? null : String.fromCharCode(e.which).match(/[^0-9]/);
+          if (verified) {e.preventDefault();}
+        });
+      });
+    </script>
+
+  </head>
+
+    <body class="dark ">
+        <!--LOGO-->
+        <div class="container-fluid logo-container">
+            <div class="logo">
+              <a href="{% url 'admins:dashboard' %}">
+                <img 
+                    src="{% static 'authentication/img/logo-sol.svg' %}"
+                    class="img-fluid" 
+                />
+              </a>
+            </div>
+        </div>
+
+        {% block main_body %}
+        
+        {% endblock main_body %}
+    </body>
+
+    {% block modal %}
+    {% endblock modal %}
+</html>

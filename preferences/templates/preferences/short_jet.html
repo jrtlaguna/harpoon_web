@@ -1,0 +1,46 @@
+{% extends 'guests/onboarding/base.html' %} 
+{% load static %}
+{% load crispy_forms_tags %}
+    {% block content %}
+        <div class="container-fluid">
+            <div class="container form-container-profile my-2">
+                <div class="row">
+                    <a href="{% url 'guests:trips' %}" class="txt-color-gold fs-14 d-flex align-items-center" style="text-decoration: none;"><span
+                        class="material-icons-outlined mr-3" >
+                                    arrow_back
+                                </span> Back </a>
+                    <div class="col-12 col-md-12">
+                        <div class="form-register">
+                            <h3 class="form-title">Your Short Jet Trip Preferences - Food</h3>
+                            <small class="form-short-description">
+                                For Short Trip (&lt6 hours). Please complete the following sheet, being as specific as possible. 
+
+                            </small>
+                            <small class="form-short-description">
+                                You will be able to modify this up to 1 week before departure, after which no changes can be made.
+                            </small>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container-fluid">
+            <!--YOUR PREFERENCES-->
+            <div class="container form-container-profile px-5 pb-5 rounded-5 border-gold-1 mb-5">
+                
+                <div class="row mt-3">
+
+                    {% crispy form %}
+
+                    <div class="col-md-5 px-md-0">
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        {% endblock content %}
+    </body>
+
+    <script src="custom-script.js"></script>
+
+</html>

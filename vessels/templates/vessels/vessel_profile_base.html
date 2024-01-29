@@ -1,0 +1,323 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Harpoon Vessel Profile Dashboard</title>
+
+    <link rel="icon" href="{% static 'authentication/img/favicon.png' %}" type="image/png" sizes="16x16">
+
+    <script src="{% static 'authentication/js/jquery.min.js'%}"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.0.1/fullcalendar.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.15.1/moment.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.0.1/fullcalendar.min.js"></script>
+
+    <link rel="stylesheet" href="{% static 'authentication/css/bootstrap.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'authentication/js/popper.min.js' %}">
+    </script>
+    <link rel="stylesheet" href="{% static 'authentication/js/bootstrap.min.js' %}">
+    </script>
+
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-xVVam1KS4+Qt2OrFa+VdRUoXygyKIuNWUUUBZYv+n27STsJ7oDOHJgfF0bNKLMJF" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-2/css/all.min.css" integrity="sha256-46r060N2LrChLLb5zowXQ72/iKKNiw/lAmygmHExk/o=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="{% static 'core/css/fontawesome/fontawesome.css' %}" />
+
+    <!--DATE & TIME PICKER-->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.1/js/tempusdominus-bootstrap-4.min.js">
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.1/css/tempusdominus-bootstrap-4.min.css" />
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.3/js/intlTelInput.min.js"
+        integrity="sha512-kkBkPRO6dSkCJDPNpW4Bb/1Z585gN++HKcIpClQW9IYI+4gk4yPC+eaE3CSQp3Ex+48NvzUvqmroZtR4gZnt4g=="
+        crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.3/css/intlTelInput.min.css"
+        integrity="sha512-yye/u0ehQsrVrfSd6biT17t39Rg9kNc+vENcCXZuMz2a+LWFGvXUnYuWUW6pbfYj1jcBb/C39UZw2ciQvwDDvg=="
+        crossorigin="anonymous" />
+
+    <link rel="stylesheet" href="https://cdn.linearicons.com/free/1.0.0/icon-font.min.css">
+
+
+    <!--GOOGLE FONTS-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;900&display=swap" rel="stylesheet"> 
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&family=Source+Serif+Pro:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp" rel="stylesheet">
+
+    <link rel="stylesheet" href="{% static 'authentication/css/main.css' %}" />
+    <link rel="stylesheet" href="{% static 'authentication/css/custom_calendar.css' %}" />
+
+    <style>
+        .alert {
+            left: 0;
+            margin: auto;
+            position: absolute;
+            right: 0;
+            text-align: center;
+            top: 1em;
+            width: 30%;
+            z-index: 1;
+            /* display: inline-block; */
+        }
+
+        /* Google design compatibility issue */
+        .notif-item {
+            color: #FBC25E;
+            position: relative;
+        }
+
+        .notif-item.active::after {
+            content: ' ';
+            width: 8px;
+            height: 8px;
+            background: #FF3168;
+            position: absolute;
+            top: 3px;
+            right: 3px;
+            border-radius: 3px;
+        }
+    </style>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $( '.sidebar' ).show();
+            $('.menu-btn').click(function () {
+                $('.sidebar').show();
+            });
+
+            $('.close-btn').click(function () {
+                $('.sidebar').hide();
+            });
+
+            //CLOSE ALERT
+            $('.alert-close-btn').click(function () {
+                $('.alert-custom').removeClass('alert-container');
+            });
+
+            //ADD NEW NOTES
+            $('.new_note-btn').click(function () {
+                $('.alert-custom').removeClass('alert-container');
+                $('#add_new_note').addClass('alert-container');
+            });
+
+            //EDIT BUTTON
+            $('.edit-btn').click(function () {
+                $('.alert-custom').removeClass('alert-container');
+                $('#edit_new_note').addClass('alert-container');
+            });
+
+            //SHOW NOTE CONTENT
+            $('.note_list').click(function () {
+                $('.alert-custom').removeClass('alert-container');
+                $('#alert_note').addClass('alert-container');
+            });
+
+
+        });
+
+    </script>
+</head>
+
+<body class="dark">
+    <!--SIDEBAR-->
+    <div class="sidebar  float-left">
+        <div class="sidebar-content">
+            <div class="logo">
+                <a href="javascript:void(0);" class="close-btn">
+                    <span class="material-icons material-icons-outlined">
+                        close
+                    </span>
+                </a>
+                <a href="{% url 'admins:dashboard' %}">
+                    <img src="{% static 'authentication/img/logo-sol.svg' %}" class="img-fluid" />
+                </a>
+            </div>
+
+            <div class="sidebar-menu">
+                <ul>
+                    <li>
+                        <a href="{% url 'admins:dashboard' %}" class="item-nav {% if 'charter' in request.build_absolute_uri %}active{% endif %}">
+                            <span class="material-icons item-nav-icon">
+                                local_activity
+                            </span>
+                            Trips
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% url 'vessels:dashboard' %}" class="item-nav {% if 'vessel' in request.build_absolute_uri %}active{% endif %}">
+                            <span class="material-icons item-nav-icon">
+                                directions_boat_filled
+                            </span>
+                            Vessel Profile
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% url 'admins:settings' %}" class="item-nav {% if 'settings' in request.build_absolute_uri %}active{% endif %}">
+                            <span class="material-icons item-nav-icon">
+                                assignment_ind
+                            </span>
+                            Profile
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% url 'admins:crew_profile_list' %}" class="item-nav {% if 'crew' in request.build_absolute_uri %}active{% endif %}">
+                            <span class="material-icons item-nav-icon">
+                                person_add
+                            </span>
+                            Crew Profile
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% url 'admins:guest_info_list' %}" class="item-nav {% if 'guest-info' in request.build_absolute_uri %}active{% endif %}">
+                            <span class="material-icons item-nav-icon">
+                                remember_me
+                            </span>
+                            Guest Profiles
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% url 'admins:search' %}" class="item-nav {% if 'search' in request.build_absolute_uri %}active{% endif %}">
+                            <span class="material-icons item-nav-icon">
+                                search
+                            </span>
+                            Search
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!--MAIN CONTENT-->
+    <div class="d-flex justify-content-between flex-column vh-100 ">
+        <div class="main-content bg-right float-left pb-5 px-3 pt-3 px-md-5 pt-md-5 w-100">
+            <!--HEADER-->
+            <div class="container-fluid mb-5">
+                <div class="row row-cols-2 heading">
+                    <div class="col">
+    
+                        <a href="javascript:void(0);" class="menu-btn"><i class="fal fa-bars"></i></a>
+                            <h2 class="h2 m-0 heading-title txt-color-gold">Vessel Profile</h2>
+                        <!-- <small class="bread-crumb">Dashboard > Add a trip</small> -->
+                    </div>
+                    <div class="col">
+                        <div class="float-right d-inline-flex">
+                            {% comment %} <div class="d-flex mr-3">
+                                <a href="javascript:void(0)" type="button" class="btn-clear py-2" data-toggle="dropdown">
+                                    <span id="notificationIcon" class="material-icons-outlined notif-item {% if new_notifications %} active {% endif %} ">
+                                        notifications
+                                    </span>
+                                </a>
+                                <div class="drop-menu-notif bg-color-gray-90 dropdown-menu dropdown-menu-right shadow p-4">
+                                    <div class="w-100 border-bottom-dark-80-1 d-table">
+                                        <span class="txt-color-gray pb-3 d-table">Notifications</span>
+                                    </div>
+                                    {% for notification in notifications %}
+                                        {% if notification.notification_type == '1_WEEK_NOTICE' %}
+                                            {% include 'admins/partials/one_week_notice.html' with notification=notification %}
+    
+                                        {% elif notification.notification_type == '2_WEEK_NOTICE' %}
+                                            {% include 'admins/partials/two_week_notice.html' with notification=notification %}
+                                        {% elif notification.notification_type == 'COMPLETED_PREFERENCE' %}
+                                        {% include 'admins/partials/completed_notification.html' with notification=notification %}
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+                            </div> {% endcomment %}
+    
+                            <div class="profile d-inline-flex align-items-center">
+                                <img src={% static 'core/img/form-sep-img.svg'%} class="mr-2"/>
+                                <div class="profile-thumb">
+                                    <a href="{% if user.is_admin %}{% url 'admins:settings' %}{% else %}{% url 'guests:profile' %}{% endif %}">
+                                    {% if user.profile_picture %}
+                                        <img src="{{user.profile_picture.url}}" alt="user profile thumbnail">
+                                    {% else %}
+                                        <img src="{% static 'guests/img/account_profile.svg' %}" alt="user profile thumbnail">
+                                    {% endif %}
+                                    </a>
+                                </div>
+    
+                                <div class="profile-user d-flex">
+                                    <span class="user-fullname fs-12">{{ user.first_name }} {{ user.last_name }}
+                                        <small class="d-table txt-color-gold ff-open-sans">
+                                            Admin
+                                        </small>
+                                    </span>
+                                    <span class="user-details-icon">
+                                        <a href="javascript:void(0);" id="expand_menu">
+                                            <span class="material-icons">
+                                                expand_more
+                                            </span>
+                                        </a>
+    
+                                        <div class="drop-menu bg-color-gray-90">
+                                            <a class="border-bottom-dark-gray-80-2 txt-color-gray py-3 "
+                                                href="{% if user.is_admin %}{% url 'admins:settings' %}{% else %}{% url 'guests:profile' %}{% endif %}">Your Profile</a>
+                                            <a class="border-bottom-dark-gray-80-2 txt-color-gray py-3 "
+                                                href="{% if user.is_admin %}{% url 'admins:settings_change_password' %}{% else %}{% url 'guests:settings_change_password' %}{% endif %}">Security Settings</a>
+                                            <a class=" txt-color-magenta py-3 " href="{% if user.is_admin %}{% url 'admins:logout' %}{% else %}{% url 'guests:logout' %}{% endif %}">Logout</a>
+                                        </div>
+    
+                                        <script>
+                                            $('#expand_menu').click(function () {
+                                                $('.drop-menu').toggle();
+                                            });
+                                            $("#notificationIcon").click(function () {
+                                                if ($('#notificationIcon').is('.active')) {
+                                                    $.ajax({
+                                                        url: "{% url 'admins:seen_notifications' %}",
+                                                        type: "POST",
+                                                        data: { csrfmiddlewaretoken: "{{ csrf_token }}" },
+                                                        success: function () {
+                                                            $('#notificationIcon').toggleClass('active');
+                                                        },
+                                                        error: function () {
+                                                        console.log("error")
+                                                        },
+                                                    })
+                                                    }
+                                                })
+    
+                                        </script>
+                                    </span>
+                                </div>
+    
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    
+            {% block main_body %}
+    
+            {% endblock main_body %}
+            
+        </div>
+    </div>
+</div>
+<div class="footer-main px-3 px-md-5"> 
+    <div class="container-fluid">
+        <div class="row align-items-center">
+            <div class="col">
+                <img src="{% static 'charter/img/logo-sol.svg' %}" >
+            </div>
+            <div class="col text-right">
+                <a href="{% url 'admins:terms_and_conditions' %}" class="mr-4">Terms</a>
+                <a href="{% url 'admins:privacy_policy' %}">Privacy Policy</a>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+{% block modal %}
+{% endblock modal %}
+
+</html>

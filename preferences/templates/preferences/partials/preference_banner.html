@@ -1,0 +1,62 @@
+{% load static %}
+
+<div class="w-100 border-dark-80-1 rounded-5 p-2 p-md-4">
+    <div class="form-row">
+        <div class="col-12 d-sm-flex justify-content-between">
+            <div class="d-flex mb-3">
+                <div class="icon mr-4">
+                    <img src="{% static 'charter/img/ship-small.svg' %}" alt="">
+                </div>
+                <div class="w-100">
+                    <h5 class="txt-color-gold ff-source-serif-pro fs-24 d-flex align-items-center">
+                        Yacht  Preferences
+                        {% if guest.is_principal %}
+                            {% if not guest.food_preferences.is_complete %}
+                                <span class="material-icons ml-2">
+                                    error
+                                </span>
+                            {% elif not guest.meal_and_room_preferences.is_complete %}
+                                <span class="material-icons ml-2">
+                                    error
+                                </span>
+                            {% elif not guest.diet_services_sizes_preferences.is_complete %}
+                                <span class="material-icons ml-2">
+                                    error
+                                </span>
+                            {% elif not guest.beverages_and_alcoholic_preferences.is_complete %}
+                                <span class="material-icons ml-2">
+                                    error
+                                </span>
+                            {% else %}
+                                <span class="material-icons ml-2">
+                                    check_circle
+                                </span>
+                            {% endif %}
+                        {% else %}
+                            {% if not guest.beverages_and_alcoholic_preferences.is_complete %}
+                                <span class="material-icons ml-2">
+                                    error
+                                </span>
+                            {% else %}
+                                <span class="material-icons ml-2">
+                                    check_circle
+                                </span>
+                            {% endif %}
+                        {% endif %}
+                    </h5>
+                    <span class="txt-color-white fs-16 d-table">
+                        Date Created : 
+                        {{ pref_created_date|date:'d F Y'|default:"N/A" }}
+                    </span>
+                </div>
+            </div>
+            <div class="d-flex">
+                <a href="{% url 'preferences:download_preferences_pdf' %}" class="mr-3">
+                    <span class="material-icons txt-color-gold">
+                        file_download
+                    </span>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

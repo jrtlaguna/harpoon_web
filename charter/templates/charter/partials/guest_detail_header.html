@@ -1,0 +1,54 @@
+{% load static %}
+<div class="row my-5">
+    <div class="col-12 col-md-6">
+        <div class="d-flex justify-content-between">
+            <div class="w-100 d-flex">
+                <div class="profile-thumb">
+                    {% if guest.profile.user.profile_picture %}
+                        <img src="{{guest.profile.user.profile_picture.url}}" alt="" class="img-fluid">
+                    {% else %}
+                        <img src="{% static 'guests/img/account_profile.svg' %}" alt="" class="img-fluid">
+                    {% endif %}
+                </div>
+                <div class="profile-content pl-4">
+                    {% if guest.is_principal %}
+                        <span class="txt-color-gray">
+                                <i class="fas fa-flag txt-color-magenta mr-2"></i>
+                                Principal
+                            </span>
+                    {% else %}
+                        <span class="txt-color-gray">
+                            <i class="fas fa-flag txt-color-magenta mr-2"></i>
+                            Guest
+                        </span>
+                    {% endif %}
+
+                    <h3 class="d-table ff-source-serif-pro fw-700 txt-color-white mt-2">
+                        {{ guest }}
+                    </h3>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+    <div class="col-12 col-md-6 justify-content-md-end d-flex">
+        <div class="d-table mb-3">
+            <span class="txt-color-gold fs-16 d-flex mb-3">
+                <span class="material-icons mr-2">
+                    whatsapp
+                </span>
+                {{ guest.profile.phone_number|default:"N/A" }}
+            </span>
+
+            <span class="txt-color-gold fs-16 d-flex mb-3">
+                <span class="material-icons mr-2">
+                    email
+                </span>
+                <a href="mailto:{{guest.email}}" class="txt-color-gold" target="_blank">
+                    {{ guest.email }}
+                </a>
+            </span>
+        </div>
+    </div>
+</div>

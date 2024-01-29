@@ -1,0 +1,68 @@
+{% load static %}
+{% load preference_tag %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crew Profile {{crew.name}}</title>
+</head>
+<body>
+    
+    <div class="container">
+        <div class="header">
+            <div class="header-title">
+                <div>
+                    <h4>title</h4>
+                </div>
+                <div>
+                    <h4>Crew Profile</h4>
+                </div>
+            </div>
+        </div>
+        <div class="card-container">
+            <div class="card">
+                <div class="first-card">
+                    <div class="image-div">
+                        <img class="profile-picture" src="mandark.jpeg">
+                    </div>
+                    <div class="text-container">
+                        <h2>{{crew.name}}</h2>
+                        <div class="separator">
+                            <div class="line"><hr></div>
+                            <div><img src="form-sep-img.svg"></div>
+                            <div class="line"><hr></div>
+                        </div>
+                        <div class="position">
+                            <h5>Position</h5>
+                            <h4 style="color: white;">{{crew.get_crew_type_display}}</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card second-card">
+                <div class="yachts">
+                    <h3 class="card-title">Previous Yachts</h3>
+                    <div class="yacht-list">
+                        <ul>
+                            {% for yacht in previous_yacht|string_to_list %}
+                                <li>{{forloop.counter}}. {{yacht}}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="card content-card">
+                <h3 class="card-title">Interests</h3>
+                <p class="interests">{{crew.interests}}</p>
+            </div>
+            <div class="card content-card">
+                <h3 class="card-title">About</h3>
+                <p class="interests">{{crew.about}}</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

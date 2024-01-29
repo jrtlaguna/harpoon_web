@@ -1,0 +1,161 @@
+{% extends 'guests/base.html' %}
+{% load static %}
+{% block content %}
+
+<!--SUPPORTING CONTENTS-->
+<div class="container-fluid">
+
+    <a href="{% url 'guests:dashboard' %}" class="font-weight-bold bev mb-4 d-inline-block">
+        < Back to dashboard</a>
+
+            <!-- UPCOMING TRIPS -->
+            <div class="row">
+                <!-- upcoming trips -->
+                <div class="col-md-12 mb-4">
+                    <div class="w-100">
+                        <span
+                            class="ff-playfair fs-22 txt-color-white bg-color-dark2 rounded-top-left-8 rounded-top-right-8 p-3 d-table fw-700">
+                            All Trips
+                        </span>
+
+                        <div
+                            class="w-100 bg-color-dark2 rounded-bottom-left-8 rounded-bottom-right-8 rounded-top-right-8 px-3 py-4 h-100">
+                            <div class="w-100 bg-color-dark rounded-8 p-2 p-md-4 mb-4 border-gold-1">
+                                <div class="form-row">
+                                    <div class="col-12 d-sm-flex justify-content-between">
+                                        <div class="d-flex mb-3 align-items-center">
+                                            <div class="icon mr-4">
+                                                <img src="{% static 'guests/img/icon-trips.svg' %}" alt="">
+                                            </div>
+                                            <div class="w-100">
+                                                <span class="h5 txt-color-gold ff-playfair fs-22 fw-700">
+                                                    {{trip}}
+                                                </span>
+                                                <span class="txt-color-white fs-16 d-table">
+                                                    {{trip.vessel}}
+                                                </span>
+                                            </div>
+                                        </div>
+
+                                        <div class="d-flex justify-content-center">
+                                            <span class="material-icons-outlined txt-color-white mr-3">
+                                                calendar_today
+                                            </span>
+
+                                            <span class="txt-color-white fs-14">
+                                                {{trip.embark_date}} - {{trip.disembark_date}}
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- -->
+                            <div class="w-100 bg-color-dark2 border-dark-light-1 rounded-8 p-2 p-md-4 mb-4">
+                                <div class="w-100 d-flex align-items-center my-2">
+
+
+                                    <span class="txt-color-white fs-14">
+                                        Please see below for your trip itinerary.
+                                    </span>
+                                </div>
+                            </div>
+                            <!-- -->
+                            <div class="w-100 bg-color-dark rounded-8 p-2 p-md-4 mb-4 border-gold-1">
+                                <div class="form-row">
+                                    <div class="col-md-8">
+                                        <div class="w-100 my-4">
+                                            <span class="fs-18 fw-700 txt-color-white text-uppercase ">
+                                                TRIP Embark
+                                            </span>
+
+                                            <div class="form-row pl-3 pt-3 border-left-gray-80-1 mx-0">
+                                                <div class="col-12">
+                                                    <div class="form-group">
+                                                        <span class="txt-color-gold fs-14 d-table fw-700">
+                                                            Embark Location
+                                                        </span>
+                                                        <span class="txt-color-white fs-16 fw-700 d-table mt-2">
+                                                            {{trip.embark_location|default:""}}<br>
+                                                            {{trip.embark_city|default:""}}
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 col-md-4">
+                                                    <div class="form-group">
+                                                        <span class="txt-color-gold fs-14 d-table fw-700">
+                                                            Date
+                                                        </span>
+                                                        <span class="txt-color-white fs-16 fw-700 d-table mt-2">
+                                                            {{trip.embark_date|default:""}}
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 col-md-4">
+                                                    <div class="form-group">
+                                                        <span class="txt-color-gold fs-14 d-table fw-700">
+                                                            Embark Time
+                                                        </span>
+                                                        <span class="txt-color-white fs-16 fw-700 d-table mt-2">
+                                                            {{trip.embark_time|default:""}}
+                                                        </span>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+                                        <div class="w-100 mb-4">
+                                            <span class="fs-18 fw-700 txt-color-white text-uppercase">
+                                                Trip Disembark
+                                            </span>
+
+                                            <div class="form-row pl-3 pt-3 border-left-gray-80-1 mx-0">
+                                                <div class="col-12">
+                                                    <div class="form-group">
+                                                        <span class="txt-color-gold fs-14 d-table fw-700">
+                                                            Disembark Location
+                                                        </span>
+                                                        <span class="txt-color-white fs-16 fw-700 d-table mt-2">
+                                                            {{trip.disembark_location|default:""}}
+                                                            <br />
+                                                            {{trip.disembark_city|default:""}}
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 col-md-4">
+                                                    <div class="form-group">
+                                                        <span class="txt-color-gold fs-14 d-table fw-700">
+                                                            Date
+                                                        </span>
+                                                        <span class="txt-color-white fs-16 fw-700 d-table mt-2">
+                                                            {{trip.disembark_date|default:""}}
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 col-md-4">
+                                                    <div class="form-group">
+                                                        <span class="txt-color-gold fs-14 d-table fw-700">
+                                                            Time
+                                                        </span>
+                                                        <span class="txt-color-white fs-16 fw-700 d-table mt-2">
+                                                            {{trip.disembark_time|default:""}}
+                                                        </span>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Preference Sheets -->
+
+            </div>
+
+
+</div>
+
+{% endblock content %}

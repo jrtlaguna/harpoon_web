@@ -1,0 +1,321 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% block main %}
+    <section
+      class="hero justify-content-center d-lg-flex"
+      style="background: url({% static 'core/img/hero-img.png' %});"
+    >
+      <div class="dark-overlay d-lg-none"></div>
+      <div class="container">
+        <div class="row">
+          <div class="col-xl-8">
+            <h1
+              class="mb-4 txt-shadow text-center text-lg-left"
+              data-aos="fade-in"
+              data-aos-duration="1000"
+              data-aos-delay="500"
+            >
+              We create solutions to streamline your charter experience.
+            </h1>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-6">
+            <div class="text-lg-left text-center">
+              <p
+                class="mb-5 txt-shadow"
+                data-aos="fade-in"
+                data-aos-duration="1200"
+                data-aos-delay="800"
+              >
+                Harpoon Solution offers an exclusive, in-depth platform that
+                transforms the way you manage your charter experiences.
+              </p>
+              <div
+                class="row align-items-center justify-content-center justify-content-lg-start"
+                data-aos="fade-in"
+                data-aos-duration="1200"
+                data-aos-delay="1000"
+              >
+                <div class="col-md-5">
+                  <a
+                    href="#"
+                    class="btn btn-main d-block"
+                    data-toggle="modal"
+                    data-target="#scheduleAppt"
+                    >Let's Talk</a
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="black-bg">
+      <div class="container px-space">
+        <div class="row">
+          <div
+            class="col"
+            data-aos="fade-in"
+            data-aos-duration="1000"
+            data-aos-delay="100"
+          >
+            <h2 class="mb-3 mb-lg-4">
+              A Seamless System to Manage Your Yacht Travel
+            </h2>
+          </div>
+        </div>
+        <div class="row">
+          <div
+            class="col-lg-6"
+            data-aos="fade-in"
+            data-aos-duration="1000"
+            data-aos-delay="200"
+          >
+            <p class="fs-18">
+              Created by industry experts, the Harpoon Solution preference
+              management system is exceptional at capturing and organizing
+              guest-specific preferences and requests. This allows you and your
+              crew to anticipate your guests' every need and adds another level
+              of luxury to your travel.
+            </p>
+          </div>
+          <div
+            class="col-lg-6"
+            data-aos="fade-in"
+            data-aos-duration="1000"
+            data-aos-delay="300"
+          >
+            <p class="fs-18">
+              With Harpoon Solution, captains and yacht management companies
+              flawlessly gather and share essential trip information and vital
+              documents digitally, making this travel feature an opulent
+              must-have.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="bg-gradient">
+      <div class="container overflow-hidden px-space">
+        <div class="row row-cols-1 row-cols-lg-3">
+          <div
+            class="col text-start text-lg-center mb-3 mb-lg-0"
+            data-aos="fade-in"
+            data-aos-duration="1000"
+            data-aos-delay="100"
+          >
+            <div class="d-flex flex-column justify-content-center mb-5 mb-md-0">
+              <div class="ico-img text-center mb-3">
+                <img src="{% static 'core/img/ico-set-1-a.png' %}" alt="" class="mb-4" />
+              </div>
+              <h5 class="mb-3 px-lg-5 text-white text-center">
+                Operational Cost<br class="d-none d-lg-block" />
+                Management
+              </h5>
+              <p class="fs-18">
+                You have total control over a robust system of travel data at
+                your disposal, which can be managed by your crew.
+              </p>
+            </div>
+          </div>
+          <div
+            class="col text-start text-lg-center mb-3 mb-lg-0"
+            data-aos="fade-in"
+            data-aos-duration="1000"
+            data-aos-delay="300"
+          >
+            <div class="d-flex flex-column justify-content-center mb-5 mb-md-0">
+              <div class="ico-img text-center mb-3">
+                <img src="{% static 'core/img/ico-set-1-b.png' %}" alt="" class="mb-4" />
+              </div>
+              <h5 class="mb-3 px-lg-5 text-white text-center">
+                Guest Preference<br class="d-none d-lg-block" />
+                Management
+              </h5>
+              <p class="fs-18">
+                Streamline processes that escalate your travel experiences for
+                you and your guests, enhancing guest enjoyment.
+              </p>
+            </div>
+          </div>
+          <div
+            class="col text-start text-lg-center"
+            data-aos="fade-in"
+            data-aos-duration="1000"
+            data-aos-delay="500"
+          >
+            <div class="d-flex flex-column justify-content-center mb-md-0">
+              <div class="ico-img text-center mb-3">
+                <img src="{% static 'core/img/ico-set-1-b.png' %}" alt="" class="mb-4" />
+              </div>
+              <h5 class="mb-3 px-lg-5 text-white text-center">
+                Guest Communications<br class="d-none d-lg-block" />
+                & Safety
+              </h5>
+              <p class="fs-18">
+                Keep Guests safe and informed with up-to-date pre-charter and
+                onboard information via iBeacon.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!--- Testimonials -->
+    <section class="light-gray">
+      <div class="container">
+        <h2
+          class="text-center mb-5"
+          data-aos="fade-in"
+          data-aos-duration="1000"
+          data-aos-delay="500"
+        >
+          What People Are Saying...
+        </h2>
+        <div
+          class="testimonials-carousel-wrap"
+          data-aos="fade-in"
+          data-aos-duration="1000"
+          data-aos-delay="1000"
+        >
+          <div class="testimonials-carousel">
+            <div class="swiper-container">
+              <div class="swiper-wrapper mb-3">
+                <!-- Slide 1 -->
+                <div class="swiper-slide d-flex">
+                  <div class="testi-message d-flex flex-column">
+                    <div class="testi-img ratio ratio-1x1">
+                      <img src="{% static 'core/img/testi-img-2.svg' %}" alt="" class="" />
+                    </div>
+                    <p class="mb-3 message">
+                      “Harpoon also adds a unique interaction with charter
+                      clients that I have not seen with any other platform,
+                      making communication between vessel and clients seamless
+                      and easy.”
+                    </p>
+                    <p class="font-weight-bold mb-0 mt-auto primary-txt">
+                      Captain Leigh L.
+                    </p>
+                    <span class="primary-txt font-weight-bold"
+                      >Charter Yacht 50m</span
+                    >
+                  </div>
+                </div>
+
+                <!-- Slide 2 -->
+                <div class="swiper-slide d-flex">
+                  <div class="testi-message d-flex flex-column">
+                    <div class="testi-img ratio ratio-1x1">
+                      <img src="{% static 'core/img/testi-img-2.svg' %}" alt="" class="" />
+                    </div>
+                    <p class="mb-3 message">
+                      “Harpoon adds invaluable interaction with charter guests.
+                      Having preferences, Vessel & trip specs all one place,
+                      stream-lines charter communications. I look forward to
+                      using Harpoon Solution for my future charters.”
+                    </p>
+                    <p class="font-weight-bold mb-0 mt-auto primary-txt">
+                      Captain Todd L.
+                    </p>
+                    <span class="primary-txt font-weight-bold"
+                      >Charter Yacht 72m</span
+                    >
+                  </div>
+                </div>
+
+                <!-- Slide 3 -->
+                <div class="swiper-slide d-flex">
+                  <div class="testi-message d-flex flex-column">
+                    <div class="testi-img ratio ratio-1x1">
+                      <img src="{% static 'core/img/testi-img-2.svg' %}" alt="" class="" />
+                    </div>
+                    <p class="mb-3 message lh-lg">
+                      “Harpoon solutions has been a most useful tool for all
+                      departments, from an organizational to pre planning with
+                      the way information is saved and displayed on the app for
+                      the crew to use.“
+                    </p>
+                    <p class="font-weight-bold mb-0 mt-auto primary-txt">
+                      First Officer Sam H.
+                    </p>
+                    <span class="primary-txt font-weight-bold"
+                      >Private Yacht 60m</span
+                    >
+                  </div>
+                </div>
+
+                <!--testi end-->
+              </div>
+            </div>
+          </div>
+          <div class="swiper-pagination position-static"></div>
+        </div>
+      </div>
+    </section>
+    <section class="bg-gradient" style="border-top: 1px solid #282829">
+      <div class="container">
+        <div
+          class="row"
+          data-aos="fade-in"
+          data-aos-duration="1000"
+          data-aos-delay="100"
+        >
+          <div class="col">
+            <div class="text-center">
+              <h2 class="mb-5">Featured in / Used by...</h2>
+            </div>
+          </div>
+        </div>
+        <div class="row align-items-center justify-content-center">
+          <div
+            class="col-md-4 text-center"
+            data-aos="fade-in"
+            data-aos-duration="1000"
+            data-aos-delay="400"
+          >
+            <a href="javascript:void(0)" class="">
+              <img
+                src="{% static 'core/img/abu-dhabi.svg' %}"
+                class="img-fluid rounded-circle abu-circle"
+              />
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- CTA -->
+    <section
+      style="
+        background: url({% static 'core/img/cta-bg-3.png' %});
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+      "
+    >
+      <div class="container">
+        <div class="row justify-content-center">
+          <div
+            class="col text-center"
+            data-aos="fade-in"
+            data-aos-duration="1000"
+            data-aos-delay="0"
+          >
+            <h3 class="mb-4">Let's make new memories.</h3>
+            <div class="row align-items-center justify-content-center">
+              <div class="col-md-3">
+                <a href="contact-us.html" class="btn btn-main d-block"
+                  >Let's Talk</a
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    {% endblock main %}
+    

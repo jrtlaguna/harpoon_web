@@ -1,0 +1,18 @@
+{% load static %}
+<div class="col">
+    <a href="javascript:void(0);" class="menu-btn"><i class="fal fa-bars"></i></a>
+    <h2 class="h2 m-0 heading-title txt-color-gold">{{vessel.proper_name}}</h2>
+    <div class="row">
+        <div class="col">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="#">Charter</a></li>
+                    <li class="breadcrumb-item {% if not charter %}active{% endif %}"><a href="#">Trips</a></li>
+                    {% if charter %}
+                        <li class="breadcrumb-item active" aria-current="page">{{charter}}</li>
+                    {% endif %}
+                </ol>
+            </nav>
+        </div>
+    </div>
+</div>

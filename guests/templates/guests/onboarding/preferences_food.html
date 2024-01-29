@@ -1,0 +1,83 @@
+{% extends 'guests/onboarding/base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block content %}
+{% if onboarding %}
+<div class="container-fluid" data-aos="fade-in" data-aos-duration="1000" data-aos-delay="0">
+    <div class="container form-container-profile my-5">
+        <div class="row">
+            <div class="col-12 px-0">
+                <div class="w-100 d-flex justify-content-between mb-2">
+                    <span class="small txt-color-gray">
+                        Step 2 of 5
+                    </span>
+                    <span class="small txt-color-gray">
+                        Food
+                    </span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-bar-status" style="width: 40%;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid mb-4">
+        <div class="container form-container-profile my-2">
+            <div class="row">
+                <a href="{% url 'guests:profile_onboarding' %}" class="txt-color-gold fs-14 d-flex align-items-center"
+                    style="text-decoration: none;"><span class="material-icons-outlined mr-3">
+                        arrow_back
+                    </span> Back </a>
+            </div>
+        </div>
+    </div>
+</div>
+{%else%}
+<div class="container-fluid mb-4">
+    <div class="container form-container-profile my-2">
+        <div class="row">
+            <a href="{% url 'guests:trips' %}" class="txt-color-gold fs-14 d-flex align-items-center"
+                style="text-decoration: none;"><span class="material-icons-outlined mr-3">
+                    arrow_back
+                </span> Back </a>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<div class="container-fluid">
+    <!--YOUR PROFILE-->
+    <div class="container form-container-profile px-5 pb-5 rounded-5 border-gold-1 mb-5" data-aos="fade-down" data-aos-duration="1000" data-aos-delay="300">
+        <div class="row">
+            <div class="col-12 col-md-12">
+                <div class="form-register">
+                    <h3 class="form-title">Your Yacht Preferences - Food</h3>
+                    <small class="form-short-description">
+                        As the principal guest of the trip, you can set the menus and service times. Please complete the
+                        following sheet, being as specific as possible.
+                        <br>
+                        <br>
+                        You will be able to modify this up to 1 week before departure, after which no changes can be
+                        made.</small>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="row mt-3">
+
+            {% crispy form %}
+
+            <div class="col-md-5 px-md-0">
+            </div>
+        </div>
+    </div>
+
+</div>
+{% endblock content %}
+</body>
+
+<script src="custom-script.js"></script>
+
+</html>

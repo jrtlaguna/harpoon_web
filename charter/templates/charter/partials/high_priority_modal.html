@@ -1,0 +1,129 @@
+{% load static %}
+<div class="modal fade" id="high_priority_modal{{ id }}" tabindex="-1" role="dialog"
+     aria-labelledby="high_priority_modal{{ id }}Label" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content bg-color-dark p-4">
+            <div class="modal-header border-0">
+                <div class="w-100 d-flex">
+                    <div class="profile-thumb">
+                        {% if guest.profile.user.profile_picture %}
+                            <img src="{{guest.profile.user.profile_picture.url}}" alt="" class="img-fluid">
+                        {% else %}
+                            <img src="{% static "guests/img/account_profile.svg" %}" alt="" class="img-fluid">
+                        {% endif %}
+                    </div>
+                    <div class="profile-content pl-4">
+                            <span class="txt-color-gray">
+                                <i class="fas fa-flag txt-color-magenta mr-2"></i>
+                                {% if guest.is_principal %}Principal Guest{% else %}Guest{% endif %}
+                            </span>
+
+                        <h3 class="d-table ff-source-serif-pro fw-700 txt-color-white">
+                            {{ guest }}
+                        </h3>
+                    </div>
+                </div>
+
+                <a href="javascript:void(0)" class="txt-color-white"
+                   data-dismiss="modal">
+                        <span class="material-icons">
+                            close
+                        </span>
+                </a>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="w-100 mb-4">
+                                <span class="fs-11 fw-700 txt-color-gray text-uppercase">
+                                    PERSONAL DETAILS
+                                </span>
+
+                            <div class="form-row pl-3 pt-3 border-left-gray-80-1 mx-0">
+                                <div class="col-12 col-md-6">
+                                    <div class="form-group">
+                                        <label for="" class="form-label">Medical
+                                            Issues</label>
+                                        <span class="txt-color-white fs-16 fw-700 d-table mt-2">
+                                            {{ guest.medical_issues|default:"N/A" }}
+                                            </span>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6">
+                                    <div class="form-group">
+                                        <label for=""
+                                               class="form-label">Allergies</label>
+                                        <span class="txt-color-white fs-16 fw-700 d-table mt-2">
+                                            {{ guest.allergies|default:"N/A" }}
+                                            </span>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6">
+                                    <div class="form-group">
+                                        <label for=""
+                                               class="form-label">Medications</label>
+                                        <span class="txt-color-white fs-16 fw-700 d-table mt-2">
+                                            {{ guest.medications|default:"N/A" }}
+                                            </span>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-12 col-md-6">
+                                    <div class="form-group">
+                                        <label for="" class="form-label">Food
+                                            Sensitivities</label>
+                                        <span class="txt-color-white fs-16 fw-700 d-table mt-2">
+                                            {% if guest.lactose_intolerant %}Lactose Intolerant, {% endif %}
+                                            {% if guest.shellfish_allergy %}Shellfish Allergy, {% endif %}
+                                            {% if guest.nut_allergy %}Nut Allergy, {% endif %}
+                                            {% if guest.gluten_free %}Gluten Free, {% endif %}
+                                            {% if guest.none_food_sensitivity %}None{% endif %}
+                                            {% if not guest.lactose_intolerant and not guest.shellfish_allergy and not guest.nut_allergy and not guest.gluten_free and not guest.none_food_sensitivity %}N/A{% endif %}
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6">
+                                    <div class="form-group">
+                                        <label for="" class="form-label">Emergency
+                                            Contact Name</label>
+                                        <span class="txt-color-white fs-16 fw-700 d-table mt-2">
+                                            {{ guest.emergency_contact|default:"N/A" }}
+                                            </span>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6">
+                                    <div class="form-group">
+                                        <label for="" class="form-label">Emergency
+                                            Contact Number</label>
+                                        <span class="txt-color-white fs-16 fw-700 d-table mt-2">
+                                            {{ guest.emergency_phone|default:"N/A" }}
+                                            </span>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <label for="" class="form-label">Priority
+                                            Details</label>
+                                        <span class="txt-color-white fs-16 fw-700 d-table mt-2">
+                                            {{ guest.high_priority_details|default_if_none:"N/A" }}
+                                            </span>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6">
+                                    <div class="form-group">
+                                        <label for="" class="form-label">Would like
+                                            to be addressed as</label>
+                                        <span class="txt-color-white fs-16 fw-700 d-table mt-2">
+                                            {{ guest.salutation_nickname|default_if_none:"N/A" }}
+                                            </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

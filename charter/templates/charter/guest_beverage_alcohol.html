@@ -1,0 +1,393 @@
+{% extends "charter/base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% load preference_tag %}
+
+{% block title %}Beverage and Alcohol - {{ guest.charter }}{% endblock %}
+
+{% block content %}
+{% include "charter/partials/header.html" with vessel=vessel breadcrumbs=breadcrumbs is_common_header=False %}
+{% include "charter/partials/guest_detail_vessel_header.html" with charter=charter %}
+    <div class="container-fluid  px-5 pb-5 border-dark-80-1 rounded-5">
+        {% include "charter/partials/guest_detail_header.html" with guest=guest %}
+
+        <!-- Nav tabs -->
+        {% include "charter/partials/guest_detail_navs.html" with charter=charter guest=guest active="beverage_and_alcohol" %}
+
+        <div class="form-container-profile ml-0">
+            <div class="row">
+                <div class="col-12">
+                    <div class="w-100 mb-4">
+                        <span class="fs-11 fw-700 txt-color-gray text-uppercase">
+                            Beverages
+                        </span>
+
+                        <div class="form-row pl-3 pt-3 border-left-gray-80-1 mx-0">
+                            <div class="col-12 col-md-6">
+                                <div class="form-group">
+                                    <label for="" class="form-label">Milk</label>
+                                    <span class="txt-color-white fs-16 fw-700 d-table mt-2">
+                                        {% if milk_selection == None %}
+                                            N/A
+                                        {% else %}
+                                            {% for item in milk_selection|get_string_as_list %}
+                                                {{ item|get_display_name:"MILK_SELECTIONS" }} <br>
+                                            {% empty %}
+                                                N/A
+                                            {% endfor %}
+                                        {% endif %}
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <div class="form-group">
+                                    <label for="" class="form-label">Milk Note</label>
+                                    <span class="txt-color-white fs-16 fw-700 d-table mt-2">
+                                        {{ guest.beverages_and_alcoholic_preferences.milk_note|default:"N/A" }}
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <div class="form-group">
+                                    <label for="" class="form-label">Coffee</label>
+                                    <span class="txt-color-white fs-16 fw-700 d-table mt-2">
+                                        {% if coffee_selection == None %}
+                                            N/A
+                                        {% else %}
+                                            {% for item in coffee_selection|get_string_as_list %}
+                                                {{ item|get_display_name:"COFFEE_SELECTIONS" }} <br>
+                                            {% empty %}
+                                                N/A
+                                            {% endfor %}
+                                        {% endif %}
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <div class="form-group">
+                                    <label for="" class="form-label">Coffee Note</label>
+                                    <span class="txt-color-white fs-16 fw-700 d-table mt-2">
+                                        {{ guest.beverages_and_alcoholic_preferences.coffee_note|default:"N/A" }}
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <div class="form-group">
+                                    <label for="" class="form-label">Tea</label>
+                                    <span class="txt-color-white fs-16 fw-700 d-table mt-2">
+                                        {% if tea_selection == None %}
+                                            N/A
+                                        {% else %}
+                                            {% for item in tea_selection|get_string_as_list %}
+                                                {{ item|get_display_name:"TEA_SELECTIONS" }} <br>
+                                            {% empty %}
+                                                N/A
+                                            {% endfor %}
+                                        {% endif %}
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <div class="form-group">
+                                    <label for="" class="form-label">Tea Note</label>
+                                    <span class="txt-color-white fs-16 fw-700 d-table mt-2">
+                                        {{ guest.beverages_and_alcoholic_preferences.tea_note|default:"N/A" }}
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <div class="form-group">
+                                    <label for="" class="form-label">Water</label>
+                                    <span class="txt-color-white fs-16 fw-700 d-table mt-2">
+                                        {% if water_selection == None %}
+                                            N/A
+                                        {% else %}
+                                            {% for item in water_selection|get_string_as_list %}
+                                                {{ item|get_display_name:"WATER_SELECTIONS" }} <br>
+                                            {% empty %}
+                                                N/A
+                                            {% endfor %}
+                                        {% endif %}
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <div class="form-group">
+                                    <label for="" class="form-label">Water Note</label>
+                                    <span class="txt-color-white fs-16 fw-700 d-table mt-2">
+                                        {{ guest.beverages_and_alcoholic_preferences.water_note|default:"N/A" }}
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <div class="form-group">
+                                    <label for="" class="form-label">Juice</label>
+                                    <span class="txt-color-white fs-16 fw-700 d-table mt-2">
+                                        {% if juice_selection == None %}
+                                            N/A
+                                        {% else %}
+                                            {% for item in juice_selection|get_string_as_list %}
+                                                {{ item|get_display_name:"JUICE_SELECTIONS" }} <br>
+                                            {% empty %}
+                                                N/A
+                                            {% endfor %}
+                                        {% endif %}
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <div class="form-group">
+                                    <label for="" class="form-label">Juice Note</label>
+                                    <span class="txt-color-white fs-16 fw-700 d-table mt-2">
+                                    {{ guest.beverages_and_alcoholic_preferences.juice_note|default:"N/A" }}
+                                </span>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <div class="form-group">
+                                    <label for="" class="form-label">Sodas &amp; Mixers</label>
+                                    <span class="txt-color-white fs-16 fw-700 d-table mt-2">
+                                        {% if sodas_and_mixers_selection == None %}
+                                            N/A
+                                        {% else %}
+                                            {% for item in sodas_and_mixers_selection|get_string_as_list %}
+                                                {{ item|get_display_name:"SODAS_MIXERS_SELECTIONS" }} <br>
+                                            {% empty %}
+                                                N/A
+                                            {% endfor %}
+                                        {% endif %}
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <div class="form-group">
+                                    <label for="" class="form-label">Sodas &amp; Mixers Note</label>
+                                    <span class="txt-color-white fs-16 fw-700 d-table mt-2">
+                                        {{ guest.beverages_and_alcoholic_preferences.sodas_and_mixers_note|default:"N/A" }}
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <div class="form-group">
+                                    <label for="" class="form-label">Add Ons</label>
+                                    <span class="txt-color-white fs-16 fw-700 d-table mt-2">
+                                        {% if add_ons_selection == None %}
+                                            N/A
+                                        {% else %}
+                                            {% for item in add_ons_selection|get_string_as_list %}
+                                                {{ item|get_display_name:"ADD_ONS_SELECTIONS" }} <br>
+                                            {% empty %}
+                                                N/A
+                                            {% endfor %}
+                                        {% endif %}
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <div class="form-group">
+                                    <label for="" class="form-label">Add Ons Note</label>
+                                    <span class="txt-color-white fs-16 fw-700 d-table mt-2">
+                                    {{ guest.beverages_and_alcoholic_preferences.add_ons_note|default:"N/A" }}
+                                </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="w-100 mb-4">
+                        <span class="fs-11 fw-700 txt-color-gray text-uppercase">
+                            Alcoholic Preferences
+                        </span>
+
+                        <div class="form-row pl-3 pt-3 border-left-gray-80-1 mx-0">
+                            <div class="col-12">
+                                <table class="table table-responsive table-borderless">
+                                    <thead>
+                                    <tr>
+                                        <th class="txt-color-gold fs-14 fw-400">
+                                            Alcohol
+                                        </th>
+                                        <th class="txt-color-gold fs-14 fw-400">
+                                            Brand, Color, Vineyard / Region
+                                        </th>
+                                        <th class="txt-color-gold fs-14 fw-400">
+                                            Qty
+                                        </th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td class="txt-color-white fs-16 fw-700">
+                                            Whiskey
+                                        </td>
+                                        <td class="txt-color-white fs-16 fw-700">
+                                            {{ guest.beverages_and_alcoholic_preferences.whiskey_name|default:"N/A" }}
+                                        </td>
+                                        <td class="txt-color-white fs-16 fw-700">
+                                            {{ guest.beverages_and_alcoholic_preferences.whiskey_quantity|default:"N/A" }}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="txt-color-white fs-16 fw-700">
+                                            Brandy
+                                        </td>
+                                        <td class="txt-color-white fs-16 fw-700">
+                                            {{ guest.beverages_and_alcoholic_preferences.brandy_name|default:"N/A" }}
+                                        </td>
+                                        <td class="txt-color-white fs-16 fw-700">
+                                            {{ guest.beverages_and_alcoholic_preferences.brandy_quantity|default:"N/A" }}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="txt-color-white fs-16 fw-700">
+                                            Vodka
+                                        </td>
+                                        <td class="txt-color-white fs-16 fw-700">
+                                            {{ guest.beverages_and_alcoholic_preferences.vodka_name|default:"N/A" }}
+                                        </td>
+                                        <td class="txt-color-white fs-16 fw-700">
+                                            {{ guest.beverages_and_alcoholic_preferences.vodka_quantity|default:"N/A" }}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="txt-color-white fs-16 fw-700">
+                                            Tequila
+                                        </td>
+                                        <td class="txt-color-white fs-16 fw-700">
+                                            {{ guest.beverages_and_alcoholic_preferences.tequila_name|default:"N/A" }}
+                                        </td>
+                                        <td class="txt-color-white fs-16 fw-700">
+                                            {{ guest.beverages_and_alcoholic_preferences.tequila_quantity|default:"N/A" }}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="txt-color-white fs-16 fw-700">
+                                            Rum
+                                        </td>
+                                        <td class="txt-color-white fs-16 fw-700">
+                                            {{ guest.beverages_and_alcoholic_preferences.rum_name|default:"N/A" }}
+                                        </td>
+                                        <td class="txt-color-white fs-16 fw-700">
+                                            {{ guest.beverages_and_alcoholic_preferences.rum_quantity|default:"N/A" }}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="txt-color-white fs-16 fw-700">
+                                            Liqueurs
+                                        </td>
+                                        <td class="txt-color-white fs-16 fw-700">
+                                            {{ guest.beverages_and_alcoholic_preferences.liquors_name|default:"N/A" }}
+                                        </td>
+                                        <td class="txt-color-white fs-16 fw-700">
+                                            {{ guest.beverages_and_alcoholic_preferences.liquors_quantity|default:"N/A" }}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="txt-color-white fs-16 fw-700">
+                                            Cocktail
+                                        </td>
+                                        <td class="txt-color-white fs-16 fw-700">
+                                            {{ guest.beverages_and_alcoholic_preferences.cocktail_name|default:"N/A" }}
+                                        </td>
+                                        <td class="txt-color-white fs-16 fw-700">
+                                            {{ guest.beverages_and_alcoholic_preferences.cocktail_quantity|default:"N/A" }}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="txt-color-white fs-16 fw-700">
+                                            Port / Beer
+                                        </td>
+                                        <td class="txt-color-white fs-16 fw-700">
+                                            {{ guest.beverages_and_alcoholic_preferences.port_beer_name|default:"N/A" }}
+                                        </td>
+                                        <td class="txt-color-white fs-16 fw-700">
+                                            {{ guest.beverages_and_alcoholic_preferences.port_beer_quantity|default:"N/A" }}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="txt-color-white fs-16 fw-700">
+                                            Wine (Red)
+                                        </td>
+                                        <td class="txt-color-white fs-16 fw-700">
+                                            {{ guest.beverages_and_alcoholic_preferences.red_wine_name|default:"N/A" }}
+                                        </td>
+                                        <td class="txt-color-white fs-16 fw-700">
+                                            {{ guest.beverages_and_alcoholic_preferences.red_wine_quantity|default:"N/A" }}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="txt-color-white fs-16 fw-700">
+                                            Wine (White)
+                                        </td>
+                                        <td class="txt-color-white fs-16 fw-700">
+                                            {{ guest.beverages_and_alcoholic_preferences.white_wine_name|default:"N/A" }}
+                                        </td>
+                                        <td class="txt-color-white fs-16 fw-700">
+                                            {{ guest.beverages_and_alcoholic_preferences.white_wine_quantity|default:"N/A" }}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="txt-color-white fs-16 fw-700">
+                                            Champagne
+                                        </td>
+                                        <td class="txt-color-white fs-16 fw-700">
+                                            {{ guest.beverages_and_alcoholic_preferences.champagne_name|default:"N/A" }}
+                                        </td>
+                                        <td class="txt-color-white fs-16 fw-700">
+                                            {{ guest.beverages_and_alcoholic_preferences.champagne_quantity|default:"N/A" }}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="txt-color-white fs-16 fw-700">
+                                            Other
+                                        </td>
+                                        <td class="txt-color-white fs-16 fw-700">
+                                            {{ guest.beverages_and_alcoholic_preferences.other_name|default:"N/A" }}
+                                        </td>
+                                        <td class="txt-color-white fs-16 fw-700">
+                                            {{ guest.beverages_and_alcoholic_preferences.other_quantity|default:"N/A" }}
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block css %}
+    {{ block.super }}
+    <style>
+        /* Google design compatibility issue */
+        .notif-item {
+            color: #FBC25E;
+            position: relative;
+        }
+
+        .notif-item.active::after {
+            content: ' ';
+            width: 8px;
+            height: 8px;
+            background: #FF3168;
+            position: absolute;
+            top: 3px;
+            right: 3px;
+            border-radius: 3px;
+        }
+    </style>
+{% endblock %}
+
+{% block js %}
+    {{ block.super }}
+    <script>
+        $('#expand_menu').click(function () {
+            $('.drop-menu').toggle();
+        });
+
+    </script>
+{% endblock %}

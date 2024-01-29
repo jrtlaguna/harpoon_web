@@ -1,0 +1,18 @@
+{% if result %}
+<div><h3 class="form-title">Result</h3></div>
+    <div>
+        <table class="table search-result">
+            {% for res in result %}
+                <tr>
+                    <td>
+                        <a class="search-link" style="text-decoration: none;" href="{{res.url}}">
+                            {{res.name}}
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}        
+        </table>
+    </div>
+{% else %}
+<div><h3 class="form-title">No result found</h3></div>
+{% endif %}

@@ -1,0 +1,5 @@
+{% if field.is_hidden %}
+    {{ field }}
+{% else %}
+    {% include 'preferences/partials/custom_checkboxselectmultiple.html' %}
+{% endif %}

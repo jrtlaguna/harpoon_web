@@ -1,0 +1,118 @@
+{% extends 'vessels/vessel_profile_base.html' %}
+{% load static %}
+{% block main_body %}
+
+<div class="container-fluid">
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <button data-toggle="modal" data-target="#add_vessel_modal" class="btn btn-solid-gold w-100">
+                Add a Vessel
+            </button>
+        </div>
+    </div>
+    <script src="{% static 'authentication/js/popper.min.js' %}"></script>
+    <script src="{% static 'authentication/js/bootstrap.min.js' %}"></script>
+    <div class="row">
+        {% for vessel in vessels %}
+        <div class="col-12 mb-5">
+            <div  class="w-100 border-dark-80-1 rounded-5 p-2 p-md-4 d-table text-decoration-none">
+                <div class="form-row">
+                    {% if vessel.is_active %}
+                        <div class="col-12 mb-3">
+                            <span class="badge badge-pill badge-success px-3">Active</span>
+                        </div>
+                    {% endif %}
+                    <div class="col-12 d-sm-flex justify-content-between">
+                        <a href='{% url "vessels:profile_view" pk=vessel.id %}' class="d-flex mb-3 text-decoration-none">
+                            <div class="icon mr-4">
+                                <img src="{% static 'authentication/img/ship-small.svg' %}" alt="">
+                            </div>
+                            <div class="w-100">
+                                <h5 class="txt-color-gold ff-source-serif-pro fs-24">
+                                    {{vessel.proper_name}}
+                                </h5>
+                                <span class="txt-color-white fs-16 d-table">
+                                    {{vessel.get_charter_type_display}}<br>
+                                    IMO Number: {{vessel.imo_number | default:''}}
+                                </span>
+                            </div>
+                        </a>
+                        <div class="d-flex justify-content-end">
+                            <div class=" d-table">
+                                <span class="txt-color-white fs-16">
+                                    <span class="txt-color-white fs-16 d-table">Created: {{vessel.created_at | date:"m/d/Y"}}</span>
+                                </span>
+                                <br>
+                                {% if not vessel.has_upcoming_trips %}
+                                <div class="w-100 text-right mt-5">
+                                    <a href='{% url "vessels:profile_edit" pk=vessel.id %}' class="mr-3">
+                                        <i class="fas fa-pen txt-color-gold"></i>
+                                    </a>
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="vessel_modal_{{vessel.id}}" tabindex="-1" role="dialog"
+            aria-labelledby="mySmallModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content bg-color-dark">
+                    <div class="success-msg p-5">
+                        <img src="{% static 'authentication/img/ship.svg' %}" alt="" class="mx-auto d-table modal-icon">
+                        <h3 class="form-title text-center d-table mx-auto">Edit Vessel</h3>
+                        <small class="form-short-description text-center d-table mx-auto">
+                            Vessel Profile can only be edited if there are no upcoming, active, or past charters
+                            associated to it.
+                            <br>
+                            <br>
+                            A new vessel profile must be created for records.
+                        </small>
+                        <div class="w-100 mt-5">
+                            <a href='{% url "vessels:profile_view" pk=vessel.id %}'
+                                class="btn btn-solid-gold w-100 d-table text-center mb-3" id="get_started">View
+                                Profile</a>
+                        </div>
+                        <div class="w-100 mt-3">
+                            <a href="javascript:void(0)" class="btn btn-outline-gold w-100 d-table text-center mb-3"
+                                id="get_started">Create a new Vessel</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+
+<div class="modal fade" id="add_vessel_modal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content bg-color-dark">
+            <div class="success-msg p-5">
+                <img src="{% static 'authentication/img/warning.svg' %}" alt="" class="mx-auto d-table w-100" style="max-width: 100px;">
+                <div class="d-table">
+
+                </div>
+                <h3 class="form-title text-center d-table mx-auto">You are already assigned to a Vessel.</h3>
+                <small class="form-short-description text-center d-table mx-auto">
+                    By adding a new vessel, you agree to disassociate yourself from the {{vessel.proper_name}} and any trip and vessel profile information associated with it.
+                </small>
+                <div class="w-100 mt-5">
+                    <div class="form-row">
+                        <div class="col-6">
+                            <button class="btn btn-outline-gold w-100" data-dismiss="modal">
+                                Cancel
+                            </button>
+                        </div>
+                        <div class="col-6">
+                            <a href="{% url 'vessels:vessel_setup' %}" class="btn btn-solid-gold w-100">
+                                Continue
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

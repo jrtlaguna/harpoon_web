@@ -1,0 +1,126 @@
+{% extends "charter/base.html" %}
+{% load humanize %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block title %}Trip Details - {{ charter }}{% endblock %}
+
+{% block content %}
+{% include "charter/partials/header.html" with vessel=vessel breadcrumbs=breadcrumbs is_common_header=False %}
+{% include "charter/partials/guest_detail_vessel_header.html" with charter=charter %}
+
+
+    <!--SUPPORTING CONTENTS-->
+    <div class="container-fluid  px-5 pb-5 border-dark-80-1 rounded-5">
+        <div class="form-container-profile ml-0">
+            <!-- Nav tabs -->
+            {% include "charter/partials/trip_detail_navs.html" with charter=charter active="edit_trip_details" %}
+
+
+            {% crispy form %}
+
+        </div>
+    </div>
+{% endblock %}
+
+{% block css %}
+    {{ block.super }}
+    <style>
+        /* Google design compatibility issue */
+        .notif-item {
+            color: #FBC25E;
+            position: relative;
+        }
+
+        .notif-item.active::after {
+            content: ' ';
+            width: 8px;
+            height: 8px;
+            background: #FF3168;
+            position: absolute;
+            top: 3px;
+            right: 3px;
+            border-radius: 3px;
+        }
+
+        /* Currency Field */
+        .currency-symbol{
+            color: #495057;
+            font-weight: 700;
+            border: 1px solid #4E4F50;
+            border-left: none;
+            border-right: none;
+            border-top: none;
+        }
+        .currency-selector {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            padding-left: .5rem;
+            
+            border: 0;
+            background: transparent;   
+
+            background-color: #111213;
+            border-radius: 0 .2rem .2rem 0;
+            
+            font-family: inherit;
+            color: #fff;
+            font-weight:700;
+        }
+
+        .currency-amount {
+            text-align: right;
+            padding-right: .5rem;
+        }
+
+        .currency-addon {
+            width: 6em;
+            text-align: left;
+            position: relative;
+            color: #495057;
+            font-weight: 700;
+        }
+    </style>
+{% endblock %}
+
+{% block js %}
+    {{ block.super }}
+    <script>
+        $('#expand_menu').click(function () {
+            $('.drop-menu').toggle();
+        });
+
+        // DatePicker Format
+        $('.datepicker').datepicker({
+            format: 'dd MM yyyy',
+        });
+
+        // Timepicker Format
+        $('.timepicker').datetimepicker({
+            format: 'HH:mm',
+        });
+
+        // Currency field
+        function updateSymbol( e ) {
+            var selected = $( ".currency-selector option:selected" );
+            $( ".currency-symbol" ).text( selected.data( "symbol" ) )
+            $( ".currency-amount" ).prop( "placeholder", selected.data( "placeholder" ) )
+            $( '.currency-addon-fixed' ).text( selected.text() )
+        }
+
+        $( ".currency-selector" ).on( "change", updateSymbol )
+
+        updateSymbol()
+
+        // Price Format
+        $('.currency-amount').on('change click keyup input paste',(function (event) {
+            $(this).val(function (index, value) {
+                return value.replace(/(?!\.)\D/g, "").replace(/(?<=\..*)\./g, "").replace(/(?<=\.\d\d).*/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            });
+        }));
+
+    </script>
+{% endblock %}

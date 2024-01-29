@@ -1,0 +1,411 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Harpoon Dashboard</title>
+
+    <!--FAVICON-->
+    <link rel="icon" href="{% static 'authentication/img/favicon.png' %}" type="image/png" sizes="16x16">
+
+    <!--JQUERY-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"
+        integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+
+    <!--CALENDAR-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.0.1/fullcalendar.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.15.1/moment.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.0.1/fullcalendar.min.js"></script>
+    <link rel='stylesheet' href="{% static 'charter/assets/plugin/fullcalendar.min.css' %}" />
+    <script rel='stylesheet' href="{% static 'charter/assets/plugin/fullcalendar.min.js' %}"> </script>
+
+
+    <!--BOOTSTRAP-->
+    <link rel="stylesheet" href="{% static 'authentication/css/bootstrap.min.css' %}" />
+    <script rel="stylesheet" href="{% static 'authentication/js/bootstrap.min.js' %}">
+    </script>
+
+
+
+    <!--FONTAWESOME 5-->
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.8.2/css/all.css"
+        integrity="sha384-xVVam1KS4+Qt2OrFa+VdRUoXygyKIuNWUUUBZYv+n27STsJ7oDOHJgfF0bNKLMJF" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-2/css/all.min.css"
+        integrity="sha256-46r060N2LrChLLb5zowXQ72/iKKNiw/lAmygmHExk/o=" crossorigin="anonymous" />
+        <link rel="stylesheet" href="{% static 'authentication/css/fontawesome.css' %}" />
+    <link rel="stylesheet" href="{% static 'authentication/css/main2.css' %}" />
+    <!-- <link rel="stylesheet" href="/css/icons.css"> -->
+
+    <!--DATE & TIME PICKER-->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
+    <script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.1/js/tempusdominus-bootstrap-4.min.js">
+        </script>
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.1/css/tempusdominus-bootstrap-4.min.css" />
+
+
+    <!--LINEAR ICONS-->
+    <link rel="stylesheet" href="https://cdn.linearicons.com/free/1.0.0/icon-font.min.css">
+
+    <!-- box icon -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
+
+    <!-- Hide show password -->
+    <link rel="stylesheet" href="{% static 'authentication/css/hide-show.css' %}" />
+
+    <!--GOOGLE FONTS-->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&family=Source+Serif+Pro:wght@400;600;700&display=swap"
+        rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp"
+        rel="stylesheet">
+
+    <!--CUSTOM STYLE-->
+    <link rel="stylesheet" href="{% static 'authentication/css/custom_calendar.css' %}" />
+
+    <!--INTL TEL INPUT-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.3/js/intlTelInput.min.js"
+        integrity="sha512-kkBkPRO6dSkCJDPNpW4Bb/1Z585gN++HKcIpClQW9IYI+4gk4yPC+eaE3CSQp3Ex+48NvzUvqmroZtR4gZnt4g=="
+        crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.3/css/intlTelInput.min.css"
+        integrity="sha512-yye/u0ehQsrVrfSd6biT17t39Rg9kNc+vENcCXZuMz2a+LWFGvXUnYuWUW6pbfYj1jcBb/C39UZw2ciQvwDDvg=="
+        crossorigin="anonymous" />
+
+
+    <!--CALENDAR INITIALIZE-->
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            $('#calendar').fullCalendar({
+                // put your options and callbacks here
+                initialView: 'dayGridMonth',
+                selectable: true,
+
+                header: {
+                    left: 'title',
+                    center: '',
+                    right: 'prev,next'
+                },
+
+                // eventClick: function (calEvent, jsEvent, view) {
+
+                //     alert('Event: ' + calEvent.title);
+                //     alert('Coordinates: ' + jsEvent.pageX + ',' + jsEvent.pageY);
+                //     alert('View: ' + view.name);
+
+                //     // change the border color just for fun
+                //     $(this).css('border-color', 'red');
+
+                // },
+                dayClick: function (date, jsEvent, view) {
+
+                    $click_date = date.format('MM/D/YYYY h:mm A');
+
+                    $('#datetimepicker_start').val($click_date);
+                    $('#datetimepicker_end').val($click_date);
+                    $('#add_new_note').addClass('alert-container');
+
+
+
+                    // alert('Coordinates: ' + jsEvent.pageX + ',' + jsEvent.pageY);
+
+                    // alert('Current view: ' + view.name);
+
+                    // change the day's background color just for fun
+                    // $(this).css('background-color', 'red');
+
+                }
+            });
+
+
+
+            $('.menu-btn').click(function () {
+                $('.sidebar').show();
+            });
+
+            $('.close-btn').click(function () {
+                $('.sidebar').hide();
+            });
+        });
+
+    </script>
+
+    <!--CUSTOM SCRIPT-->
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('.menu-btn').click(function () {
+                $('.sidebar').show();
+            });
+
+            $('.close-btn').click(function () {
+                $('.sidebar').hide();
+            });
+
+            //CLOSE ALERT
+            $('.alert-close-btn').click(function () {
+                $('.alert-custom').removeClass('alert-container');
+            });
+
+            //ADD NEW NOTES
+            $('.new_note-btn').click(function () {
+                $('.alert-custom').removeClass('alert-container');
+                $('#add_new_note').addClass('alert-container');
+            });
+
+            //EDIT BUTTON
+            $('.edit-btn').click(function () {
+                $('.alert-custom').removeClass('alert-container');
+                $('#edit_new_note').addClass('alert-container');
+            });
+
+            //SHOW NOTE CONTENT
+            $('.note_list').click(function () {
+                $('.alert-custom').removeClass('alert-container');
+                $('#alert_note').addClass('alert-container');
+            });
+
+
+        });
+
+    </script>
+</head>
+
+<body class="dark">
+
+    <!--SIDEBAR-->
+    <div class="sidebar  float-left">
+        <div class="sidebar-content">
+            <div class="logo">
+                <a href="javascript:void(0);" class="close-btn">
+                    <span class="material-icons material-icons-outlined">
+                        close
+                    </span>
+                </a>
+                <img src="{% static 'charter/img/logo-sol.svg' %}" alt="Harpoon Logo">
+            </div>
+            <!-- Sep
+                <div class="separator">
+                    <div class="line"><hr></div>
+                    <div><img src="img/form-sep-img.svg"></div>
+                    <div class="line"><hr></div>
+                </div>
+                Sep -->
+            <div class="sidebar-menu">
+                <ul>
+                    <li>
+                        <a href="{% url 'guests:dashboard-2' %}" class="item-nav active">
+                            <span class="material-icons material-icons-outlined item-nav-icon ">home</span>
+                            Dashboard
+                        </a>
+                    </li>
+                    <!--li>
+                            <a href="messages-direct-messages.html" class="item-nav">
+                                <span class="material-icons-outlined item-nav-icon">
+                                    email
+                                </span>
+                                Messages
+                            </a>
+                        </li-->
+                    <li>
+                        <a href="javascript:void(0)" class="item-nav" data-toggle="modal"
+                            data-target="#user_preference_modal">
+                            <span class="material-icons-outlined item-nav-icon">
+                                receipt_long
+                            </span>
+                            Preferences
+                        </a>
+                    </li>
+                    <li>
+                        <a href="javascript:void(0)" class="item-nav" data-toggle="modal"
+                            data-target="#user_profile_modal">
+                            <span class="material-icons item-nav-icon">
+                                assignment_ind
+                            </span>
+                            Profile
+                        </a>
+                    </li>
+                    <li>
+                        <a href="trips-trip-details.html" class="item-nav">
+                            <span class="material-icons-outlined item-nav-icon">
+                                directions_boat
+                            </span>
+                            Trips
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!--MAIN CONTENT-->
+    <div class="main-content float-left p-3 p-md-5">
+        <!--HEADER-->
+        <div class="container-fluid mb-5">
+            <div class="row row-cols-2 heading">
+                <div class="col">
+
+                    <a href="javascript:void(0);" class="menu-btn"><i class="fal fa-bars"></i></a>
+                    <h2 class="h2 m-0 heading-title txt-color-gold">Dashboard</h2>
+                </div>
+                <div class="col">
+                    <div class="float-right d-inline-flex">
+                        <!--
+                            <a href="notif_info.html" class=""><span class="material-icons nav-item-icon material-icons-outlined">notifications</span></i></a>
+                            <a href="inbox.html" class=""><span class="material-icons nav-item-icon material-icons-outlined">email</span></i></a>
+                            -->
+
+                        <div class="profile d-inline-flex">
+                            <div class="profile-thumb">
+                                {% if user.profile_picture %}
+                                    <img id="nav-profile" src="{{user.profile_picture.url}}" alt="user profile thumbnail">
+                                {% else %}
+                                    <img id="nav-profile" src="{% static 'guests/img/account_profile.svg' %}" alt="user profile thumbnail">
+                                {% endif %}
+                            </div>
+
+                            <div class="profile-user d-flex">
+                                <span class="user-fullname">{{user.first_name}} {{user.last_name}}</span>
+                                <span class="user-details-icon">
+                                    <a href="javascript:void(0);" id="expand_menu">
+                                        <span class="material-icons">
+                                            expand_more
+                                        </span>
+                                    </a>
+
+                                    <div class="drop-menu ">
+                                        <!--a href="javascript:void(0);" data-target="#user_preference_modal" data-toggle="modal">
+                                                <span class="material-icons">
+                                                    receipt_long
+                                                </span>
+                                                Preferences
+                                            </a>
+                                            <a href="javascript:void(0);" data-target="#view_details_modal" data-toggle="modal">
+                                                <span class="material-icons">
+                                                    settings
+                                                </span>
+                                                Account Settings</a-->
+                                        <a href="login.html">
+                                            <span class="material-icons">
+                                                power_settings_new
+                                            </span>Logout</a>
+                                    </div>
+
+                                    <script>
+                                        $('#expand_menu').click(function () {
+                                            $('.drop-menu').toggle();
+                                        });
+
+                                    </script>
+                                </span>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+{% block content %}
+{% endblock content %}
+
+</div>
+<div class="footer-main">
+    <div class="container-fluid">
+        <div class="row align-items-center">
+            <div class="col">
+                <img src="{% static 'charter/img/logo-sol.svg' %}">
+            </div>
+            <div class="col text-right">
+                <a href="{% url 'guests:terms_and_conditions' %}" class="mr-4">Terms</a>
+                <a href="{% url 'guests:privacy_policy' %}">Privacy Policy</a>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+
+
+<script src="{% static 'charter/js/custom-script.js' %}"></script>
+<script type="text/javascript">
+const showHIddenInput = (inputPass, inputIcon) => {
+    input = document.getElementById(inputPass),
+        iconEye = document.getElementById(inputIcon);
+    iconEye.addEventListener('click', () => {
+        //Change password to text
+        if (input.type === 'password') {
+            // switch to text
+            input.type = 'text';
+
+            // change icon
+            iconEye.classList.add('bx-show');
+        } else {
+            // change to password
+            input.type = 'password';
+
+            //remove icon
+            iconEye.classList.remove('bx-show');
+        }
+
+    });
+};
+showHIddenInput('input-pass', 'input-icon');
+
+const showHIddenInput2 = (inputPass2, inputIcon2) => {
+    input2 = document.getElementById(inputPass2),
+        iconEye2 = document.getElementById(inputIcon2);
+    iconEye2.addEventListener('click', () => {
+        //Change password to text
+        if (input2.type === 'password') {
+            // switch to text
+            input2.type = 'text';
+
+            // change icon
+            iconEye2.classList.add('bx-show');
+        } else {
+            // change to password
+            input2.type = 'password';
+
+            //remove icon
+            iconEye2.classList.remove('bx-show');
+        }
+
+    });
+};
+showHIddenInput2('input-pass2', 'input-icon2');
+
+const showHIddenInput3 = (inputPass3, inputIcon3) => {
+    input3 = document.getElementById(inputPass3),
+        iconEye3 = document.getElementById(inputIcon3);
+    iconEye3.addEventListener('click', () => {
+        //Change password to text
+        if (input3.type === 'password') {
+            // switch to text
+            input3.type = 'text';
+
+            // change icon
+            iconEye3.classList.add('bx-show');
+        } else {
+            // change to password
+            input3.type = 'password';
+
+            //remove icon
+            iconEye3.classList.remove('bx-show');
+        }
+
+    });
+};
+showHIddenInput3('input-pass3', 'input-icon3')
+</script>
+<!--BOOTSTRAP-->
+<script src="{% static 'authentication/js/jquery.min.js'%}"></script>
+<script src="{% static 'authentication/js/popper.min.js' %}"></script>
+<script src="{% static 'authentication/js/bootstrap.min.js' %}"></script>
+
+</html>

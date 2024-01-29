@@ -1,0 +1,244 @@
+{% extends "guests/base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block title %}Harpoon Profile Settings{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="w-100" data-aos="fade-down" data-aos-duration="1000" data-aos-delay="0">
+            <div class="col-md-12 mb-4">
+                <div class="w-100">
+                    <div class="w-100 bg-color-dark2 rounded-8 px-3 py-4 h-100">
+                        <div class="w-100 bg-color-dark rounded-8 p-2 p-md-4 border-gold-1">
+                            <div class="row">
+                                <div class="col-12">
+                                    {% include "guests/partials/profile_settings_nav.html" with active=active %}
+                                    <div class="form-container-profile ml-0">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div class="row">
+                                                    <div class="col-12 col-md-12">
+                                                        <div class="form-register">
+                                                            <h3 class="form-title mb-3">Your Profile</h3>
+                                                            <p class="txt-color-white fs-14 fw-700 mb-4 col-lg-8 px-0">Let the crew know a little bit about you by filling out your profile!</p>
+                                                    <div class="col-12 d-flex align-items-center">
+                                                        {% crispy image_form %}
+    
+                                                        <span class="fs-16 fw-700 txt-color-gray">
+                                                            {{user.first_name}} {{user.last_name}}
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {% crispy form %}
+                                        {% crispy document_form %}
+                                        <div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+<div class="modal fade" id="documents_modal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-modal-dialog-scrollable modal-md">
+        <div class="modal-content bg-color-dark2">
+            <div class="success-msg p-5">
+                <div class="mb-4">
+                    <h3 class="form-title mb-2 mt-0 txt-color-gold">Guest Documents</h3>
+                </div>
+                {% if guest.passport %}
+                <div class="mb-4 border-bottom-dark-80-1 justify-content-between" id="#documentDiv_passport">
+                    <a href="{% url 'guests:download_passport' %}" class="txt-color-white">{{guest.passport.name}}</a>
+                    {% comment %} <a href="javascript:void(0);" class="close-btn" data-url="{% url 'core:remove_document' document_id=document.id %}">
+                        <span class="material-icons material-icons-outlined">
+                            close
+                        </span>
+                    </a> {% endcomment %}
+                </div>
+                {% endif %}
+                {% for document in documents %}
+                <div class="mb-4 border-bottom-dark-80-1 justify-content-between" id="#documentDiv_{{document.id}}">
+                    <a href="{% url 'core:download_document' document_id=document.id %}" class="txt-color-white">{{document.document.name}}</a>
+                    <a id="delete{{document.id}}" href="javascript:void(0);" class="close-btn" onClick="deleteDocument({{document.id}})" data-url="{% url 'core:remove_document' document_id=document.id %}">
+                        <span class="material-icons material-icons-outlined">
+                            close
+                        </span>
+                    </a>
+                </div>
+                {% empty %}
+                    {% if not guest.passport %}
+                    <div class="mb-4 border-bottom-dark-80-1 justify-content-center">
+                        <p class="txt-color-white text-center">No documents uploaded yet.</p>
+                    </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block css %}
+{{ block.super }}
+<link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.3/css/intlTelInput.min.css"
+    integrity="sha512-yye/u0ehQsrVrfSd6biT17t39Rg9kNc+vENcCXZuMz2a+LWFGvXUnYuWUW6pbfYj1jcBb/C39UZw2ciQvwDDvg=="
+    crossorigin="anonymous" />
+{% endblock %}
+
+{% block js %}
+{{ block.super }}
+<link
+    href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.10/themes/dark-hive/jquery-ui.css"
+    rel="stylesheet">
+<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+<script src="https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+<script
+    src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.3/js/intlTelInput.min.js"
+    integrity="sha512-kkBkPRO6dSkCJDPNpW4Bb/1Z585gN++HKcIpClQW9IYI+4gk4yPC+eaE3CSQp3Ex+48NvzUvqmroZtR4gZnt4g=="
+    crossorigin="anonymous"></script>
+<script src="{% static 'authentication/js/popper.min.js' %}"></script>
+<script src="{% static 'authentication/js/bootstrap.min.js' %}"></script>
+<script>
+    const passportDiv = document.getElementById("div_id_passport").hidden = "hidden";
+    const documentDiv = document.getElementById("div_id_document").hidden = "hidden";
+    const passportButton = document.getElementById("passportButton");
+    const passportFile = document.getElementById("passportFile");
+    const passportName = document.getElementById("passportName");
+
+    const documentButton = document.getElementById("documentButton");
+    const documentFile = document.getElementById("documentFile");
+    const documentForm = document.getElementById("id-fileForm")
+
+    function deleteDocument(val) {
+        document.getElementById(`documentDiv_${val}`).hidden = "hidden"
+        let url = $(`#delete${val}`).attr("data-url")
+        var xhttp = new XMLHttpRequest();
+        xhttp.open("POST", url, true);
+        xhttp.setRequestHeader("X-CSRFToken", "{{ csrf_token }}");
+        xhttp.send();
+    }
+    var form = document.getElementById("id-imageForm")
+        form.submit = function(e) {
+            var formData = new FormData(document.getElementById("id-imageForm"))
+            $.ajax({
+            type: $(this).attr('method'),
+            url: $(this).attr('action'), // the file to call
+            data: formData,
+            contentType: false,
+            processData: false,
+            success:function(data, textStatus, XmlHttpResponse){
+                if (data.error) {
+                    alert(data.error)
+                } else {
+                    $('#profile_image').prop('src', data.url); 
+                }
+            },
+            })
+            e.preventDefault();
+        }
+
+        document.getElementById("profile_picture").onchange = function(e) {
+            e.preventDefault()
+            form.submit(e)
+        }
+
+    $("#id-fileForm").submit(function(e) {
+        e.preventDefault()
+    })
+    const input1 = document.getElementById("phone_num1");
+    const input2 = document.getElementById("phone_num2");
+    const iti1 = intlTelInput(input1, {
+        default: false,
+        separateDialCode: true,
+        utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.3/js/utils.js",
+    });
+    const iti2 = intlTelInput(input2, {
+        default: false,
+        separateDialCode: true,
+        utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.3/js/utils.js",
+    });
+
+    const onboardingForm = document.getElementById("id-onboardingForm");
+    onboardingForm.addEventListener("submit", function () {
+        input1.value = iti1.getNumber();
+        input2.value = iti2.getNumber();
+        return true;
+    });
+
+    passportButton.addEventListener("click", function(e) {
+        e.preventDefault()
+        passportFile.click();
+    })
+
+    passportFile.addEventListener("change", function() {
+        console.log(passportFile.value)
+        if (passportFile.value){
+            passportName.value = passportFile.value.replace(/C:\\fakepath\\/i, '')
+        } else {
+            passportName.value = "No File Chosen."
+        }
+    })
+
+    documentButton.addEventListener("click", function(e) {
+        e.preventDefault()
+        documentFile.click();
+    })
+    documentFile.addEventListener("change", function() {
+        documentForm.submit(function(e) {
+            e.preventDefault();
+            return false;
+        })
+    })
+
+    $(document).ready(function () {
+        //ALLOW ONLY NUMBER
+        $('#phone_num1, #phone_num2').keypress(function (e) {
+            var verified = (e.which == 8 || e.which == undefined || e.which == 0) ? null : String.fromCharCode(e.which).match(/[^0-9]/);
+            if (verified) { e.preventDefault(); }
+        });
+
+        //PHONE NUMBER FORMAT
+        $('#phone_num1, #phone_num2').keyup(function (e) {
+            var ph = this.value.replace(/\D/g, '').substring(0, 10);
+            // Backspace and Delete keys
+            var deleteKey = (e.keyCode == 8 || e.keyCode == 46);
+            var len = ph.length;
+            if (len == 0) {
+                ph = ph;
+            } else if (len < 3) {
+                ph = ph;
+            } else if (len == 3) {
+                ph = ph + (deleteKey ? '' : '-');
+            } else if (len < 6) {
+                ph = ph.substring(0, 3) + '-' + ph.substring(3, 6);
+            } else if (len == 6) {
+                ph = ph.substring(0, 3) + '-' + ph.substring(3, 6) + (deleteKey ? '' : '-');
+            } else {
+                ph = ph.substring(0, 3) + '-' + ph.substring(3, 6) + '-' + ph.substring(6, 10);
+            }
+            this.value = ph;
+        });
+    });
+
+    //PHONE NUMBER FIELD ALIGNMENT
+    $(".iti").css("padding-bottom", "16px");
+    $("#phone_num1").css("border-bottom", "none");
+    $("#phone_num1").css("padding-top", "1rem");
+    $("#phone_num2").css("border-bottom", "none");
+    $("#phone_num2").css("padding-top", "1rem");
+    $("#id_passport_expiration").datepicker({ dateFormat: 'mm/dd/yy' });
+    $("#id_date_of_birth").datepicker({ dateFormat: 'mm/dd/yy' })
+
+    
+</script>
+{% endblock %}

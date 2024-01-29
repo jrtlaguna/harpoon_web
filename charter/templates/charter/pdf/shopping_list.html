@@ -1,0 +1,901 @@
+{% load static %}
+{% load preference_tag %}
+
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&family=Source+Serif+Pro:wght@400;700&display=swap" rel="stylesheet"> 
+    <!-- FA -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha512-Fo3rlrZj/k7ujTnHg4CGR2D7kSs0v4LLanw2qksYuRlEzO+tcaEPQogQ0KaoGN26/zrn20ImR1DfuLWnOo7aBA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <title>Harpoon</title>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&family=Source+Serif+Pro:wght@400;700&display=swap');
+        @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css');
+        @page {
+            size: A4; /* Change from the default size of A4 */
+            /* margin: 0mm; Set margin on each page */
+            margin: 0in 0.44in 0.2in 0.44in;
+        }
+        body {
+            font-family: 'Open Sans', sans-serif;
+            color: #111213;
+            font-size: 9pt;
+        }
+        table td{
+            vertical-align:middle;
+            
+        }
+        table.header h1 {
+            font-family: 'Source Serif Pro', serif;
+            font-size: 14pt;
+        }
+        table.header td {
+            padding: 1rem;
+        }
+        table.profile {
+            width: 100%;
+            padding-top: 1rem;
+        }
+        table.details{
+            width: 100%;
+            border-left: 2px solid #FBC25E;
+        }
+        .category {
+            vertical-align: top;
+            padding: 2px;
+        }
+        table.details th{
+            text-align: left;
+            padding-bottom: .75rem;
+        }
+        table.details table.form{
+            font-weight: 700;
+            width: 100%;
+            border-spacing: 1rem 0rem;
+        }
+        table.details.food td {
+            vertical-align:top;
+            font-weight: 400;
+        }
+        table.details.food th {
+            padding-bottom: 0rem;
+        }
+        table.form {
+            margin-bottom: 1rem;
+        }
+        table.form.alcohol th:nth-child(3),table.form.alcohol td:nth-child(3){
+            text-align: right;
+        }
+        table.form.alcohol th {
+            padding-bottom: .75rem;
+        }
+        table.form.alcohol td ul{
+            margin-bottom: .5rem;
+            margin-top: 0rem;
+        }
+        td.form-value {
+            border-bottom: 1px solid #EDEDED;
+            padding-bottom: .5rem;
+        }
+        h2.guest_name {
+            font-size: 10pt;
+            color: #000000;
+            text-transform: uppercase;
+        }
+        h2 {
+            font-size: 10pt;
+            color: #CFD0D0;
+            text-transform: uppercase;
+        }
+        ul {
+            list-style: none;
+            margin-left: 0;
+            padding-left: 0;
+        }
+
+        li {
+            padding-left: 1em;
+            text-indent: -1em;
+        }
+        li:before {
+           content: "-";
+           padding-right: 5px;
+        }
+
+        .table-shopping-list{
+            border: 1px solid black;
+        }
+        @media print {
+            .header {
+                background-color:#1F1F20 !important;
+                -webkit-print-color-adjust: exact; 
+                color-adjust: exact;
+            }            
+        }
+    </style>
+
+</head> 
+
+<body>
+    {% if preference_list|in_list:"HEALTH_INFO" %}
+        <div style="page-break-before:always">&nbsp;</div> 
+        <div class="shopping-list">
+            <table style="background-color:#1F1F20; width: 100%;" class="header">
+                <tr>
+                    <td>
+                        <h1 style="color:#FBC25E;font-size: 12pt;">Shopping List</h1>
+                    </td>  
+                    
+                    <td style="text-align: center;width: 120px;">
+                        <img src="{% static 'authentication/img/trident-logo-pdf.png' %}" /> 
+                    </td>  
+                </tr>
+            </table>
+            <!-- / Header-->
+        
+            <!-- Profile-->
+            <table class="profile">
+                <tr style="padding-top: 1rem; padding:1rem;"> 
+                    <td style="border: 1px solid #CFD0D0;padding:1rem;border-radius: .5rem;">
+                        <table style="width:100%;">
+                            <tr>
+                                <td class="trident" colspan="1"><img src="{% static 'authentication/img/ship-img.png' %}" /> </td>
+                                <td colspan="6">
+                                    <table style="width: 100%;">
+                                        <tr>
+                                            <td style="padding: 0rem;">Status: {% if charter.is_active %}Active{% elif charter.is_upcoming %}Upcoming{% elif charter.is_past_due %}Past{% endif %} </td>
+                                            <td style="padding: 0rem;text-align: right;">Booking ID: #{{ charter.booking_id }}</td>
+                                        </tr>
+                                    </table>                                
+                                    <span style="font-weight: 700;">{{ charter }}</span> <br>
+                                    {{ charter.embark_country|default_if_none:"Vessel" }} Yacht Charter<br>
+                                    <i class="far fa-calendar me-2"></i> {{ charter.embark_date }} - {{ charter.disembark_date }}
+                                </td>
+                            </tr>
+                        </table>
+                    </td> 
+                </tr>
+            </table>
+            <!-- / profile-->
+            <table style="width: 100%; margin-top: 20px;">
+                <tr>
+                    <h2 style="color: black;">Dietary Restrictions</h2>
+                </tr>
+            </table>
+
+            <table style="width: 100%;border-collapse: collapse;" class="table table-bordered" >
+                <thead>
+                    <tr>
+                        <th style="text-align: center; border: 2px solid gray; ">Guest</th>
+                        <th style="text-align: center; border: 2px solid gray; ">Details</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for guest in guests %}
+                        {% if guest.has_dietary_restrictions %}
+                            <tr>
+                                <td style="border: 1px solid black; padding-left: 5px; width: 30%">{{guest.proper_name}}</td>
+                                <td style="border: 1px solid black; padding: 4px;">
+                                    {% if guest.food_sensitivities %}
+                                        <strong>Allergies:</strong> {{guest.food_sensitivities|list_to_string}}
+                                    {% endif %}
+                                    {% if guest.meal_and_room_preferences.dietary_restrictions_other_notes %}
+                                    <br/>
+                                    <strong>Dietary Restriction:</strong> {{guest.meal_and_room_preferences.dietary_restrictions_other_notes}}
+                                    {% elif guest.meal_and_room_preferences.dietary_restrictions %}
+                                    <br/>
+                                    <strong>Dietary Restriction:</strong> {{guest.meal_and_room_preferences.dietary_restrictions}}
+                                    {% endif %}
+                                    {% if guest.meal_and_room_preferences.dietary_restrictions_notes %}
+                                        <br/>
+                                        <strong>Dietary Restriction Notes:</strong> {{guest.meal_and_room_preferences.dietary_restrictions_notes}}
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endif %}
+                    {% endfor %}
+                </tbody>
+            </table>
+    {% endif %}
+    <!-- Header-->
+    {% if preference_list|in_list:"FOOD" %}
+        <div style="page-break-before:always">&nbsp;</div> 
+        <div class="shopping-list">
+            <table style="background-color:#1F1F20; width: 100%;" class="header">
+                <tr>
+                    <td>
+                        <h1 style="color:#FBC25E;font-size: 12pt;">Shopping List</h1>
+                    </td>  
+                    
+                    <td style="text-align: center;width: 120px;">
+                        <img src="{% static 'authentication/img/trident-logo-pdf.png' %}" /> 
+                    </td>  
+                </tr>
+            </table>
+            <!-- / Header-->
+        
+            <!-- Profile-->
+            <table class="profile">
+                <tr style="padding-top: 1rem; padding:1rem;"> 
+                    <td style="border: 1px solid #CFD0D0;padding:1rem;border-radius: .5rem;">
+                        <table style="width:100%;">
+                            <tr>
+                                <td class="trident" colspan="1"><img src="{% static 'authentication/img/ship-img.png' %}" /> </td>
+                                <td colspan="6">
+                                    <table style="width: 100%;">
+                                        <tr>
+                                            <td style="padding: 0rem;">Status: {% if charter.is_active %}Active{% elif charter.is_upcoming %}Upcoming{% elif charter.is_past_due %}Past{% endif %} </td>
+                                            <td style="padding: 0rem;text-align: right;">Booking ID: #{{ charter.booking_id }}</td>
+                                        </tr>
+                                    </table>                                
+                                    <span style="font-weight: 700;">{{ charter }}</span> <br>
+                                    {{ charter.embark_country|default_if_none:"Vessel" }} Yacht Charter<br>
+                                    <i class="far fa-calendar me-2"></i> {{ charter.embark_date }} - {{ charter.disembark_date }}
+                                </td>
+                            </tr>
+                        </table>
+                    </td> 
+                </tr>
+            </table>
+            <!-- / profile-->
+            <table style="width: 100%; margin-top: 20px;">
+                <tr>
+                    <h2 style="color: black;">Food Preferences</h2>
+                </tr>
+            </table>
+        
+            <table style="width: 100%; margin-top: 10px; border-collapse: collapse;">
+                <thead>
+                    <tr style="height: 20px; text-align: center;">
+                        <th style="width: 30%; border: 1px solid black; text-align: center;">Type</th>
+                        <th style="width: 70%; border: 1px solid black; text-align: center;">Details</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for preference in preferences.keys %}
+                    {% with preferences|dict_to_list:preference as preference_item %}
+                    {% if not preference_item|has_no_values %}
+                        <tr style="height: 50px;">
+                            <td style="width: 20%; border: 1px solid black; text-align: center;">{{preference|get_preference_display_name}}</td>
+                            <td style="width: 80%; border: 1px solid black; padding: 2px;">
+                                    {% for key, value in preference_item.items %}
+                                        {% if value > 0 %}
+                                            {{value}}x <strong>{{key}}</strong>{% if not forloop.last %},{% endif %}
+                                        {% endif %}
+                                    {% endfor %}
+                                </td>
+                            </tr>
+                            {% endif %}
+                    {% endwith %}
+                    </div>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <h2 style="color: black;">Notes</h2>
+            <table  style="width: 100%; border: 1px solid gray; border-radius: 5px; padding:5px;" class="table table-bordered">
+                {% with preferences_notes|dict_value:"General Cuisine" as notes %}
+                {% if notes %}
+                <tr style="border: 1px solid black;">
+                    <td style="width:15%; border-bottom: 1px solid black;"><strong>General Cuisine</strong></td>
+                    <td style="width:85%; border-bottom: 1px solid black; padding: 3px;">
+                        {% for note in notes %}
+                            {{forloop.counter}}. {{note}}
+                            {% if not forloop.last %}<br/>{% endif %}
+                        {% endfor %}
+                    </td>
+                </tr>
+                {% endif %}
+                {% endwith %}
+                {% with preferences_notes|dict_value:"Fish And Shellfish" as notes %}
+                {% if notes %}
+                <tr style="border: 1px solid black;">
+                    <td style="width:15%; border-bottom: 1px solid black;"><strong>Fish And Shellfish</strong></td>
+                    <td style="width:85%; border-bottom: 1px solid black; padding: 3px;">
+                        {% for note in notes %}
+                            {{forloop.counter}}. {{note}}
+                            {% if not forloop.last %}<br/>{% endif %}
+                        {% endfor %}
+                    </td>
+                </tr>
+                {% endif %}
+                {% endwith %}
+                {% with preferences_notes|dict_value:"Meat" as notes %}
+                {% if notes %}
+                <tr style="border: 1px solid black;">
+                    <td style="width:15%; border-bottom: 1px solid black;"><strong>Meat</strong></td>
+                    <td style="width:85%; border-bottom: 1px solid black; padding: 3px;">
+                        {% for note in notes %}
+                            {{forloop.counter}}. {{note}}
+                            {% if not forloop.last %}<br/>{% endif %}
+                        {% endfor %}
+                    </td>
+                </tr>
+                {% endif %}
+                {% endwith %}
+                {% with preferences_notes|dict_value:"Bread" as notes %}
+                {% if notes %}
+                <tr style="border: 1px solid black;">
+                    <td style="width:15%; border-bottom: 1px solid black;"><strong>Bread</strong></td>
+                    <td style="width:85%; border-bottom: 1px solid black; padding: 3px;">
+                        {% for note in notes %}
+                            {{forloop.counter}}. {{note}}
+                            {% if not forloop.last %}<br/>{% endif %}
+                        {% endfor %}
+                    </td>
+                </tr>
+                {% endif %}
+                {% endwith %}
+                {% with preferences_notes|dict_value:"Salad" as notes %}
+                {% if notes %}
+                <tr style="border: 1px solid black;">
+                    <td style="width:15%; border-bottom: 1px solid black;"><strong>Salad</strong></td>
+                    <td style="width:85%; border-bottom: 1px solid black; padding: 3px;">
+                        {% for note in notes %}
+                            {{forloop.counter}}. {{note}}
+                            {% if not forloop.last %}<br/>{% endif %}
+                        {% endfor %}
+                    </td>
+                </tr>
+                {% endif %}
+                {% endwith %}
+                {% with preferences_notes|dict_value:"Soup" as notes %}
+                {% if notes %}
+                <tr style="border: 1px solid black;">
+                    <td style="width:15%; border-bottom: 1px solid black;"><strong>Soup</strong></td>
+                    <td style="width:85%; border-bottom: 1px solid black; padding: 3px;">
+                        {% for note in notes %}
+                            {{forloop.counter}}. {{note}}
+                            {% if not forloop.last %}<br/>{% endif %}
+                        {% endfor %}
+                    </td>
+                </tr>
+                {% endif %}
+                {% endwith %}
+                {% with preferences_notes|dict_value:"Cheese" as notes %}
+                {% if notes %}
+                <tr style="border: 1px solid black;">
+                    <td style="width:15%; border-bottom: 1px solid black;"><strong>Cheese</strong></td>
+                    <td style="width:85%; border-bottom: 1px solid black; padding: 3px;">
+                        {% for note in notes %}
+                            {{forloop.counter}}. {{note}}
+                            {% if not forloop.last %}<br/>{% endif %}
+                        {% endfor %}
+                    </td>
+                </tr>
+                {% endif %}
+                {% endwith %}
+                {% with preferences_notes|dict_value:"Dessert" as notes %}
+                {% if notes %}
+                <tr style="border: 1px solid black;">
+                    <td style="width:15%; border-bottom: 1px solid black;"><strong>Dessert</strong></td>
+                    <td style="width:85%; border-bottom: 1px solid black; padding: 3px;">
+                        {% for note in notes %}
+                            {{forloop.counter}}. {{note}}
+                            {% if not forloop.last %}<br/>{% endif %}
+                        {% endfor %}
+                    </td>
+                </tr>
+                {% endif %}
+                {% endwith %}
+                {% with preferences_notes|dict_value:"Kids Meals" as notes %}
+                {% if notes %}
+                <tr style="border: 1px solid black;">
+                    <td style="width:15%; border-bottom: 1px solid black;"><strong>Salad</strong></td>
+                    <td style="width:85%; border-bottom: 1px solid black; padding: 3px;">
+                        {% for note in notes %}
+                            {{forloop.counter}}. {{note}}
+                            {% if not forloop.last %}<br/>{% endif %}
+                        {% endfor %}
+                    </td>
+                </tr>
+                {% endif %}
+                {% endwith %}
+                {% with preferences_notes|dict_value:"Kids Allergies" as notes %}
+                {% if notes %}
+                <tr style="border: 1px solid black;">
+                    <td style="width:15%; border-bottom: 1px solid black;"><strong>Kids Allergies</strong></td>
+                    <td style="width:85%; border-bottom: 1px solid black; padding: 3px;">
+                        {% for note in notes %}
+                            {{forloop.counter}}. {{note}}
+                            {% if not forloop.last %}<br/>{% endif %}
+                        {% endfor %}
+                    </td>
+                </tr>
+                {% endif %}
+                {% endwith %}
+            </table>
+        </div>
+        
+
+        <div style="page-break-before:always">&nbsp;</div> 
+
+        <table style="background-color:#1F1F20; width: 100%;" class="header">
+            <tr>
+                <td>
+                    <h1 style="color:#FBC25E;font-size: 12pt;">Shopping List</h1>
+                </td>  
+                
+                <td style="text-align: center;width: 120px;">
+                    <img src="{% static 'authentication/img/trident-logo-pdf.png' %}" /> 
+                </td>  
+            </tr>
+        </table>
+        <!-- / Header-->
+
+        <!-- Profile-->
+        <table class="profile">
+            <tr style="padding-top: 1rem; padding:1rem;"> 
+                <td style="border: 1px solid #CFD0D0;padding:1rem;border-radius: .5rem;">
+                    <table style="width:100%;">
+                        <tr>
+                            <td class="trident" colspan="1"><img src="{% static 'authentication/img/ship-img.png' %}" /> </td>
+                            <td colspan="6">
+                                <table style="width: 100%;">
+                                    <tr>
+                                        <td style="padding: 0rem;">Status: {% if charter.is_active %}Active{% elif charter.is_upcoming %}Upcoming{% elif charter.is_past_due %}Past{% endif %} </td>
+                                        <td style="padding: 0rem;text-align: right;">Booking ID: #{{ charter.booking_id }}</td>
+                                    </tr>
+                                </table>                                
+                                <span style="font-weight: 700;">{{ charter }}</span> <br>
+                                {{ charter.embark_country|default_if_none:"Vessel" }} Yacht Charter<br>
+                                <i class="far fa-calendar me-2"></i> {{ charter.embark_date }} - {{ charter.disembark_date }}
+                            </td>
+                        </tr>
+                    </table>
+                </td> 
+            </tr>
+        </table>
+        <table style="width: 100%; margin-top: 20px;">
+            <tr>
+                <h2 style="color: black;">Chef's Notes</h2>
+            </tr>
+        </table>
+
+        <table style="width: 100%; margin-top: 20px; border-collapse: collapse;">
+            <thead>
+                <tr style="height: 40px; text-align: center;">
+                    <th style="width: 30%; border: 1px solid black; text-align: center;">PREFERENCE</th>
+                    <th style="width: 70%; border: 1px solid black; text-align: center;">NOTE/S</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for food in food_choices %}
+                <tr style="height: 70px;">
+                    <td style="width: 30%; border: 1px solid black; text-align: center;">{{food}}</td>
+                    <td style="width: 70%; border: 1px solid black;"></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+    {% if preference_list|in_list:"BEVERAGES" %}
+        <div style="page-break-before:always">&nbsp;</div> 
+        <div class="shopping-list">
+            <table style="background-color:#1F1F20; width: 100%;" class="header">
+                <tr>
+                    <td>
+                        <h1 style="color:#FBC25E;font-size: 12pt;">Shopping List</h1>
+                    </td>  
+                    
+                    <td style="text-align: center;width: 120px;">
+                        <img src="{% static 'authentication/img/trident-logo-pdf.png' %}" /> 
+                    </td>  
+                </tr>
+            </table>
+            <!-- / Header-->
+        
+            <!-- Profile-->
+            <table class="profile">
+                <tr style="padding-top: 1rem; padding:1rem;"> 
+                    <td style="border: 1px solid #CFD0D0;padding:1rem;border-radius: .5rem;">
+                        <table style="width:100%;">
+                            <tr>
+                                <td class="trident" colspan="1"><img src="{% static 'authentication/img/ship-img.png' %}" /> </td>
+                                <td colspan="6">
+                                    <table style="width: 100%;">
+                                        <tr>
+                                            <td style="padding: 0rem;">Status: {% if charter.is_active %}Active{% elif charter.is_upcoming %}Upcoming{% elif charter.is_past_due %}Past{% endif %} </td>
+                                            <td style="padding: 0rem;text-align: right;">Booking ID: #{{ charter.booking_id }}</td>
+                                        </tr>
+                                    </table>                                
+                                    <span style="font-weight: 700;">{{ charter }}</span> <br>
+                                    {{ charter.embark_country|default_if_none:"Vessel" }} Yacht Charter<br>
+                                    <i class="far fa-calendar me-2"></i> {{ charter.embark_date }} - {{ charter.disembark_date }}
+                                </td>
+                            </tr>
+                        </table>
+                    </td> 
+                </tr>
+            </table>
+            <!-- / profile-->
+            <table style="width: 100%; margin-top: 20px;">
+                <tr>
+                    <h2 style="color: black;">Beverages</h2>
+                </tr>
+            </table>
+        
+            <table style="width: 100%; margin-top: 20px; border-collapse: collapse;">
+                <thead>
+                    <tr style="height: 20px; text-align: center;">
+                        <th style="width: 30%; border: 1px solid black; text-align: center;">Type</th>
+                        <th style="width: 70%; border: 1px solid black; text-align: center;">Details</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for beverage in beverages.keys %}
+                    {% with beverages|dict_to_list:beverage as beverage_item %}
+                    {% if not beverage_item|has_no_values %}
+                        <tr style="height: 63px;">
+                            <td style="width: 20%; border: 1px solid black; text-align: center;">{{beverage|get_preference_display_name}}</td>
+                            <td style="width: 80%; border: 1px solid black; padding: 5px;">
+                                    {% for key, value in beverage_item.items %}
+                                        {% if value > 0 %}
+                                            {{value}}x <strong>{{key}}</strong>{% if not forloop.last %},{% endif %}
+                                        {% endif %}
+                                    {% endfor %}
+                                </td>
+                            </tr>
+                            {% endif %}
+                    {% endwith %}
+                    </div>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <h2 style="color: black;">Notes</h2>
+            <table  style="width: 100%; border: 1px solid gray; border-radius: 5px; padding:5px;" class="table table-bordered">
+                {% with preferences_notes|dict_value:"Milk" as notes %}
+                {% if notes %}
+                <tr style="border: 1px solid black;">
+                    <td style="width:15%; border-bottom: 1px solid black;"><strong>Milk</strong></td>
+                    <td style="width:85%; border-bottom: 1px solid black; padding: 3px;">
+                        {% for note in notes %}
+                            {{forloop.counter}}. {{note}}
+                            {% if not forloop.last %}<br/>{% endif %}
+                        {% endfor %}
+                    </td>
+                </tr>
+                {% endif %}
+                {% endwith %}
+                {% with beverage_notes|dict_value:"Coffee" as notes %}
+                {% if notes %}
+                <tr style="border: 1px solid black;">
+                    <td style="width:15%; border-bottom: 1px solid black;"><strong>Coffee</strong></td>
+                    <td style="width:85%; border-bottom: 1px solid black; padding: 3px;">
+                        {% for note in notes %}
+                            {{forloop.counter}}. {{note}}
+                            {% if not forloop.last %}<br/>{% endif %}
+                        {% endfor %}
+                    </td>
+                </tr>
+                {% endif %}
+                {% endwith %}
+                {% with beverage_notes|dict_value:"Tea" as notes %}
+                {% if notes %}
+                <tr style="border: 1px solid black;">
+                    <td style="width:15%; border-bottom: 1px solid black;"><strong>Tea</strong></td>
+                    <td style="width:85%; border-bottom: 1px solid black; padding: 3px;">
+                        {% for note in notes %}
+                            {{forloop.counter}}. {{note}}
+                            {% if not forloop.last %}<br/>{% endif %}
+                        {% endfor %}
+                    </td>
+                </tr>
+                {% endif %}
+                {% endwith %}
+                {% with beverage_notes|dict_value:"Water" as notes %}
+                {% if notes %}
+                <tr style="border: 1px solid black;">
+                    <td style="width:15%; border-bottom: 1px solid black;"><strong>Water</strong></td>
+                    <td style="width:85%; border-bottom: 1px solid black; padding: 3px;">
+                        {% for note in notes %}
+                            {{forloop.counter}}. {{note}}
+                            {% if not forloop.last %}<br/>{% endif %}
+                        {% endfor %}
+                    </td>
+                </tr>
+                {% endif %}
+                {% endwith %}
+                {% with beverage_notes|dict_value:"Juice" as notes %}
+                {% if notes %}
+                <tr style="border: 1px solid black;">
+                    <td style="width:15%; border-bottom: 1px solid black;"><strong>Juice</strong></td>
+                    <td style="width:85%; border-bottom: 1px solid black; padding: 3px;">
+                        {% for note in notes %}
+                            {{forloop.counter}}. {{note}}
+                            {% if not forloop.last %}<br/>{% endif %}
+                        {% endfor %}
+                    </td>
+                </tr>
+                {% endif %}
+                {% endwith %}
+                {% with beverage_notes|dict_value:"Sodas And Mixers" as notes %}
+                {% if notes %}
+                <tr style="border: 1px solid black;">
+                    <td style="width:15%; border-bottom: 1px solid black;"><strong>Sodas and Mixers</strong></td>
+                    <td style="width:85%; border-bottom: 1px solid black; padding: 3px;">
+                        {% for note in notes %}
+                            {{forloop.counter}}. {{note}}
+                            {% if not forloop.last %}<br/>{% endif %}
+                        {% endfor %}
+                    </td>
+                </tr>
+                {% endif %}
+                {% endwith %}
+                {% with beverage_notes|dict_value:"Add Ons" as notes %}
+                {% if notes %}
+                <tr style="border: 1px solid black;">
+                    <td style="width:15%; border-bottom: 1px solid black;"><strong>Add Ons</strong></td>
+                    <td style="width:85%; border-bottom: 1px solid black; padding: 3px;">
+                        {% for note in notes %}
+                            {{forloop.counter}}. {{note}}
+                            {% if not forloop.last %}<br/>{% endif %}
+                        {% endfor %}
+                    </td>
+                </tr>
+                {% endif %}
+                {% endwith %}
+            </table>
+        </div>
+    {% endif %}
+
+    {% if preference_list|in_list:"ALCOHOLIC" %}
+        <div style="page-break-before:always">&nbsp;</div> 
+        <div class="shopping-list">
+            <table style="background-color:#1F1F20; width: 100%;" class="header">
+                <tr>
+                    <td>
+                        <h1 style="color:#FBC25E;font-size: 12pt;">Shopping List</h1>
+                    </td>  
+                    
+                    <td style="text-align: center;width: 120px;">
+                        <img src="{% static 'authentication/img/trident-logo-pdf.png' %}" /> 
+                    </td>  
+                </tr>
+            </table>
+            <!-- / Header-->
+        
+            <!-- Profile-->
+            <table class="profile">
+                <tr style="padding-top: 1rem; padding:1rem;"> 
+                    <td style="border: 1px solid #CFD0D0;padding:1rem;border-radius: .5rem;">
+                        <table style="width:100%;">
+                            <tr>
+                                <td class="trident" colspan="1"><img src="{% static 'authentication/img/ship-img.png' %}" /> </td>
+                                <td colspan="6">
+                                    <table style="width: 100%;">
+                                        <tr>
+                                            <td style="padding: 0rem;">Status: {% if charter.is_active %}Active{% elif charter.is_upcoming %}Upcoming{% elif charter.is_past_due %}Past{% endif %} </td>
+                                            <td style="padding: 0rem;text-align: right;">Booking ID: #{{ charter.booking_id }}</td>
+                                        </tr>
+                                    </table>                                
+                                    <span style="font-weight: 700;">{{ charter }}</span> <br>
+                                    {{ charter.embark_country|default_if_none:"Vessel" }} Yacht Charter<br>
+                                    <i class="far fa-calendar me-2"></i> {{ charter.embark_date }} - {{ charter.disembark_date }}
+                                </td>
+                            </tr>
+                        </table>
+                    </td> 
+                </tr>
+            </table>
+            <!-- / profile-->
+            <table style="width: 100%; margin-top: 20px;">
+                <tr>
+                    <h2 style="color: black;">Alcoholic Drinks</h2>
+                </tr>
+            </table>
+        
+            <table style="width: 100%; margin-top: 20px; border-collapse: collapse;">
+                <thead>
+                    <tr style="height: 20px; text-align: center;">
+                        <th style="width: 30%; border: 1px solid black; text-align: center;">Alcohol Type</th>
+                        <th style="width: 70%; border: 1px solid black; text-align: center;">Details</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for alcohol in alcohols.keys %}
+                    {% with alcohols|dict_to_list:alcohol as alcohol_item %}
+                    {% if not alcohol_item|has_no_values %}
+                        <tr style="height: 63px;">
+                            <td style="width: 20%; border: 1px solid black; text-align: center;">{{alcohol}}</td>
+                            <td style="width: 80%; border: 1px solid black; padding: 5px;">
+                                    {% for key, value in alcohol_item.items %}
+                                        {% if value > 0 %}
+                                            {{value}}x <strong>{{key}}</strong>{% if not forloop.last %},{% endif %}
+                                        {% endif %}
+                                    {% endfor %}
+                                </td>
+                            </tr>
+                            {% endif %}
+                            {% endwith %}
+                    </div>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% endif %}
+
+
+    {% if preference_list|in_list:"ROOM_AND_SERVICES" %}
+        <div style="page-break-before:always">&nbsp;</div> 
+        <div class="shopping-list">
+            <table style="background-color:#1F1F20; width: 100%;" class="header">
+                <tr>
+                    <td>
+                        <h1 style="color:#FBC25E;font-size: 12pt;">Shopping List</h1>
+                    </td>  
+                    
+                    <td style="text-align: center;width: 120px;">
+                        <img src="{% static 'authentication/img/trident-logo-pdf.png' %}" /> 
+                    </td>  
+                </tr>
+            </table>
+            <!-- / Header-->
+        
+            <!-- Profile-->
+            <table class="profile">
+                <tr style="padding-top: 1rem; padding:1rem;"> 
+                    <td style="border: 1px solid #CFD0D0;padding:1rem;border-radius: .5rem;">
+                        <table style="width:100%;">
+                            <tr>
+                                <td class="trident" colspan="1"><img src="{% static 'authentication/img/ship-img.png' %}" /> </td>
+                                <td colspan="6">
+                                    <table style="width: 100%;">
+                                        <tr>
+                                            <td style="padding: 0rem;">Status: {% if charter.is_active %}Active{% elif charter.is_upcoming %}Upcoming{% elif charter.is_past_due %}Past{% endif %} </td>
+                                            <td style="padding: 0rem;text-align: right;">Booking ID: #{{ charter.booking_id }}</td>
+                                        </tr>
+                                    </table>                                
+                                    <span style="font-weight: 700;">{{ charter }}</span> <br>
+                                    {{ charter.embark_country|default_if_none:"Vessel" }} Yacht Charter<br>
+                                    <i class="far fa-calendar me-2"></i> {{ charter.embark_date }} - {{ charter.disembark_date }}
+                                </td>
+                            </tr>
+                        </table>
+                    </td> 
+                </tr>
+            </table>
+            <!-- / profile-->
+            <table style="width: 100%; margin-top: 20px;">
+                <tr>
+                    <h2 style="color: black;">Room and Services</h2>
+                </tr>
+            </table>
+        
+            <table style="width: 100%; margin-top: 20px; border-collapse: collapse;">
+                <thead>
+                    <tr style="height: 40px; text-align: center;">
+                        <th style="width: 30%; border: 1px solid black; text-align: center;">Guest</th>
+                        <th style="width: 70%; border: 1px solid black; text-align: center;">Details</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for guest in guests %}
+                        {% if guest.diet_services_sizes_preferences %}
+                            <tr style="height: 70px;">
+                                <td style="width: 30%; border: 1px solid black; text-align: center;">{{guest.proper_name}}</td>
+                                <td style="width: 70%; border: 1px solid black;">
+                                    {% if guest.diet_services_sizes_preferences.preferred_room_temperature %}
+                                        <strong>Preferreed Room Temperature: </strong> {{guest.diet_services_sizes_preferences.preferred_room_temperature}} °F<br/>
+                                    {% endif %}
+                                    {% if guest.diet_services_sizes_preferences.favorite_flowers %}
+                                        <strong>Favorite Flowers: </strong> {{guest.diet_services_sizes_preferences.favorite_flowers}}<br/>
+                                    {% endif %}
+                                    {% if guest.diet_services_sizes_preferences.other_service.name %}
+                                        <strong>Other Services: </strong>{{guest.diet_services_sizes_preferences.other_service.name|string_list_to_string}}<br/>
+                                    {% endif %}
+                                    {% if guest.diet_services_sizes_preferences.other_services_other_notes %}
+                                        <strong>Other Services Notes: </strong>{{guest.diet_services_sizes_preferences.other_services_other_notes}}
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endif %}
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% endif %}
+
+    {% if preference_list|in_list:"SIZING" %}
+        <div style="page-break-before:always">&nbsp;</div> 
+        <div class="shopping-list">
+            <table style="background-color:#1F1F20; width: 100%;" class="header">
+                <tr>
+                    <td>
+                        <h1 style="color:#FBC25E;font-size: 12pt;">Shopping List</h1>
+                    </td>  
+                    
+                    <td style="text-align: center;width: 120px;">
+                        <img src="{% static 'authentication/img/trident-logo-pdf.png' %}" /> 
+                    </td>  
+                </tr>
+            </table>
+            <!-- / Header-->
+        
+            <!-- Profile-->
+            <table class="profile">
+                <tr style="padding-top: 1rem; padding:1rem;"> 
+                    <td style="border: 1px solid #CFD0D0;padding:1rem;border-radius: .5rem;">
+                        <table style="width:100%;">
+                            <tr>
+                                <td class="trident" colspan="1"><img src="{% static 'authentication/img/ship-img.png' %}" /> </td>
+                                <td colspan="6">
+                                    <table style="width: 100%;">
+                                        <tr>
+                                            <td style="padding: 0rem;">Status: {% if charter.is_active %}Active{% elif charter.is_upcoming %}Upcoming{% elif charter.is_past_due %}Past{% endif %} </td>
+                                            <td style="padding: 0rem;text-align: right;">Booking ID: #{{ charter.booking_id }}</td>
+                                        </tr>
+                                    </table>                                
+                                    <span style="font-weight: 700;">{{ charter }}</span> <br>
+                                    {{ charter.embark_country|default_if_none:"Vessel" }} Yacht Charter<br>
+                                    <i class="far fa-calendar me-2"></i> {{ charter.embark_date }} - {{ charter.disembark_date }}
+                                </td>
+                            </tr>
+                        </table>
+                    </td> 
+                </tr>
+            </table>
+            <!-- / profile-->
+            <table style="width: 100%; margin-top: 20px;">
+                <tr>
+                    <h2 style="color: black;">Sizing</h2>
+                </tr>
+            </table>
+        
+            <table style="width: 100%; margin-top: 20px; border-collapse: collapse;">
+                <thead>
+                    <tr style="height: 40px; text-align: center;">
+                        <th style="width: 30%; border: 1px solid black; text-align: center;">Guest</th>
+                        <th style="width: 35%; border: 1px solid black; text-align: center;">Shirt Sizing</th>
+                        <th style="width: 35%; border: 1px solid black; text-align: center;">Shoe Sizing</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for guest in guests %}
+                        {% if guest.diet_services_sizes_preferences %}
+                        <tr style="height: 70px;">
+                            <td style="width: 30%; border: 1px solid black; text-align: center;">{{guest.proper_name}}</td>
+                            <td style="width: 35%; border: 1px solid black;">
+                                {% if guest.diet_services_sizes_preferences.shirt_sizing %}
+                                    <strong>Shirt Sizing: </strong> {{guest.diet_services_sizes_preferences.shirt_sizing}}<br/>
+                                {% endif %}
+                                {% if guest.diet_services_sizes_preferences.international_shirt_sizing %}
+                                    <strong>International Sizing: </strong> {{guest.diet_services_sizes_preferences.international_shirt_sizing}}<br/>
+                                {% endif %}
+                                {% if guest.diet_services_sizes_preferences.shirt_size %}
+                                    <strong>Shirt Size: </strong>{{guest.diet_services_sizes_preferences.shirt_size}}<br/>
+                                {% endif %}
+                            </td>
+                            <td style="width: 35%; border: 1px solid black;">
+                                {% if guest.diet_services_sizes_preferences.shoe_sizing %}
+                                    <strong>Shoe Sizing: </strong> {{guest.diet_services_sizes_preferences.shoe_sizing}}<br/>
+                                {% endif %}
+                                {% if guest.diet_services_sizes_preferences.international_shoe_sizing %}
+                                    <strong>International Shoe Sizing: </strong> {{guest.diet_services_sizes_preferences.international_shoe_sizing}}<br/>
+                                {% endif %}
+                                {% if guest.diet_services_sizes_preferences.shoe_size %}
+                                    <strong>Shoe Size: </strong>{{guest.diet_services_sizes_preferences.shoe_size}}<br/>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endif %}
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% endif %}
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous">
+    </script>
+</body>
+
+</html>

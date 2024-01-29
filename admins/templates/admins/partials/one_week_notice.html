@@ -1,0 +1,40 @@
+<a href="{% url 'charter:guests' notification.charter.id%}" class="w-100 border-bottom-dark-80-1 d-flex py-3 align-items-start">
+    <span class="material-icons txt-color-magenta drop-menu-notif-icon">
+        error
+    </span>
+
+    {% with charter=notification.charter %}
+    <div class="w-100 ml-3">
+        <span class="txt-color-magenta fs-16 fw-700 d-table">
+            {{charter}}
+        </span>
+        <span class="txt-color-magenta fs-12 fw-700 d-table">
+            Booking ID: {{charter.booking_id}}
+        </span>
+        <span class="txt-color-white fs-12 fw-400 d-table mt-2">
+            Departing: {{charter.disembark_date}}
+        </span>
+        <span class="txt-color-white fs-12 fw-400 d-table mb-2">
+            Time: {{charter.disembark_time}}
+        </span>
+
+        <p class="txt-color-white fs-12 fw-400 d-table mb-2">Your trip is coming up in seven days time. Please go to Harpoon Solution to export your guests' preferences for provision planning.</p>
+
+        <p class="txt-color-white fs-12 fw-400 d-table mb-2">Guests listed below have not completed their preferences.  Please contact the principal & guest directly to follow up.</p>
+        <ul style="padding-left: 0;">
+        {% for guest in charter.incomplete_unregistered_guests %}
+            <li>
+                <p class="txt-color-white fs-14 fw-400 my-2">
+                    {{guest}}
+                </p>
+            </li>
+            <li>
+                <p class="txt-color-white fs-14 fw-400 my-2">
+                    {{guest}}
+                </p>
+            </li>   
+        {% endfor %}
+        </ul>
+    </div>
+    {% endwith %}
+</a>

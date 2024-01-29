@@ -1,0 +1,1408 @@
+{% load static %}
+{% load preference_tag %}
+
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&family=Source+Serif+Pro:wght@400;700&display=swap" rel="stylesheet"> 
+    <!-- FA -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha512-Fo3rlrZj/k7ujTnHg4CGR2D7kSs0v4LLanw2qksYuRlEzO+tcaEPQogQ0KaoGN26/zrn20ImR1DfuLWnOo7aBA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <title>Harpoon</title>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&family=Source+Serif+Pro:wght@400;700&display=swap');
+        @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css');
+        @page {
+            size: A4; /* Change from the default size of A4 */
+            /* margin: 0mm; Set margin on each page */
+            margin: 0in 0.44in 0.2in 0.44in;
+        }
+        body {
+            font-family: 'Open Sans', sans-serif;
+            color: #111213;
+            font-size: 9pt;
+        }
+        table td{
+            vertical-align:middle;
+            
+        }
+        table.header h1 {
+            font-family: 'Source Serif Pro', serif;
+            font-size: 14pt;
+        }
+        table.header td {
+            padding: 1rem;
+        }
+        table.profile {
+            width: 100%;
+            padding-top: 1rem;
+        }
+        table.details{
+            width: 100%;
+            border-left: 2px solid #FBC25E;
+        }
+        table.details th{
+            text-align: left;
+            padding-bottom: .75rem;
+        }
+        table.details table.form{
+            font-weight: 700;
+            width: 100%;
+            border-spacing: 1rem 0rem;
+        }
+        table.details.food td {
+            vertical-align:top;
+            font-weight: 400;
+        }
+        table.details.food th {
+            padding-bottom: 0rem;
+        }
+        table.form {
+            margin-bottom: 1rem;
+        }
+        table.form.alcohol th:nth-child(3),table.form.alcohol td:nth-child(3){
+            text-align: right;
+        }
+        table.form.alcohol th {
+            padding-bottom: .75rem;
+        }
+        table.form.alcohol td ul{
+            margin-bottom: .5rem;
+            margin-top: 0rem;
+        }
+        td.form-value {
+            border-bottom: 1px solid #EDEDED;
+            padding-bottom: .5rem;
+        }
+        h2.guest_name {
+            font-size: 10pt;
+            color: #000000;
+            text-transform: uppercase;
+        }
+        h2 {
+            font-size: 10pt;
+            color: #CFD0D0;
+            text-transform: uppercase;
+        }
+        ul {
+            list-style: none;
+            margin-left: 0;
+            padding-left: 0;
+        }
+        .circular-image {
+            display: block;
+            margin: 0 auto;
+
+            width: 75%;
+            height: auto;
+            -webkit-border-radius: 50%;
+            -moz-border-radius: 50%;
+            border-radius: 50%;
+            /* background-color: red; */
+        }
+
+        li {
+            padding-left: 1em;
+            text-indent: -1em;
+        }
+        li:before {
+           content: "-";
+           padding-right: 5px;
+        }
+        @media print {
+            .header {
+                background-color:#1F1F20 !important;
+                -webkit-print-color-adjust: exact; 
+                color-adjust: exact;
+            }            
+        }
+    </style>
+
+</head> 
+
+<body>
+        <!-- Header-->
+    <table style="background-color:#1F1F20; width: 100%;" class="header">
+        <tr>
+            <td>
+                <h1 style="color:#FBC25E;font-size: 12pt;">Guest Details Profile & Preferences</h1>
+            </td>  
+            
+            <td style="text-align: center;width: 120px;">
+                <img src="{% static 'authentication/img/trident-logo-pdf.png' %}" /> 
+            </td>  
+        </tr>
+    </table>
+    <!-- / Header-->
+    <!-- Profile-->
+    <table class="profile">
+        <tr style="padding-top: 1rem; padding:1rem;">
+            <td style="border: 1px solid #CFD0D0;padding:1rem;border-radius: .5rem;">
+                <table>
+                    <tr>
+                        <td>
+                            {% if guest.profile.user.profile_picture %}
+                                <img src="{{guest.profile.user.profile_picture.url}}" style="width: 90px; height: 90px; object-fit: cover; object-position: 100% 0; border-radius: 50%;">
+                            {% else %}
+                                <img src="{% static 'guests/img/account_profile.svg' %}" style="width: 90px; height: 90px; object-fit: cover; object-position: 100% 0; border-radius: 50%;">
+                            {% endif %}
+                            <!-- <img src="{% static 'authentication/img/user-img.png' %}" />  -->
+                        </td>
+                        <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                        <td>
+                            <i class="fas fa-flag"></i>{% if guest.is_principal %}Principal{% else %}Guest{% endif %}<br>
+                            <!-- <span style="font-weight: 900; margin-left: '500px';">{{ guest }}</span> -->
+                            <h2 class="guest_name">{{ guest }}</h2>
+                        </td>
+                    </tr>
+                </table>
+            </td>  
+            {% if charter != None %}
+            <td style="border: 1px solid #CFD0D0;padding:1rem;border-radius: .5rem;">
+                <table style="width:100%;">
+                    <tr>
+                        <td><img src="{% static 'authentication/img/ship-img.png' %}" /> </td>
+                        <td>
+                            <table style="width: 100%;">
+                                <tr>
+                                    <td style="padding: 0rem;">Status: {% if charter.is_active %}Active{% elif charter.is_upcoming %}Upcoming{% elif charter.is_past_due %}Past{% endif %} </td>
+                                    <td style="padding: 0rem;text-align: right;">Booking ID: #{{ charter.booking_id }}</td>
+                                </tr>
+                            </table>                                
+                            <span style="font-weight: 700;">{{ charter }}</span> <br>
+                            {{ charter.embark_country|default_if_none:"Vessel" }} Yacht Charter<br>
+                            <i class="far fa-calendar me-2"></i> {{ charter.embark_date|date:'d F Y' }} - {{ charter.disembark_date|date:'d F Y' }}
+                        </td>
+                    </tr>
+                </table>
+            </td> 
+            {% endif %} 
+        </tr>
+    </table>
+    <!-- / profile-->
+    <!-- Personal Details -->
+    <table style="width: 100%;">
+        <tr>
+            <td><h2>Personal Details</h2></td>
+        </tr>
+    </table>
+    <table class="details">            
+        <tr>
+            <td>
+                <table class="form">
+                    <tr>
+                        <th>Name</th>
+                    </tr>
+                    <tr>
+                        <td class="form-value">
+                            {{ guest }}
+                        </td>
+                    </tr>
+                    
+                </table>
+            </td>
+            <td>
+                <table class="form">
+                    <tr>
+                        <th>Email Address</th>
+                    </tr>
+                    <tr>
+                        <td class="form-value">
+                            {{ guest.email }}
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <table class="form">
+                    <tr>
+                        <th>Phone Number</td>
+                    </tr>
+                    <tr>
+                        <td class="form-value">
+                            {{ guest.profile.phone_number|default:"N/A" }}
+                        </td>
+                    </tr>
+                    
+                </table>
+            </td>
+            <td>
+                <table class="form">
+                    <tr>
+                        <th>Company Name</td>
+                    </tr>
+                    <tr>
+                        <td class="form-value">
+                            {{ guest.company_name|default:"N/A"}}
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        
+    </table>
+    <!-- / Personal Details -->
+    <!-- Address -->
+    <table style="width: 100%;">
+        <tr>
+            <td><h2>Address</h2></td>
+        </tr>
+    </table>
+    <table class="details">            
+        <tr>
+            <td colspan="4">
+                <table class="form">
+                    <tr>
+                        <th>Home Address*</th>
+                    </tr>
+                    <tr>
+                        <td class="form-value">
+                            {{ guest.address_street }}
+                        </td>
+                    </tr>
+                    
+                </table>
+            </td>
+            <td colspan="3">
+                <table class="form">
+                    <tr>
+                        <th>City</td>
+                    </tr>
+                    <tr>
+                        <td class="form-value">
+                            {{ guest.address_city }}
+                        </td>
+                    </tr>
+                    
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="3">
+                <table class="form">
+                    <tr>
+                        <th>State</td>
+                    </tr>
+                    <tr>
+                        <td class="form-value">
+                            {{ guest.address_state }}
+                        </td>
+                    </tr>
+                </table>
+            </td>
+            <td colspan="3">
+                <table class="form">
+                    <tr>
+                        <th>Country</td>
+                    </tr>
+                    <tr>
+                        <td class="form-value">
+                            {{ guest.address_country }}
+                        </td>
+                    </tr>
+                    
+                </table>
+            </td>
+            <td colspan="1">
+                <table class="form">
+                    <tr>
+                        <th>Zip</td>
+                    </tr>
+                    <tr>
+                        <td class="form-value">
+                            {{ guest.address_zipcode }}
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        
+    </table>
+    <!-- / Address -->
+    <!-- Health Info -->
+    <table style="width: 100%;">
+        <tr>
+            <td><h2>Health Info</h2></td>
+        </tr>
+    </table>
+    <table class="details">            
+        <tr>
+            <td colspan="2">
+                <table class="form">
+                    <tr>
+                        <th>Are there any medical issues the crew should know about?*</th>
+                    </tr>
+                    <tr>
+                        <td class="form-value">
+                            {{ guest.medical_issues }}
+                        </td>
+                    </tr>
+                    
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td >
+                <table class="form">
+                    <tr>
+                        <th>Do you have any allergies?</td>
+                    </tr>
+                    <tr>
+                        <td class="form-value">
+                            {{ guest.allergies }}
+                        </td>
+                    </tr>
+                    
+                </table>
+            </td>
+            <td >
+                <table class="form">
+                    <tr>
+                        <th>Medications</td>
+                    </tr>
+                    <tr>
+                        <td class="form-value">
+                            {{ guest.medications }}
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <table class="form">
+                    <tr>
+                        <th>Food Sensitivities</th>
+                    </tr>
+                    <tr>
+                        <td class="form-value">
+                            {% if guest.lactose_intolerant %}Lactose Intolerant, {% endif %}
+                            {% if guest.shellfish_allergy %}Shellfish Allergy, {% endif %}
+                            {% if guest.nut_allergy %}Nut Allergy, {% endif %}
+                            {% if guest.gluten_free %}Gluten Free, {% endif %}
+                            {% if guest.none_food_sensitivity %}None{% endif %}
+                        </td>
+                    </tr>
+                    
+                </table>
+            </td>
+        </tr>
+    </table>
+    <!-- / Health Info -->
+    <!-- High Priority Info -->
+    <table style="width: 100%;">
+        <tr>
+            <td><h2>High Priority Info</h2></td>
+        </tr>
+    </table>
+    <table class="details">            
+        <tr>
+            <td >
+                <table class="form">
+                    <tr>
+                        <th>Guest pronouns:</td>
+                    </tr>
+                    <tr>
+                        <td class="form-value">
+                            {{ guest.pronouns }}
+                        </td>
+                    </tr>
+                    
+                </table>
+            </td>
+            <td >
+                <table class="form">
+                    <tr>
+                        <th>Would like to be addressed as: </td>
+                    </tr>
+                    <tr>
+                        <td class="form-value">
+                            {{ guest.salutation_nickname }} 
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <table class="form">
+                    <tr>
+                        <th>Please note any other high priority details here:</th>
+                    </tr>
+                    <tr>
+                        <td class="form-value">
+                            {{ guest.high_priority_details }}
+                        </td>
+                    </tr>
+                    
+                </table>
+            </td>
+        </tr>
+    </table>
+    <!-- / High Priority Info -->
+
+    <p style="page-break-before: always" ></p>
+
+    <!-- Food -->
+    <table style="width: 100%; margin-top: 50px;">
+        <tr>
+            <td><h2>Food</h2></td>
+        </tr>
+    </table>
+    <table class="details food">            
+        <tr>
+            <td>
+                <table class="form">
+                    <tr>
+                        <th>GENERAL CUISINE</th>
+                    </tr>
+                    <tr>
+                        <td >
+                            <ul>
+                                {% for item in guest.food_preferences.general_cuisine|get_string_as_list %}
+                                    <li>{{ item|get_display_name:"GENERAL_CUISINE" }}</li>
+                                {% empty %}
+                                    <li>N/A</li>
+                                {% endfor %}
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Note to Chef:</th>
+                    </tr>
+                    <tr>
+                        <td>
+                            {{ guest.food_preferences.general_cuisine_notes|default:"N/A" }}
+                        </td>
+                    </tr>
+                </table>
+            </td>
+            <td>
+                <table class="form">
+                    <tr>
+                        <th>FISH AND SHELLFISH</th>
+                    </tr>
+                    <tr>
+                        <td>
+                            <ul>
+                                {% for item in guest.food_preferences.fish_and_shellfish|get_string_as_list %}
+                                    <li>{{ item|get_display_name:"FISH_SHELLFISH" }}</li>
+                                {% empty %}
+                                    <li>N/A</li>
+                                {% endfor %}
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Note to Chef:</th>
+                    </tr>
+                    <tr>
+                        <td>
+                            {{ guest.food_preferences.fish_and_shellfish_notes|default:"N/A" }}
+                        </td>
+                    </tr>
+                </table>
+            </td>
+            <td>
+                <table class="form">
+                    <tr>
+                        <th>MEAT</th>
+                    </tr>
+                    <tr>
+                        <td>
+                            <ul>
+                                {% for item in guest.food_preferences.meat|get_string_as_list %}
+                                    <li>{{ item|get_display_name:"MEAT" }}</li>
+                                {% empty %}
+                                    <li>N/A</li>
+                                {% endfor %}
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Note to Chef:</th>
+                    </tr>
+                    <tr>
+                        <td>
+                            {{ guest.food_preferences.meat_notes|default:"N/A" }}
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <!--spacer-->
+        <tr>
+            <td><br></td>
+        </tr>
+        <!--/ spacer-->
+        <tr>
+            <td>
+                <table class="form" >
+                    <tr>
+                        <th>BREAD</th>
+                    </tr>
+                    <tr>
+                        <td >
+                            <ul>
+                                {% for item in guest.food_preferences.bread|get_string_as_list %}
+                                    <li>{{ item|get_display_name:"BREAD" }}</li>
+                                {% empty %}
+                                    <li>N/A</li>
+                                {% endfor %}
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Note to Chef:</th>
+                    </tr>
+                    <tr>
+                        <td>
+                            {{ guest.food_preferences.bread_notes|default:"N/A" }}
+                        </td>
+                    </tr>
+                </table>
+            </td>
+            <td>
+                <table class="form">
+                    <tr>
+                        <th>SALAD</th>
+                    </tr>
+                    <tr>
+                        <td>
+                            <ul>
+                                {% for item in guest.food_preferences.salad|get_string_as_list %}
+                                    <li>{{ item|get_display_name:"SALAD" }}</li>
+                                {% empty %}
+                                    <li>N/A</li>
+                                {% endfor %}
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Note to Chef:</th>
+                    </tr>
+                    <tr>
+                        <td>
+                            {{ guest.food_preferences.salad_notes|default:"N/A" }}
+                        </td>
+                    </tr>
+                </table>
+            </td>
+            <td>
+                <table class="form">
+                    <tr>
+                        <th>SOUP</th>
+                    </tr>
+                    <tr>
+                        <td>
+                            <ul>
+                                {% for item in guest.food_preferences.soup|get_string_as_list %}
+                                    <li>{{ item|get_display_name:"SOUP" }}</li>
+                                {% empty %}
+                                    <li>N/A</li>
+                                {% endfor %}
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Note to Chef:</th>
+                    </tr>
+                    <tr>
+                        <td>
+                            {{ guest.food_preferences.soup_notes|default:"N/A" }}
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <!--spacer-->
+        <tr>
+            <td><br></td>
+        </tr>
+        <!--/ spacer-->
+        <tr>
+            <td>
+                <table class="form" >
+                    <tr>
+                        <th>CHEESE</th>
+                    </tr>
+                    <tr>
+                        <td >
+                            <ul>
+                                {% for item in guest.food_preferences.cheese|get_string_as_list %}
+                                    <li>{{ item|get_display_name:"CHEESE" }}</li>
+                                {% empty %}
+                                    <li>N/A</li>
+                                {% endfor %}
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Note to Chef:</th>
+                    </tr>
+                    <tr>
+                        <td>
+                            {{ guest.food_preferences.cheese_notes|default:"N/A" }}
+                        </td>
+                    </tr>
+                </table>
+            </td>
+            <td>
+                <table class="form">
+                    <tr>
+                        <th>DESSERT</th>
+                    </tr>
+                    <tr>
+                        <td >
+                            <ul>
+                                {% for item in guest.food_preferences.dessert|get_string_as_list %}
+                                    <li>{{ item|get_display_name:"DESSERT" }}</li>
+                                {% empty %}
+                                    <li>N/A</li>
+                                {% endfor %}
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Note to Chef:</th>
+                    </tr>
+                    <tr>
+                        <td>
+                            {{ guest.food_preferences.dessert_notes|default:"N/A" }}
+                        </td>
+                    </tr>
+                </table>
+            </td>
+            
+        </tr>
+        <!--spacer-->
+        <tr>
+            <td><br></td>
+        </tr>
+        <!--/ spacer-->
+        
+        
+    </table>
+    <!-- / Food -->
+
+    <p style="page-break-before: always" ></p>
+
+    <!-- Meal Times & Types  -->
+    <table style="width: 100%; margin-top: 50px;">
+        <tr>
+            <td><h2>Meal Times & Types</h2></td>
+        </tr>
+    </table>
+    <table class="details food">            
+        <tr>
+            <td>
+                <table class="form">
+                    <tr>
+                        <th>BREAKFAST</th>
+                    </tr>
+                    <tr>
+                        <td>{{ guest.meal_and_room_preferences.get_breakfast_time_display|default:"N/A" }}</td>
+                    </tr>
+                    <tr>
+                        <td>                                
+                            <ul>
+                                {% for item in breakfast_selection|get_string_as_list %}
+                                    <li>{{ item|get_display_name:"BREAKFAST" }}</li>
+                                {% empty %}
+                                    <li>N/A</li>
+                                {% endfor %}
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Principal Notes:</th>
+                    </tr>
+                    <tr>
+                        <td>
+                            {{ guest.meal_and_room_preferences.breakfast_note|default:"N/A" }} 
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <!--spacer-->
+        <tr>
+            <td><br></td>
+        </tr>
+        <!--/ spacer-->
+        <tr>
+            <td>
+                <table class="form">
+                    <tr>
+                        <th>LUNCH</th>
+                    </tr>
+                    <tr>
+                        <td>{{ guest.meal_and_room_preferences.get_lunch_time_display |default:"N/A" }}</td>
+                    </tr>
+                    <tr>
+                        <td>                                
+                            <ul>
+                                {% for item in lunch_selection|get_string_as_list %}
+                                    <li>{{ item|get_display_name:"LUNCH" }}</li>
+                                {% empty %}
+                                    <li>N/A</li>
+                                {% endfor %}
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Principal Notes:</th>
+                    </tr>
+                    <tr>
+                        <td>
+                            {{ guest.meal_and_room_preferences.lunch_note|default:"N/A" }}
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <!--spacer-->
+        <tr>
+            <td><br></td>
+        </tr>
+        <!--/ spacer-->
+        <tr>
+            <td>
+                <table class="form">
+                    <tr>
+                        <th>DINNER</th>
+                    </tr>
+                    <tr>
+                        <td>{{ guest.meal_and_room_preferences.get_dinner_time_display |default:"N/A" }}</td>
+                    </tr>
+                    <tr>
+                        <td>                                
+                            <ul>
+                                {% for item in dinner_selection|get_string_as_list %}
+                                    <li>{{ item|get_display_name:"DINNER" }}</li>
+                                {% empty %}
+                                    <li>N/A</li>
+                                {% endfor %}
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Principal Notes:</th>
+                    </tr>
+                    <tr>
+                        <td>
+                            {{ guest.meal_and_room_preferences.dinner_note|default:"N/A" }}
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <!--spacer-->
+        <tr>
+            <td><br></td>
+        </tr>
+        <!--/ spacer-->
+        <tr>
+            <td>
+                <table class="form">
+                    <tr>
+                        <th>CANAPES</th>
+                    </tr>
+                    <tr>
+                        <td>{{ guest.meal_and_room_preferences.get_canapes_time_display|default:"N/A" }}</td>
+                    </tr>
+                    <tr>
+                        <td>                                
+                            <ul>
+                                <li>{{ guest.meal_and_room_preferences.get_canapes_selection_display|default:"N/A" }}</li>
+                            </ul>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <!--spacer-->
+        <tr>
+            <td><br></td>
+        </tr>
+        <!--/ spacer-->
+        <tr>
+            <td>
+                <table class="form">
+                    <tr>
+                        <th>SNACKS</th>
+                        <th>&nbsp;</th>
+                    </tr>
+                    <tr>
+                        <td>Mid Morning</td>
+                        <td>Mid Afternoon Snack</td>
+                    </tr>
+                    <tr>
+                        <td>                                
+                            <ul>
+                                <li>{{ guest.meal_and_room_preferences.get_midmorning_snacks_display|default:"N/A" }}</li>
+                            </ul>
+                        </td>
+                        <td>                                
+                            <ul>
+                                <li>{{ guest.meal_and_room_preferences.get_midafternoon_snacks_display|default:"N/A" }}</li>
+                            </ul>
+                        </td>
+                    </tr>
+                    
+                </table>
+            </td>
+        </tr>
+    </table>
+    <!-- / Meal Times & Types  -->
+    <!-- ROOM  -->
+    <table style="width: 100%;">
+        <tr>
+            <td><h2>Room</h2></td>
+        </tr>
+    </table>
+    <table class="details food">            
+        <tr>
+            <td>
+                <table class="form">
+                    <tr>
+                        <th>Favorite Flowers</th>
+                    </tr>
+                    <tr>
+                        <td>                                
+                            <ul>
+                                <li>{{ guest.meal_and_room_preferences.favorite_flowers |default:"N/A" }}</li>
+                            </ul>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+    <!-- / ROOM  -->
+
+    <p style="page-break-before: always" ></p>
+
+    <!-- Dietary Restrictions   -->
+    <table style="width: 100%; margin-top: 50px;">
+        <tr>
+            <td><h2>Dietary Restrictions </h2></td>
+        </tr>
+    </table>
+    <table class="details food">            
+        <tr>
+            <td>
+                <table class="form">
+                    <tr>
+                        <th>Dietary Restrictions</th>
+                    </tr>
+                    <tr>
+                        <td>                                
+                            <ul>
+                                <li>{{ guest.diet_services_sizes_preferences.get_dietary_restrictions_display|default:"N/A" }}</li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Note:</th>
+                    </tr>
+                    <tr>
+                        <td>
+                            <ul>
+                                <li>{{ guest.diet_services_sizes_preferences.dietary_restrictions_notes|default:"N/A"  }}</li>
+                            </ul>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+    <!-- / Dietary Restrictions   -->
+    <!-- Other Services   -->
+    <table style="width: 100%;">
+        <tr>
+            <td><h2>Other Details</h2></td>
+        </tr>
+    </table>
+    <table class="details food">            
+        <tr>
+            <td>
+                <table class="form">
+                    <tr>
+                        <th>Other Services</th>
+                    </tr>
+                    <tr>
+                        <td>                                
+                            <ul>
+                                {% if other_services == None %}
+                                    <li>N/A</li>
+                                {% else %}
+                                    {% for item in other_services|get_string_as_list %}
+                                        <li>{{ item|get_display_name:"OTHER_SERVICES" }}</li>
+                                    {% empty %}
+                                        <li>N/A</li>
+                                    {% endfor %}
+                                {% endif %}
+                            </ul>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+    <!-- / Other Services   -->
+    <!-- Shirt Sizing    -->
+    <table style="width: 100%;">
+        <tr>
+            <td><h2>Shirt Sizing</h2></td>
+        </tr>
+    </table>
+    <table class="details food">            
+        <tr>
+            <td>
+                <table class="form">
+                    <tr>
+                        <th>Shirt Sizing </th>
+                    </tr>
+                    <tr>
+                        <td>                                
+                            <ul>
+                                {% if not guest.diet_services_sizes_preferences.get_shirt_sizing_display and not guest.diet_services_sizes_preferences.get_international_shirt_sizing_display and not guest.diet_services_sizes_preferences.get_shirt_size_display %}
+                                    <li>N/A</li>
+                                {% else %}
+                                    <li>{{ guest.diet_services_sizes_preferences.get_shirt_sizing_display|default:"N/A" }}</li>
+                                    <li>{{ guest.diet_services_sizes_preferences.get_international_shirt_sizing_display|default:"N/A" }}</li>
+                                {% endif %}
+                            </ul>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+    <!-- / Shirt Sizing    -->
+    <!-- Shoe Size    -->
+    <table style="width: 100%;">
+        <tr>
+            <td><h2>Shoe Size</h2></td>
+        </tr>
+    </table>
+    <table class="details food">            
+        <tr>
+            <td>
+                <table class="form">
+                    <tr>
+                        <th>Shoe Sizing </th>
+                    </tr>
+                    <tr>
+                        <td>                                
+                            <ul>
+                                {% if not guest.diet_services_sizes_preferences.get_shoe_sizing_display and not guest.diet_services_sizes_preferences.get_international_shoe_sizing_display and not guest.diet_services_sizes_preferences.shoe_size %}
+                                    <li>N/A</li>
+                                {% else %}
+                                    <li>{{ guest.diet_services_sizes_preferences.get_shoe_sizing_display|default:"N/A" }}</li>
+                                    <li>{{ guest.diet_services_sizes_preferences.get_international_shoe_sizing_display|default:"N/A" }}, {{ guest.diet_services_sizes_preferences.shoe_size|default:"N/A" }}</li>
+                                {% endif %}
+                            </ul>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+    <!-- / Shirt Sizing    -->
+    <!-- Room Temperature    -->
+    <table style="width: 100%;">
+        <tr>
+            <td><h2>Room Temperature</h2></td>
+        </tr>
+    </table>
+    <table class="details food">            
+        <tr>
+            <td>
+                <table class="form">
+                    <tr>
+                        <th>Room Temperature</th>
+                    </tr>
+                    <tr>
+                        <td>                                
+                            <ul>
+                                <li>{{ guest.diet_services_sizes_preferences.preferred_room_temperature|default:"N/A" }}</li>
+                            </ul>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+    <!-- / Shirt Sizing    -->
+
+    <p style="page-break-before: always" ></p>
+
+    <!-- Beverages -->
+    <table style="width: 100%; margin-top: 50px;">
+        <tr>
+            <td><h2>Beverages</h2></td>
+        </tr>
+    </table>
+    <table class="details food">            
+        <tr>
+            <td>
+                <table class="form">
+                    <tr>
+                        <th>Milk</th>
+                    </tr>
+                    <tr>
+                        <td >
+                            <ul>
+                                {% if milk_selection == None %}
+                                    <li>N/A</li>
+                                {% else %}
+                                    {% for item in milk_selection|get_string_as_list %}
+                                        <li>{{ item|get_display_name:"MILK_SELECTIONS" }}</li>
+                                    {% empty %}
+                                        <li>N/A</li>
+                                    {% endfor %}
+                                {% endif %}
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Milk Note</th>
+                    </tr>
+                    <tr>
+                        <td>
+                            <ul>
+                                <li>{{ guest.beverages_and_alcoholic_preferences.milk_note|default:"N/A" }}</li>
+                            </ul>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+            <td>
+                <table class="form">
+                    <tr>
+                        <th>Coffee</th>
+                    </tr>
+                    <tr>
+                        <td >
+                            <ul>
+                                {% if coffee_selection == None %}
+                                    <li>N/A</li>
+                                {% else %}
+                                    {% for item in coffee_selection|get_string_as_list %}
+                                        <li>{{ item|get_display_name:"COFFEE_SELECTIONS" }}</li>
+                                    {% empty %}
+                                        <li>N/A</li>
+                                    {% endfor %}
+                                {% endif %}
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Coffee Note</th>
+                    </tr>
+                    <tr>
+                        <td>
+                            <ul>
+                                <li>{{ guest.beverages_and_alcoholic_preferences.coffee_note|default:"N/A" }}</li>
+                            </ul>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+            <td>
+                <table class="form">
+                    <tr>
+                        <th>Tea</th>
+                    </tr>
+                    <tr>
+                        <td >
+                            <ul>
+                                {% if tea_selection == None %}
+                                    <li>N/A</li>
+                                {% else %}
+                                    {% for item in tea_selection|get_string_as_list %}
+                                        <li>{{ item|get_display_name:"TEA_SELECTIONS" }}</li>
+                                    {% empty %}
+                                        <li>N/A</li>
+                                    {% endfor %}
+                                {% endif %}
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Tea Note</th>
+                    </tr>
+                    <tr>
+                        <td>
+                            <ul>
+                                <li>{{ guest.beverages_and_alcoholic_preferences.tea_note|default:"N/A" }}</li>
+                            </ul>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <!--spacer-->
+        <tr>
+            <td><br></td>
+        </tr>
+        <!--/ spacer-->
+        <tr>
+            <td>
+                <table class="form">
+                    <tr>
+                        <th>Water</th>
+                    </tr>
+                    <tr>
+                        <td >
+                            <ul>
+                                {% if water_selection == None %}
+                                    <li>N/A</li>
+                                {% else %}
+                                    {% for item in water_selection|get_string_as_list %}
+                                        <li>{{ item|get_display_name:"WATER_SELECTIONS" }}</li>
+                                    {% empty %}
+                                        <li>N/A</li>
+                                    {% endfor %}
+                                {% endif %}
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Water Note</th>
+                    </tr>
+                    <tr>
+                        <td>
+                            <ul>
+                                <li>{{ guest.beverages_and_alcoholic_preferences.water_note|default:"N/A" }}</li>
+                            </ul>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+            <td>
+                <table class="form">
+                    <tr>
+                        <th>Juice</th>
+                    </tr>
+                    <tr>
+                        <td >
+                            <ul>
+                                {% if juice_selection == None %}
+                                    <li>N/A</li>
+                                {% else %}
+                                    {% for item in juice_selection|get_string_as_list %}
+                                        <li>{{ item|get_display_name:"JUICE_SELECTIONS" }}</li>
+                                    {% empty %}
+                                        <li>N/A</li>
+                                    {% endfor %}
+                                {% endif %}
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Juice Note</th>
+                    </tr>
+                    <tr>
+                        <td>
+                            <ul>
+                                <li>{{ guest.beverages_and_alcoholic_preferences.juice_note|default:"N/A" }}</li>
+                            </ul>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+            <td>
+                <table class="form">
+                    <tr>
+                        <th>Sodas & Mixers</th>
+                    </tr>
+                    <tr>
+                        <td >
+                            <ul>
+                                {% if sodas_and_mixers_selection == None %}
+                                    <li>N/A</li>
+                                {% else %}
+                                    {% for item in sodas_and_mixers_selection|get_string_as_list %}
+                                        <li>{{ item|get_display_name:"SODAS_MIXERS_SELECTIONS" }}</li>
+                                    {% empty %}
+                                        <li>N/A</li>
+                                    {% endfor %}
+                                {% endif %}
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Sodas & Mixers Note</th>
+                    </tr>
+                    <tr>
+                        <td>
+                            <ul>
+                                <li>{{ guest.beverages_and_alcoholic_preferences.sodas_and_mixers_note|default:"N/A" }}</li>
+                            </ul>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <!--spacer-->
+        <tr>
+            <td><br></td>
+        </tr>
+        <!--/ spacer-->
+        <tr>
+            <td>
+                <table class="form" >
+                    <tr>
+                        <th>Add Ons</th>
+                    </tr>
+                    <tr>
+                        <td>
+                            <ul>
+                                {% if add_ons_selection == None %}
+                                    <li>N/A</li>
+                                {% else %}
+                                    {% for item in add_ons_selection|get_string_as_list %}
+                                        <li>{{ item|get_display_name:"ADD_ONS_SELECTIONS" }}</li>
+                                    {% empty %}
+                                        <li>N/A</li>
+                                    {% endfor %}
+                                {% endif %}
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Add Ons Note</th>
+                    </tr>
+                    <tr>
+                        <td>
+                            <ul>
+                                <li>{{ guest.beverages_and_alcoholic_preferences.add_ons_note|default:"N/A" }}</li>
+                            </ul>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+            
+            
+        </tr>
+    </table>
+    <!-- / Beverages -->
+    <!-- Alcohol Preferences -->
+    <table style="width: 100%;">
+        <tr>
+            <td><h2>Alcohol Preferences</h2></td>
+        </tr>
+    </table>
+    <table class="details food">            
+        <tr>
+            <td>
+                <table class="form alcohol">
+                    <tr>
+                        <th>Alcohol</th>
+                        <th>Brand,Color, Vineyard/Region</th>
+                        <th>Qty</th>
+                    </tr>
+                    <tr>
+                        <td><ul><li>Whiskey</li></ul></td>
+                        <td><ul><li>{{ guest.beverages_and_alcoholic_preferences.whiskey_name|default:"N/A" }}</li></ul></td>
+                        <td>{{ guest.beverages_and_alcoholic_preferences.whiskey_quantity|default:"N/A" }}</td>
+                    </tr>
+                    <tr>
+                        <td><ul><li>Brandy</li></ul></td>
+                        <td><ul><li>{{ guest.beverages_and_alcoholic_preferences.brandy_name|default:"N/A" }}</li></ul></td>
+                        <td>{{ guest.beverages_and_alcoholic_preferences.brandy_quantity|default:"N/A" }}</td>
+                    </tr>
+                    <tr>
+                        <td><ul><li>Vodka</li></ul></td>
+                        <td><ul><li>{{ guest.beverages_and_alcoholic_preferences.vodka_name|default:"N/A" }}</li></ul></td>
+                        <td>{{ guest.beverages_and_alcoholic_preferences.vodka_quantity|default:"N/A" }}</td>
+                    </tr>
+                    <tr>
+                        <td><ul><li>Tequila</li></ul></td>
+                        <td><ul><li>{{ guest.beverages_and_alcoholic_preferences.tequila_name|default:"N/A" }}</li></ul></td>
+                        <td>{{ guest.beverages_and_alcoholic_preferences.tequila_quantity|default:"N/A" }}</td>
+                    </tr>
+                    <tr>
+                        <td><ul><li>Rum</li></ul></td>
+                        <td><ul><li>{{ guest.beverages_and_alcoholic_preferences.rum_name|default:"N/A" }}</li></ul></td>
+                        <td>{{ guest.beverages_and_alcoholic_preferences.rum_quantity|default:"N/A" }}</td>
+                    </tr>
+                    <tr>
+                        <td><ul><li>Liquours</li></ul></td>
+                        <td><ul><li>{{ guest.beverages_and_alcoholic_preferences.liquors_name|default:"N/A" }}</li></ul></td>
+                        <td>{{ guest.beverages_and_alcoholic_preferences.liquors_quantity|default:"N/A" }}</td>
+                    </tr>
+                    <tr>
+                        <td><ul><li>Cocktail</li></ul></td>
+                        <td><ul><li>{{ guest.beverages_and_alcoholic_preferences.cocktail_name|default:"N/A" }}</li></ul></td>
+                        <td>{{ guest.beverages_and_alcoholic_preferences.cocktail_quantity|default:"N/A" }}</td>
+                    </tr>
+                    <tr>
+                        <td><ul><li>Port / Beer</li></ul></td>
+                        <td><ul><li>{{ guest.beverages_and_alcoholic_preferences.port_beer_name|default:"N/A" }}</li></ul></td>
+                        <td>{{ guest.beverages_and_alcoholic_preferences.port_beer_quantity|default:"N/A" }}</td>
+                    </tr>
+                    <tr>
+                        <td><ul><li>Wine (Red)</li></ul></td>
+                        <td><ul><li>{{ guest.beverages_and_alcoholic_preferences.red_wine_name|default:"N/A" }}</li></ul></td>
+                        <td>{{ guest.beverages_and_alcoholic_preferences.red_wine_quantity|default:"N/A" }}</td>
+                    </tr>
+                    <tr>
+                        <td><ul><li>Wine (White)</li></ul></td>
+                        <td><ul><li>{{ guest.beverages_and_alcoholic_preferences.white_wine_name|default:"N/A" }}</li></ul></td>
+                        <td>{{ guest.beverages_and_alcoholic_preferences.white_wine_quantity|default:"N/A" }}</td>
+                    </tr>
+                    <tr>
+                        <td><ul><li>Wine (Rosé)</li></ul></td>
+                        <td><ul><li>{{ guest.beverages_and_alcoholic_preferences.rose_wine_name|default:"N/A" }}</li></ul></td>
+                        <td>{{ guest.beverages_and_alcoholic_preferences.rose_wine_quantity|default:"N/A" }}</td>
+                    </tr>
+                    <tr>
+                        <td><ul><li>Champagne</li></ul></td>
+                        <td><ul><li>{{ guest.beverages_and_alcoholic_preferences.champagne_name|default:"N/A" }}</li></ul></td>
+                        <td>{{ guest.beverages_and_alcoholic_preferences.champagne_quantity|default:"N/A" }}</td>
+                    </tr>
+                    <tr>
+                        <td><ul><li>Other</li></ul></td>
+                        <td><ul><li>{{ guest.beverages_and_alcoholic_preferences.other_name|default:"N/A" }}</li></ul></td>
+                        <td>{{ guest.beverages_and_alcoholic_preferences.other_quantity|default:"N/A" }}</td>
+                    </tr>
+                </table>
+            </td>
+            
+            
+        </tr>
+        
+        
+    </table>
+    <!-- / Alcohol Preferences -->
+
+    <!-- Optional JavaScript; choose one of the two! -->
+
+    <!-- Option 1: Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous">
+    </script>
+
+    <!-- Option 2: Separate Popper and Bootstrap JS -->
+    <!--
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
+    -->
+</body>
+
+</html>

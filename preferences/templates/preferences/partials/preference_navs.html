@@ -1,0 +1,63 @@
+<!-- Nav tabs -->
+
+<div class="mb-5">
+    <ul class="nav nav-line mb-0" id="myTab" role="tablist">
+        {% if guest.is_principal %}
+        <li class="nav-item mr-4">
+            <a href="{% url 'preferences:food_preferences' %}" class="nav-link {% if active == 'food' %}active{% endif %} ff-open-sans px-0 fs-16">Food
+                {% if not guest.food_preferences.is_complete or food_preferences_form.errors %}
+                <span class="fs-16 material-icons txt-color-magenta ml-2">
+                    error
+                </span>
+                {% else %}
+                <span class="fs-16 material-icons ml-2">
+                    check_circle
+                </span>
+                {% endif %}
+            </a>
+        </li>    
+            <li class="nav-item mr-4">
+            <a href="{% url 'preferences:meal_and_room_preferences' %}" class="nav-link {% if active == 'meal_and_room' %}active{% endif %} ff-open-sans px-0 fs-16">Meals
+                {% if not guest.meal_and_room_preferences.is_complete or meal_and_room_preferences_form.errors %}
+                <span class="fs-16 material-icons txt-color-magenta ml-2">
+                    error
+                </span>
+                {% else %}
+                <span class="fs-16 material-icons ml-2">
+                    check_circle
+                </span>
+                {% endif %}
+            </a>
+        </li>
+        {% endif %}
+        {% if guest %}
+        <li class="nav-item mr-4">
+            <a href="{% url 'preferences:diet_services_sizing' %}" class="nav-link {% if active == 'diet_services_sizing' %}active{% endif %} ff-open-sans px-0 fs-16">Room, Services, & Sizes
+                {% if not guest.diet_services_sizes_preferences.is_complete or diet_services_sizing_form.errors %}
+                <span class="fs-16 material-icons txt-color-magenta ml-2">
+                    error
+                </span>
+                {% else %}
+                <span class="fs-16 material-icons ml-2">
+                    check_circle
+                </span>
+                {% endif %}
+            </a>
+        </li>
+    
+        <li class="nav-item mr-4">
+            <a href="{% url 'preferences:beverage_alcohol' %}" class="nav-link {% if active == 'beverage_and_alcohol' %}active{% endif %} ff-open-sans px-0 fs-16">Beverages & Alcohol
+                {% if not guest.beverages_and_alcoholic_preferences.is_complete or beverages_alcohol_form.errors %}
+                <span class="fs-16 material-icons txt-color-magenta ml-2">
+                    error
+                </span>
+                {% else %}
+                <span class="fs-16 material-icons ml-2">
+                    check_circle
+                </span>
+                {% endif %}
+            </a>
+        </li>
+        {% endif %}
+    </ul>
+</div>

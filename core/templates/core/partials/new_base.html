@@ -1,0 +1,80 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Harpoon Login</title>
+
+    <!--FAVICON-->
+    <link rel="icon" href="{% static 'authentication/img/favicon.png' %}" type="image/png" sizes="16x16">
+
+    <script src="{% static 'authentication/js/jquery.min.js'%}"></script>
+
+
+    <!--CALENDAR-->
+    <link rel='stylesheet' href="{% static 'charter/assets/plugin/fullcalendar.min.css' %}"/>
+
+    <!--BOOTSTRAP-->
+    <script rel="stylesheet" href="{% static 'authentication/js/popper.min.js' %}">
+    </script>
+    <script rel="stylesheet" href="{% static 'authentication/js/bootstrap.min.js' %}">
+    </script>
+    <link rel="stylesheet" href="{% static 'authentication/css/bootstrap.min.css' %}" />
+
+    <!--FONTAWESOME 5-->
+    <link rel="stylesheet" href="{% static 'core/css/fontawesome/all.css' %}" />
+    <link rel="stylesheet" href="{% static 'core/css/fontawesome/all.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'core/css/fontawesome/fontawesome.css' %}" />
+    <!-- <link rel="stylesheet" href="/css/icons.css"> -->
+
+    <!--LINEAR ICONS-->
+    <link rel="stylesheet" href="https://cdn.linearicons.com/free/1.0.0/icon-font.min.css" />
+
+    <!--GOOGLE FONTS-->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&family=Source+Serif+Pro:wght@400;600;700&display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp"
+        rel="stylesheet" />
+
+    <!--CUSTOM STYLE-->
+    <link rel="stylesheet" href="{% static 'authentication/css/main.css' %}"/>
+        <link rel="stylesheet" href="{% static 'authentication/css/custom_calendar.css' %}"/>
+
+    <!--CALENDAR INITIALIZE-->
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#calendar").fullCalendar({
+                // put your options and callbacks here
+                defaultView: "month",
+
+                header: {
+                    left: "title",
+                    center: "",
+                    right: "prev,next",
+                },
+            });
+
+            $(".menu-btn").click(function () {
+                $(".sidebar").show();
+            });
+
+            $(".close-btn").click(function () {
+                $(".sidebar").hide();
+            });
+        })
+    </script>
+</head>
+
+
+{% block content %}
+
+{% endblock content %}
+
+<script src="{% static 'charter/js/custom-script.js' %}"></script>
+<script src="{% static 'authentication/js/popper.min.js' %}"></script>
+<script src="{% static 'authentication/js/bootstrap.min.js' %}"></script>
+</html>

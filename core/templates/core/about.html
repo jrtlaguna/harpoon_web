@@ -1,0 +1,145 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% block main %}
+<section class="header" style="background:url({% static 'core/img/about-us-bg-v2.png' %});">
+    <div class="grad-over"></div>
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col">
+                <h1 class="mb-0" data-aos="fade-in" data-aos-duration="1000" data-aos-delay="0">About Us</h1>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Mission Satement -->
+<section class="white-bg" style="background-position: right center;">
+    <div class="container px-space">
+        <div class="row">
+            <div class="col-12">
+                <h2 class="mb-5 text-center" data-aos="fade-in" data-aos-duration="1000" data-aos-delay="0">The Harpoon Solution Mission</h2>
+
+                <div class="d-flex flex-column flex-lg-row mb-3" data-aos="fade-in" data-aos-duration="1000" data-aos-delay="100">
+                    <div class="flex-shrink-0 text-center text-lg-left mb-2 mb-lg-0"><img src="{% static 'core/img/ico-champagne.svg' %}" alt="..." /></div>
+                    <div class="flex-grow-1 ml-lg-4">
+                        <h2 class="text-center text-lg-left">A Flawless, Luxury Experience</h2>
+                        <p  class="fs-18">We maintain a laser focus on improving the operations side of high-end yacht, jet, and estate management. </p>
+                    </div>
+                </div>
+                <div class="d-flex flex-column flex-lg-row mb-3" data-aos="fade-in" data-aos-duration="1000" data-aos-delay="200">
+                    <div class="flex-shrink-0 text-center text-lg-left mb-2 mb-lg-0"><img src="{% static 'core/img/ico-stress-free.svg' %}" alt="..." /></div>
+                    <div class="flex-grow-1 ml-lg-4">
+                        <h2 class="text-center text-lg-left">Stress-Free Management</h2>
+                        <p  class="fs-18">Our goal is to create a stress-free travel management process for both the VIPs and the crew.</p>
+                    </div>
+                </div>
+                <div class="d-flex flex-column flex-lg-row mb-3" data-aos="fade-in" data-aos-duration="1000" data-aos-delay="300">
+                    <div class="flex-shrink-0 text-center text-lg-left mb-2 mb-lg-0"><img src="{% static 'core/img/ico-island.svg' %}" alt="..." /></div>
+                    <div class="flex-grow-1 ml-lg-4">
+                        <h2 class="text-center text-lg-left">Making Dreams a Reality</h2>
+                        <p  class="fs-18">Our platform, gives more control over backend operations by streamlining team efforts to custom tailor elite experiences.</p>
+                    </div>
+                </div>
+                
+
+                
+                <h2 class="mb-3 text-center text-lg-left"></h2>
+                <p  class="fs-18 " data-aos="fade-in"></p>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Our Story -->
+<section class="split">
+    <img src="{% static 'core/img/section-logo-bg-2.svg' %}" alt="" class="corner-img d-none d-lg-block">
+    <div class="bg-split-left bg-gradient"></div>
+    <div class="bg-split-right"></div>
+    <div class="container our-story">
+        <div class="row no-gutters">
+            <div class="col-lg-9 ">
+                <h2 data-aos="fade-in" data-aos-duration="1000" data-aos-delay="0">Our Story</h2>
+                <p class="fs-18 " data-aos="fade-in" data-aos-duration="1000" data-aos-delay="200">Harpoon Solution was created by Nathalie Rodrigues, Brian Erasmus, Sam Hatchwell, Rebecca Smith and Bintu Omagbemi, after more than a decade of combined professional yacht experience. We saw a clear opportunity to bring digital connectivity to the yachting world, and resolve service gaps in capabilities, safety, and overall success and satisfaction</p>
+
+                <p class="fs-18" data-aos="fade-in" data-aos-duration="1000" data-aos-delay="300">Equipped with the knowledge developed over years on the open water, we understand the ins-and-outs of planning provisions, gathering preferences, and budgeting. From that expertise, we were able to develop a comprehensive, user-friendly platform that allows guests and crew to simultaneously and efficiently access information that is important for creating a bespoke luxury vacation.</p>
+
+                <p class="fs-18" data-aos="fade-in" data-aos-duration="1000" data-aos-delay="400">We believe that keeping centralized information and seamless communication guides our ongoing development of Harpoon Solution. The result is a product that helps provide first-class experiences with minimal disruptions.</p>
+
+                <img src="{% static 'core/img/about-bg-2.png' %}" alt="" class="img-fluid d-lg-none rounded" data-aos="fade-in" data-aos-duration="500" data-aos-delay="500" />
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Why Work -->
+<section class="">
+    <div class="container overflow-hidden px-space">
+        <div class="row mb-5">
+           <div class="col">
+                <h2 class="text-center" data-aos="fade-in" data-aos-duration="1000" data-aos-delay="0">Why Work With Harpoon</h2>
+           </div>
+        </div>
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 text-center justify-content-center">
+            <div class="col" data-aos="fade-in" data-aos-duration="1000" data-aos-delay="100">
+                <div class="d-flex flex-column mb-md-5 mb-4">
+                    <div class="ico-img mb-lg-3">
+                        <img src="{% static 'core/img/ico-business.svg' %}" alt="">
+                    </div>
+                    <h5 class="primary-txt">25+ Years in Business</h5>
+                    <p class="fs-18">Over 30+ years of combined experience  Our experience is speaks for itself.  </p>
+                </div>
+            </div>
+            <div class="col">
+                <div class="d-flex flex-column mb-lg-5 mb-4" data-aos="fade-in" data-aos-duration="1000" data-aos-delay="200">
+                    <div class="ico-img mb-lg-3">
+                        <img src="{% static 'core/img/ico-all-in-one.svg' %}" alt="">
+                    </div>
+                    <h5 class="primary-txt">All-In-One Platform</h5>
+                    <p class="fs-18">Seamless package of management in one place.</p>
+                </div>
+            </div>
+            <div class="col">
+                <div class="d-flex flex-column mb-lg-5 mb-4 " data-aos="fade-in" data-aos-duration="1000" data-aos-delay="300">
+                    <div class="ico-img mb-lg-3 d-flex justify-content-center align-items-center">
+                        <img src="{% static 'core/img/ico-personalized.svg' %}" alt="">
+                    </div>
+                    <h5 class="primary-txt">Personalized Service</h5>
+                    <p class="fs-18">A truly custom experience, with no detail missed.</p>
+                </div>
+            </div>
+            <div class="col">
+                <div class="d-flex flex-column mb-lg-5 mb-4" data-aos="fade-in" data-aos-duration="1000" data-aos-delay="400">
+                    <div class="ico-img mb-lg-3 mb-2">
+                        <img src="{% static 'core/img/ico-safe.svg' %}" alt="">
+                    </div>
+                    <h5 class="primary-txt">Safe and Secure</h5>
+                    <p class="fs-18">The height of safety, security, and discretion.</p>
+                </div>
+            </div>
+            <div class="col">
+                <div class="d-flex flex-column mb-lg-5 " data-aos="fade-in" data-aos-duration="1000" data-aos-delay="500">
+                    <div class="mb-lg-3 mb-3" >
+                        <img src="{% static 'core/img/ico-bridging.svg' %}" alt="" style="max-height: 80px;">
+                    </div>
+                    <h5 class="primary-txt">Bridging the Gap Between Guests & Crew</h5>
+                    <p class="fs-18">Streamlining communications.</p>
+                </div>
+            </div>
+        </div>
+    </div>        
+</section>
+
+<!-- CTA -->
+<section style="background: url({% static 'core/img/cta-bg-3.png' %});background-size: cover;background-repeat: no-repeat;background-position:center ;">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col text-center" data-aos="fade-in" data-aos-duration="1000" data-aos-delay="0">
+                <h3 class="mb-4">Every journey begins with a single step.</h3>
+                <div class="row align-items-center justify-content-center">
+                    <div class="col-md-3">
+                        <a href="{% url 'core:contact_us' %}" class="btn btn-main d-block">Let's Talk</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock main %}

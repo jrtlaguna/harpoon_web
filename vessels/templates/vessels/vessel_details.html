@@ -1,0 +1,102 @@
+{% extends "vessels/base.html" %} {% load static %} {% load crispy_forms_tags %}
+{% crispy form %} {% block main_body %}
+<div class="container-fluid my-5">
+  <!--YOUR PROFILE-->
+  <div
+    class="container form-container-profile px-5 pb-5 border-dark-80-1 rounded-5"
+  >
+    <div class="row">
+      <div class="col-12 col-md-12">
+        <div class="form-register">
+          <h3 class="form-title">New Vessel Details</h3>
+        </div>
+      </div>
+    </div>
+
+    <div class="row mt-3">
+      {% crispy form %}
+    </div>
+</div>
+{% endblock main_body %} {% block modal %}
+<div
+  class="modal fade"
+  id="get_started_modal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="mySmallModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content bg-color-dark">
+      <div class="success-msg p-5">
+        <img
+          src="{% static 'authentication/img/ship.svg' %}"
+          alt=""
+          class="mx-auto d-table modal-icon"
+        />
+        <h3 class="form-title text-center d-table mx-auto mb-4">
+          Welcome to<br />Harpoon Solution.
+        </h3>
+
+        <small class="form-short-description text-center d-table mx-auto">
+          With Harpoon Solution, you can manage your bookings, review your
+          guests' preferences, and ensure that every trip with you is an
+          exciting adventure. Begin by<br />setting up your vessel here.
+        </small>
+        <a
+          href="javascript:void(0);"
+          class="btn btn-solid-gold w-100 d-table text-center mt-5"
+          data-dismiss="modal"
+          >Get Started</a
+        >
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Success modal -->
+<div class="modal fade" id="success_modal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content bg-color-dark">
+          <div class="success-msg p-5">
+              <img src="{% static 'authentication/img/success.svg' %}" alt="" class="mx-auto d-table modal-icon">
+              <h3 class="form-title text-center d-table mx-auto">You have successfully set up <br> a new vessel.</h3>
+              <!-- <small class="form-short-description text-center d-table mx-auto">You have successfully changed your password</small> -->
+             <div class="w-100 mt-5">
+                  <a href='{% url "charter:new_trip" %}' class="btn btn-solid-gold w-100 d-table text-center mb-3" id="get_started">Create a Trip</a>
+                  <a href='{% url "admins:dashboard"%}' class="btn btn-outline-gold w-100 d-table text-center mb-3" id="get_started">Go To Dashboard</a>
+             </div>
+          </div>
+      </div>
+  </div>
+</div>
+
+
+<script src="{% static 'authentication/js/popper.min.js' %}"></script>
+<script src="{% static 'authentication/js/bootstrap.min.js' %}"></script>
+<script>
+  $(document).ready(function () {
+    var oldURL = document.referrer;
+  
+    if(!(oldURL.includes("summary"))){
+      $("#get_started_modal").modal("show")
+    }
+
+    //CAPITALIZE FIRST LETTER OF EACH WORD
+    $(".textInput").keyup(function () {  
+        $('.textInput').css('textTransform', 'capitalize');  
+    });
+    $("#id-vesselForm").submit(function(event){
+      event.preventDefault();
+      $.ajax({
+          type: $(this).attr('method'),
+          url: $(this).attr('action'), // the file to call
+          data: $(this).serialize(),
+        });
+      $("#success_modal").modal("show")
+       });
+
+  })
+</script>
+
+{% endblock modal %}

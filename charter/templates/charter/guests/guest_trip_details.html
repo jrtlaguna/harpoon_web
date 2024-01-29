@@ -1,0 +1,139 @@
+{% extends "charter/base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block title %}Harpoon - {{ title }}{% endblock %}
+
+{% block content %}
+{% include "charter/partials/header.html" with header_title='Trips' is_common_header=True %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12 mb-5">
+            <div class="w-100 border-dark-80-1 rounded-5 p-3 p-md-5">
+                <div class="w-100 d-flex align-items-center justify-content-between mb-4">
+                    <span class="txt-color-gray fs-16 fw-700">Trip Details</span>
+                </div>
+
+                <div class="w-100 border-dark-80-1 rounded-5 p-2 p-md-4">
+                    <div class="form-row">
+                        <div class="col-12 d-sm-flex justify-content-between">
+                            <div class="d-flex mb-3">
+                                <div class="icon mr-4">
+                                    <img src="{% static 'charter/img/ship-small.svg' %}" alt="">
+                                </div>
+                                <div class="w-100">
+                                    <h5 class="txt-color-gold ff-source-serif-pro fs-24">
+                                        {{ charter.embark_city }} Yacht Charter
+                                    </h5>
+                                    <span class="txt-color-white fs-16 d-table">
+                                        {{charter}}
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="d-flex">
+                                <span class="material-icons-outlined txt-color-dark-80 mr-3">
+                                    calendar_today
+                                </span>
+
+                                <span class="txt-color-gray fs-14">
+                                    {{ charter.embark_date }} - {{ charter.disembark_date }}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="w-100 my-4">
+                            <span class="fs-10 fw-700 txt-color-secondary text-uppercase">
+                                TRIP Embark
+                            </span>
+                        
+                            <div class="form-row pl-3 pt-3 border-left-gray-80-1 mx-0">
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <span class="txt-color-gold fs-14 d-table">
+                                            Embark Location
+                                        </span>
+                                        <span class="txt-color-white fs-16 fw-700 d-table mt-2">
+                                            {{ charter.embark_name_of_dock }}<br>
+                                            {{ charter.embark_city }}, {{ charter.embark_country }}<br>
+                                            {{ charter.embark_additional_info }}
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-4">
+                                    <div class="form-group">
+                                        <span class="txt-color-gold fs-14 d-table">
+                                            Date
+                                        </span>
+                                        <span class="txt-color-white fs-16 fw-700 d-table mt-2">
+                                            {{ charter.embark_date }}
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-4">
+                                    <div class="form-group">
+                                        <span class="txt-color-gold fs-14 d-table">
+                                            Yacht Embark Time
+                                        </span>
+                                        <span class="txt-color-white fs-16 fw-700 d-table mt-2">
+                                            {{ charter.embark_time }}
+                                        </span>
+                                    </div>
+                                </div>
+                        
+                            </div>
+                        </div>
+
+                        <div class="w-100 mb-4">
+                            <span class="fs-10 fw-700 txt-color-secondary text-uppercase">
+                                Trip Disembark
+                            </span>
+                        
+                            <div class="form-row pl-3 pt-3 border-left-gray-80-1 mx-0">
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <span class="txt-color-gold fs-14 d-table">
+                                        Disembark Location
+                                        </span>
+                                        <span class="txt-color-white fs-16 fw-700 d-table mt-2">
+                                            {{ charter.disembark_name_of_dock }}<br>
+                                            {{ charter.disembark_city }}, {{ charter.disembark_country }}<br>
+                                            {{ charter.disembark_additional_info }}
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-4">
+                                    <div class="form-group">
+                                        <span class="txt-color-gold fs-14 d-table">
+                                            Date
+                                        </span>
+                                        <span class="txt-color-white fs-16 fw-700 d-table mt-2">
+                                            {{ charter.disembark_date }}
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-4">
+                                    <div class="form-group">
+                                        <span class="txt-color-gold fs-14 d-table">
+                                            Yacht Disembark  Time
+                                        </span>
+                                        <span class="txt-color-white fs-16 fw-700 d-table mt-2">
+                                            {{ charter.disembark_time }}
+                                        </span>
+                                    </div>
+                                </div>
+                        
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="300px" height="409px" viewBox="0 0 300 409" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>testi-bg</title>
+    <defs>
+        <linearGradient x1="23.0991565%" y1="5.20417043e-15%" x2="75.9646636%" y2="98.2599432%" id="linearGradient-1">
+            <stop stop-color="#111213" offset="0%"></stop>
+            <stop stop-color="#162E4F" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="testi-bg" fill="url(#linearGradient-1)">
+            <rect id="Rectangle" x="0" y="0" width="300" height="409" rx="16"></rect>
+        </g>
+    </g>
+</svg>

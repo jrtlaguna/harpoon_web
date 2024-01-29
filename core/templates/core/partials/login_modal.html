@@ -1,0 +1,40 @@
+{% load static %}
+<div
+  class="modal fade"
+  id="loginModal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="loginModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-body pb-5">
+        <div class="d-flex justify-content-end">
+          <div>
+            <a class="close" data-dismiss="modal" aria-label="Close">
+              <i class="bx bx-x bx-sm"></i>
+            </a>
+          </div>
+        </div>
+        <div class="d-flex justify-content-center flex-column">
+          <div class="text-center mb-4">
+            <img src="{% static 'core/img/trident-logo.svg' %}" class="mr-4" />
+          </div>
+          <div class="text-center">
+            <a
+              href="{% url 'guests:login' %}"
+              class="btn btn-main d-block d-md-inline-block mx-1 px-5 mb-3 mb-md-0"
+              >Guest Log-In</a
+            >
+            <a
+              href="{% url 'admins:login' %}"
+              class="btn btn-main d-block d-md-inline-block mx-1 px-5 mb-3 mb-md-0"
+              >Admin Log-In</a
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

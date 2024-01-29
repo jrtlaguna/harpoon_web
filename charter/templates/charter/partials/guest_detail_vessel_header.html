@@ -1,0 +1,46 @@
+{% load static %}
+<div class="container-fluid">
+    <div class="row mb-4">
+        <div class="col-12 d-sm-flex justify-content-between">
+            <div class="d-flex mb-3 align-items-center">
+                <div class="icon mr-4">
+                    <img src="{% static 'guests/img/icon-trips.svg' %}" alt="">
+                </div>
+                <div class="w-100">
+                    <div class="mb-2">
+                        <span class="txt-color-gold fw-700 d-block fs-12 pb-2 text-uppercase">
+                            STATUS: {% if charter.is_active %}ACTIVE{% elif charter.is_upcoming %}UPCOMING{% elif charter.is_past_due %}PAST{% endif %}
+                        </span>
+                        <span class="h5 txt-color-gold ff-playfair fs-22 fw-700">
+                            {{ charter }}
+                        </span>
+                        <span class="txt-color-white fs-16 d-table">
+                            {{ charter.embark_country|default_if_none:"Vessel" }} Yacht Charter
+                        </span>
+                        <span class="txt-color-white fs-16 d-table">
+                            {{ charter.embark_date }} - {{charter.disembark_date }}
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+                <div class="d-flex flex-column justify-content-start">
+                    <div class="text-center text-lg-right">
+                        <span class="txt-color-gold fw-700 d-block fs-12 mb-3 text-uppercase">
+                            BOOKING ID: #{{charter.booking_id}}
+                        </span>
+                    {% if not 'preferences_and_shopping_list' in request.build_absolute_uri %}
+                    <form method="POST">
+                        {% csrf_token %}
+                        <div>
+                            <button type="submit" class="btn btn-outline-gold d-block">
+                                Download PDF
+                            </button>
+                        </div>
+                    </form>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,75 @@
+{% extends "charter/base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block title %}Harpoon - {{ title }}{% endblock %}
+
+{% block content %}
+{% include "charter/partials/header.html" with header_title='Trips' is_common_header=True %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12 mb-5">
+            <div class="w-100 border-dark-80-1 rounded-5 p-3 p-md-5">
+                <div class="w-100 d-flex align-items-center justify-content-between mb-4">
+                    <span class="txt-color-gray fs-16 fw-700">All Trips</span>
+                </div>
+
+                {% for charter in charters %}
+                <div class="w-100 border-dark-80-1 rounded-5 p-2 p-md-4 mb-5">
+                    <div class="form-row">
+                        <div class="col-12 d-sm-flex justify-content-between">
+                            <div class="d-flex mb-3">
+                                <div class="icon mr-4">
+                                    <img src="{% static 'charter/img/ship-small.svg' %}" alt="">
+                                </div>
+                                <div class="w-100">
+                                    <a href="{% url 'charter:guest_trip_details' pk=charter.id %}" class="h5 txt-color-gold ff-source-serif-pro fs-24 fw-700">
+                                        Yacht Charter : {{ charter.embark_city }}
+                                    </a>
+                                    <span class="txt-color-white fs-16 d-table">
+                                        {{ charter.vessel.proper_name }}
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="d-flex">
+                                <span class="material-icons-outlined txt-color-dark-80 mr-3">
+                                    calendar_today
+                                </span>
+
+                                <span class="txt-color-gray fs-14">
+                                    {{ charter.embark_date }}
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-12 mt-3">
+                            <a href="{% if guest.is_principal %}{% url 'preferences:food_preferences' %}{% else %}{% url 'preferences:diet_services_sizing' %}{% endif %}" class="btn btn-outline-gold w-100 d-flex align-items-center justify-content-center">
+                                Yacht  Preference Sheet
+                                {% include "preferences/partials/error_icon_pref_sheet_button.html" with guest=guest %}
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                {% empty %}
+                <span class="txt-color-gray fs-14">
+                    There is no active trips yet.
+                </span>
+                {% endfor %}
+            </div>
+        </div>
+
+    </div>
+</div>
+{% endblock %}
+
+
+{% block js %}
+    {{ block.super }}
+
+    <script type="text/javascript">
+        $('#expand_menu').click(function () {
+            $('.drop-menu').toggle();
+        });
+    </script>
+    
+{% endblock %}
